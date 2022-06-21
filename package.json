@@ -94,7 +94,6 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^4.2.2"
   },
-
   "husky": {
     "hooks": {
       "pre-commit": "echo \"[Husky] pre-commit1\""
