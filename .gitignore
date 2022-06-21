@@ -1,0 +1,9 @@
+/node_modules
+*/npm-debug.log*
+*/yarn-error.log
+*/yarn.lock
+.idea/
+**/node_modules
+
+dist/
+.Ds_Store

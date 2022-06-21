@@ -1,0 +1,41 @@
+.@{design-prefix}-panel{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+
+  &-collapse{
+    width: 186px;
+    border-right: 1px solid @border-grey-color;
+    font-size: @font-sm-size;
+    &-item{
+
+      background-color: @white-color;
+      color: @black-color;
+      cursor: pointer;
+      // &:active, &:hover{
+      //   background-color: @primary-color;
+      //   color: @white-color;
+      // }
+    }
+    :global{
+      .rc-collapse{
+        border: none;
+      }
+      .rc-collapse-content-box{
+        margin: 0;
+      }
+      .rc-collapse-content {
+        padding: 0;
+        position: relative;
+      }
+      .rc-collapse-header:focus{
+        // border: none;
+        outline: none;
+      }
+    }
+  };
+  &-content{
+    flex: 1;
+  };
+}

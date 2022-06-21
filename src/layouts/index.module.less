@@ -1,0 +1,40 @@
+// @import (reference) '~@/theme.less';
+
+.classic-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  &-menu {
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: @theme-color;
+    font-size: @font-sm-size;
+
+    & > div {
+      width: 100%;
+      height: 60px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 1px solid @border-grey-color;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  &-content {
+    flex: 1;
+  }
+}

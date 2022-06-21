@@ -1,0 +1,40 @@
+// .@{design-prefix}-panel-properties-tab{
+//   // background-color: @black-color;
+// }
+
+.@{design-prefix}-properties{
+  flex: 0 0 240px;
+  background-color: @black-color;
+  display: flex;
+  flex-direction: column;
+  color: @white-color;
+  &-header{
+    height: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: @padding-sm-size;
+  }
+  &-container{
+    flex: 1;
+    background-color: @grey-color;
+    &-tabs{
+      padding: @padding-sm-size;
+      padding-bottom: 0;
+      background-color: @dark-grey-color;
+      display: flex;
+      &-item{
+        cursor: pointer;
+        padding: @padding-sm-size;
+        background-color: @dark-grey-color;
+        border-top-left-radius: @border-md-radius;
+        border-top-right-radius: @border-md-radius;
+        flex: 1 0 80px;
+        // margin: 0 @margin-sm-size;
+        &.active{
+          background-color: @grey-color;
+        }
+      }
+    }
+  }
+}
