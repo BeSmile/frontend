@@ -9,7 +9,8 @@
     "server": "cross-env webpack-dev-server --config ./webpack-config/webpack.server.js --env.development",
     "start": "cross-env  NODE_ENV=production NODE_TS=true NODE_MODE=server webpack serve --host 0.0.0.0 --config ./webpack-config/webpack.server.js",
     "lint": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
