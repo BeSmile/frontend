@@ -7,10 +7,10 @@
  * @LastEditTime: 2021-05-28 11:41:28
  */
 interface Window {
-  //在这里声明xxx之后就能在文件中 window.xxx这样调用了
-  // xxx: any;
-  setup: () => void;
-  draw: () => void;
+    //在这里声明xxx之后就能在文件中 window.xxx这样调用了
+    // xxx: any;
+    setup: () => void;
+    draw: () => void;
 }
 
 declare module "*.svg";
@@ -27,4 +27,5 @@ declare module "*.json";
 // declare var process: any;
 // declare var require: any;
 declare var ENV_PATH: string;
+
 declare var MODELS_PATH: Array<string>;

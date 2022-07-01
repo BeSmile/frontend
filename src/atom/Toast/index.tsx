@@ -6,42 +6,37 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:50:30
  */
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Snackbar from "@atom/Snackbar";
+import { useMount } from "ahooks";
 
 const mapRouteToProps = (state) => ({
-  toasts: state.msmq.toasts,
+    toasts: state.msmq.toasts
 });
 
 const startMSMQ = (dispatch) => {
-  dispatch({
-    type: "msmq/messageWatcher",
-  });
-  dispatch({
-    type: "msmq/messageScheduler",
-  });
-  dispatch = null;
+    dispatch({
+        type: "msmq/messageWatcher"
+    });
+    dispatch({
+        type: "msmq/messageScheduler"
+    });
+    dispatch = null;
 };
 
 const ToastUI = (props: any) => {
-  const { toasts, dispatch } = props;
-  useEffect(
-    () => {
-      startMSMQ(dispatch);
-    },
-    []
-  );
-  return (
-    <React.Fragment>
-      {toasts.map((
-        toast,
-        index
-      ) => (
-        <Snackbar index={index} toast={toast} key={toast}/>
-      ))}
-    </React.Fragment>
-  );
+    const { toasts, dispatch } = props;
+    useMount(() => {
+        startMSMQ(dispatch);
+    });
+    return (
+        <React.Fragment>
+            {toasts.map((toast, index) => (
+                <Snackbar index={index} toast={toast} key={toast} />
+            ))}
+        </React.Fragment>
+    );
 };
 const Toast = connect(mapRouteToProps)(ToastUI);
 
