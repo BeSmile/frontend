@@ -1,0 +1,10 @@
+{
+  "*.ts?(x)": [
+    "prettier --parser=typescript --write",
+    "yarn lint"
+  ],
+  "*.md": ["prettier --write"],
+  "src/**/*.css": [
+    "prettier --write"
+  ]
+}

@@ -18,7 +18,9 @@ module.exports = {
     },
   },
   globals: {
-    Route: "readonly"
+    Route: "readonly",
+    MODELS_PATH: "readonly",
+    P5:"readonly",
   },
   rules: {
     "react-hooks/rules-of-hooks": "error",
