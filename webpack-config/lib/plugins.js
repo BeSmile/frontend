@@ -8,6 +8,8 @@
  */
 const webpack = require("webpack");
 const fs = require("fs");
+const { ESBuildPlugin } = require("esbuild-loader");
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniExtract = require("mini-css-extract-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
@@ -39,6 +41,7 @@ function getModel(modelPath) {
 const getPlugins = async () => {
   const models = await getModel(modelPath);
   const plugins = [
+    new ESBuildPlugin(),
     new webpack.DefinePlugin({
       ENV_PATH: JSON.stringify(false),
       MODELS_PATH: JSON.stringify(models),

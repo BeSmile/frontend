@@ -1,6 +1,8 @@
 const path = require("path");
 const rules = require("./lib/rule.js");
 const getPlugins = require("./lib/plugins");
+const { ESBuildMinifyPlugin } = require("esbuild-loader");
+
 // var child_process = require("child_process");
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
@@ -87,6 +89,14 @@ async function renderWebpack() {
     //     "react": "react",
     //     "react-dom": "ReactDOM"
     // }
+    optimization: {
+      minimizer: [
+        new ESBuildMinifyPlugin({
+          target: "es2015",
+          css: true,
+        })
+      ]
+    }
   };
   return webpack;
 }

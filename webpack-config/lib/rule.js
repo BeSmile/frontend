@@ -45,7 +45,17 @@ const cssLoader = {
 const cssRules = [
   {
     test: /\.css$/,
-    use: [require.resolve("style-loader"), cssLoader],
+    use: [
+      require.resolve("style-loader"), cssLoader,
+      // esbuild 支持style-loader
+      {
+        loader: "esbuild-loader",
+        options: {
+          loader: "css",
+          minify: true,
+        }
+      }
+    ],
   },
   {
     test: /\.less$/,
@@ -53,14 +63,14 @@ const cssRules = [
       // 生产环境进行css 拆分 开发环境依旧嵌入style
       env === "production"
         ? {
-            loader: MiniExtract.loader,
-            options: {
-              publicPath: "../",
-            },
-          }
-        : {
-            loader: "style-loader",
+          loader: MiniExtract.loader,
+          options: {
+            publicPath: "../",
           },
+        }
+        : {
+          loader: "style-loader",
+        },
       cssLoader,
       {
         loader: "less-loader",
@@ -115,44 +125,61 @@ const cssRules = [
 
 // var gentsConfig  = require("../../.gents.ts");
 let rules = [
+  // {
+  //   test: /\.(js|jsx)$/,
+  //   exclude: /node_modules/,
+  //   use: {
+  //     loader: "babel-loader",
+  //   },
+  // },
+  // {
+  //   test: /\.ts$/,
+  //   exclude: /node_modules/,
+  //   use: [
+  //     {
+  //       loader: "ts-loader",
+  //       options: {
+  //         allowTsInNodeModules: true,
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   test: /\.ts(x)$/,
+  //   exclude: /node_modules/,
+  //   use: [
+  //     {
+  //       loader: "no-console-loader",
+  //     },
+  //     {
+  //       loader: "babel-loader",
+  //       options: { plugins: ["react-hot-loader/babel"] },
+  //     }, // 开启热加载
+  //     {
+  //       loader: "ts-loader",
+  //       options: {
+  //         transpileOnly: true  // ? 关闭类型检查，即只进行转译
+  //       },
+  //     },
+  //   ],
+  // },
   {
-    test: /\.(js|jsx)$/,
-    exclude: /node_modules/,
-    use: {
-      loader: "babel-loader",
-    },
+    test: /\.(ts|tsx)$/,
+    loader: "esbuild-loader",
+    options: {
+      loader: "tsx",
+      target: "es2015",
+      // tsconfigRaw: require("../../tsconfig.json"),
+    }
   },
-  {
-    test: /\.ts$/,
-    exclude: /node_modules/,
-    use: [
-      {
-        loader: "ts-loader",
-        options: {
-          allowTsInNodeModules: true,
-        },
-      },
-    ],
-  },
-  {
-    test: /\.tsx$/,
-    exclude: /node_modules/,
-    use: [
-      // {
-      //   loader: "no-console-loader",
-      // },
-      {
-        loader: "babel-loader",
-        options: { plugins: ["react-hot-loader/babel"] },
-      }, // 开启热加载
-      {
-        loader: "ts-loader",
-        options: {
-          transpileOnly: true  // ? 关闭类型检查，即只进行转译
-        },
-      },
-    ],
-  },
+  // {
+  //     test: /\.ts$/,
+  //     loader: "esbuild-loader",
+  //     options: {
+  //       loader: "ts",
+  //       target: "es2015",
+  //     }
+  // },
   {
     test: /\.(png|jpe?g|gif)$/i,
     use: [
