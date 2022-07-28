@@ -6,10 +6,10 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:47:06
  */
-import React from "react";
+import React from 'react';
 
 const WorkFlowWidget: React.FC = () => {
-  return <div>WorkFlowWidget</div>;
+    return <div>WorkFlowWidget</div>;
 };
 
 export default WorkFlowWidget;

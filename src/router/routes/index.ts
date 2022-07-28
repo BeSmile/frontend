@@ -6,20 +6,22 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-18 00:56:53
  */
-import { default as build } from "./build";
-import { default as qqsg } from "./qqsg";
-import { default as tool } from "./tool";
-import { default as game } from "./game";
-import { default as css } from "./css";
-import { default as form } from "./form";
-import { default as study } from "./study";
+import { default as build } from './build';
+import { default as qqsg } from './qqsg';
+import { default as tool } from './tool';
+import { default as game } from './game';
+import { default as css } from './css';
+import { default as form } from './form';
+import { default as study } from './study';
+import { default as docker } from './docker';
 
 export default {
-  build,
-  qqsg,
-  tool,
-  game,
-  css,
-  form,
-  study,
+    build,
+    qqsg,
+    tool,
+    game,
+    css,
+    form,
+    study,
+    docker
 };

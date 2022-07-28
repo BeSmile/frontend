@@ -6,11 +6,11 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-06-18 11:20:15
  */
-import React from "react";
+import React from 'react';
 
 // 等比组件
 const GeometricGrid = () => {
-  return <section/>;
+    return <section />;
 };
 
 export default GeometricGrid;

@@ -6,6 +6,6 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-14 15:22:35
  */
-import { createHashHistory, createBrowserHistory } from "history";
+import { createHashHistory, createBrowserHistory } from 'history';
 export const hasHistory = createHashHistory();
 export const history = createBrowserHistory({});

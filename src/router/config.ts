@@ -6,66 +6,66 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-19 10:11:52
  */
-import routes from "./routes";
+import routes from './routes';
 
 export default [
     ...Object.values(routes),
     {
-        path: "/domain",
+        path: '/domain',
         routes: [
             {
-                path: "/",
-                component: "Home/index"
+                path: '/',
+                component: 'Home/index'
                 // authority: [],
             }
         ]
     },
     {
-        path: "/compts",
-        name: "组件类",
+        path: '/compts',
+        name: '组件类',
         routes: [
             {
-                path: "/loading",
-                component: "Components/Loading/index"
+                path: '/loading',
+                component: 'Components/Loading/index'
                 // authority: [],
             },
             {
-                path: "/stroke",
-                component: "Components/CStroke/index"
+                path: '/stroke',
+                component: 'Components/CStroke/index'
                 // authority: [],
             }
         ]
     },
     {
-        path: "/login",
+        path: '/login',
         routes: [
             {
-                path: "/",
-                component: "Login/index"
+                path: '/',
+                component: 'Login/index'
             }
         ]
     },
     {
-        path: "/practice",
-        name: "练习",
+        path: '/practice',
+        name: '练习',
         routes: [
             {
-                path: "/generate",
-                component: "Practice/Generate/index"
+                path: '/generate',
+                component: 'Practice/Generate/index'
             },
             {
-                path: "/hooks",
-                component: "Practice/Hooks/index"
+                path: '/hooks',
+                component: 'Practice/Hooks/index'
             }
         ]
     },
     {
-        path: "/",
-        layout: "layouts/CustomLayout",
+        path: '/',
+        layout: 'layouts/CustomLayout',
         routes: [
             {
-                path: "/",
-                component: "Home/index"
+                path: '/',
+                component: 'Home/index'
             }
         ]
     }

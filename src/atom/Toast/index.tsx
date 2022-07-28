@@ -6,10 +6,10 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:50:30
  */
-import React from "react";
-import { connect } from "react-redux";
-import Snackbar from "@atom/Snackbar";
-import { useMount } from "ahooks";
+import React from 'react';
+import { connect } from 'react-redux';
+import Snackbar from '@atom/Snackbar';
+import { useMount } from 'ahooks';
 
 const mapRouteToProps = (state) => ({
     toasts: state.msmq.toasts
@@ -17,10 +17,10 @@ const mapRouteToProps = (state) => ({
 
 const startMSMQ = (dispatch) => {
     dispatch({
-        type: "msmq/messageWatcher"
+        type: 'msmq/messageWatcher'
     });
     dispatch({
-        type: "msmq/messageScheduler"
+        type: 'msmq/messageScheduler'
     });
     dispatch = null;
 };

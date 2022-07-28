@@ -1,31 +1,31 @@
 .wrapper {
-  border: 1px slateblue solid;
-  width: 100%;
-  height: 450px;
-
-  .canvas {
+    border: 1px slateblue solid;
     width: 100%;
-    height: 100%;
-  }
+    height: 450px;
+
+    .canvas {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .t-wrapper {
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-
-  .tool {
     display: flex;
-    margin: 0 auto;
-    // width: 120px;
-    & > div {
-      cursor: pointer;
-      width: 32px;
+    align-items: center;
+    margin-top: 12px;
 
-      img {
-        width: 32px;
-        height: 32px;
-      }
+    .tool {
+        display: flex;
+        margin: 0 auto;
+        // width: 120px;
+        & > div {
+            cursor: pointer;
+            width: 32px;
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
     }
-  }
 }

@@ -6,16 +6,16 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 18:05:29
  */
-import React, { memo } from "react";
-import NoiseMap from "@components/P5/Projects/noiseMap";
-import styles from "./index.module.less";
+import React, { memo } from 'react';
+import NoiseMap from '@components/P5/Projects/noiseMap';
+import styles from './index.module.less';
 
 const HomeFC = memo(() => {
-  return (
-    <div className={styles.maskContainer}>
-      <NoiseMap/>
-    </div>
-  );
+    return (
+        <div className={styles.maskContainer}>
+            <NoiseMap />
+        </div>
+    );
 });
 
 export default HomeFC;

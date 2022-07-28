@@ -6,10 +6,10 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:46:53
  */
-import React from "react";
+import React from 'react';
 
 const DataWidget: React.FC = () => {
-  return <div>DataWidget</div>;
+    return <div>DataWidget</div>;
 };
 
 export default DataWidget;

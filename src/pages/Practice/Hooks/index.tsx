@@ -1,17 +1,17 @@
-import { debounce } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import { debounce } from 'lodash';
+import React, { useEffect, useMemo, useState } from 'react';
 
 const Hooks = () => {
     const [count, setCount] = useState(0);
     const childFn = () => {
-        console.log("childFn  112233");
+        console.log('childFn  112233');
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const FN1 = useMemo(() => {
         console.log(11244);
         return debounce(() => {
-            console.log("测试函数", Date.now());
+            console.log('测试函数', Date.now());
             childFn();
             return 111;
         }, 300);

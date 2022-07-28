@@ -6,24 +6,24 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-01-27 18:28:54
  */
-import React, { lazy } from "react";
-import uniqueId from "lodash/uniqueId";
+import React, { lazy } from 'react';
+import uniqueId from 'lodash/uniqueId';
 
 interface AppearanceInterface {
-  position: {
-    left: number;
-    top: number;
-    right: number;
-    bottom: number;
-  };
-  rect: {
-    width: number;
-    height: number;
-  };
-  text: string;
-  props: {
-    severity?: any;
-  };
+    position: {
+        left: number;
+        top: number;
+        right: number;
+        bottom: number;
+    };
+    rect: {
+        width: number;
+        height: number;
+    };
+    text: string;
+    props: {
+        severity?: any;
+    };
 }
 
 // interface ButtonInterface {
@@ -88,53 +88,53 @@ interface AppearanceInterface {
  */
 
 export default class IAlert {
-  // private importAsset: string = "";
-  private _key = "";
-  private _text = "Alert";
-  public appearance: AppearanceInterface = {
-    position: {
-      left: 0,
-      right: 0,
-      bottom: 0,
-      top: 0,
-    },
-    rect: {
-      width: 0,
-      height: 0,
-    },
-    text: "",
-    props: {
-      severity: "error",
-    },
-  };
-  constructor(params) {
-    // this.importAsset = importAsset;
-    this._key = uniqueId(`Button-${Date.now()}-`);
-    this.appearance.position.left = params.left;
-    this.appearance.position.top = params.top;
-    this.appearance.rect.width = params.width;
-    this.appearance.rect.height = params.height;
-  }
-  
-  // public toScheme = () => {
-  //   return
-  // }
-
-  public toJSX = () => {
-    const Component = lazy(() => import("@material-ui/lab/Alert"));
-  
-    return React.createElement(
-      Component,
-      {
-        key: this._key,
-        style: {
-          left: this.appearance.position.left,
-          top: this.appearance.position.top,
-          position: "absolute",
+    // private importAsset: string = "";
+    private _key = '';
+    private _text = 'Alert';
+    public appearance: AppearanceInterface = {
+        position: {
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
         },
-        ...this.appearance.props,
-      },
-      this._text
-    );
-  };
+        rect: {
+            width: 0,
+            height: 0
+        },
+        text: '',
+        props: {
+            severity: 'error'
+        }
+    };
+    constructor(params) {
+        // this.importAsset = importAsset;
+        this._key = uniqueId(`Button-${Date.now()}-`);
+        this.appearance.position.left = params.left;
+        this.appearance.position.top = params.top;
+        this.appearance.rect.width = params.width;
+        this.appearance.rect.height = params.height;
+    }
+
+    // public toScheme = () => {
+    //   return
+    // }
+
+    public toJSX = () => {
+        const Component = lazy(() => import('@material-ui/lab/Alert'));
+
+        return React.createElement(
+            Component,
+            {
+                key: this._key,
+                style: {
+                    left: this.appearance.position.left,
+                    top: this.appearance.position.top,
+                    position: 'absolute'
+                },
+                ...this.appearance.props
+            },
+            this._text
+        );
+    };
 }

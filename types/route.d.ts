@@ -6,13 +6,13 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 23:08:42
  */
-import React from "react";
+import React from 'react';
 
 export interface Route {
-  path: string;
-  component?: React.FunctionComponent | React.Component | string;
-  routes?: Array<Route>;
-  layout?: React.FunctionComponent | React.Component | string;
+    path: string;
+    component?: React.FunctionComponent | React.Component | string;
+    routes?: Array<Route>;
+    layout?: React.FunctionComponent | React.Component | string;
 }
 
 export {};

@@ -6,11 +6,11 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-06-21 16:26:44
  */
-import React, { useEffect, useRef, useState } from "react";
-import cloneDeep from "lodash/cloneDeep";
-import classnames from "classnames";
-import { useMemoizedFn, useMount, useUpdateEffect } from "ahooks";
-import styles from "./index.module.less";
+import React, { useEffect, useRef, useState } from 'react';
+import cloneDeep from 'lodash/cloneDeep';
+import classnames from 'classnames';
+import { useMemoizedFn, useMount, useUpdateEffect } from 'ahooks';
+import styles from './index.module.less';
 
 // 这是生成后的图层属性
 interface LayerState {
@@ -61,7 +61,7 @@ export class Element {
     matrix: Matrix; // 矩阵排列
     dimensions: Array<number>; // 占地
     type: string; // 类型名称
-    category: "Plumbing";
+    category: 'Plumbing';
     name: string; // 类型名称
 
     constructor(type: string, name: string, pos: Vertex, material: Material) {
@@ -76,24 +76,24 @@ export class Element {
 const Canvas = ({ active }: any) => {
     // 初始化数据
     const WaterPipe: LayerConfig = {
-        alias: "水管",
+        alias: '水管',
         visible: false,
-        name: "waterPipe"
+        name: 'waterPipe'
     };
     const VentilationPipe: LayerConfig = {
-        alias: "通风",
+        alias: '通风',
         visible: false,
-        name: "ventilationPipe"
+        name: 'ventilationPipe'
     };
     const Grid: LayerConfig = {
-        alias: "栅格",
+        alias: '栅格',
         visible: true,
-        name: "grid"
+        name: 'grid'
     };
     const Building: LayerConfig = {
-        alias: "建筑",
+        alias: '建筑',
         visible: true,
-        name: "building"
+        name: 'building'
     };
 
     const Layers = [Grid, WaterPipe, VentilationPipe, Building]; // 默认要显示的组件
@@ -129,13 +129,13 @@ const Canvas = ({ active }: any) => {
     // 建筑图层-通风图层-水管图层-自动化图层
     const initCanvas = () => {
         const { current: canvas } = canvasRef;
-        const ctx: CanvasRenderingContext2D = canvas?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = canvas?.getContext('2d');
         const w = canvas.clientWidth,
             h = canvas.clientHeight;
         // 设置像素比
         canvas.width = getPixelWithRatio(w);
         canvas.height = getPixelWithRatio(h);
-        ctx.fillStyle = "#dedede";
+        ctx.fillStyle = '#dedede';
         const rows = Math.ceil(w / PIXEL_WIDTH);
         const cols = Math.ceil(h / PIXEL_WIDTH);
         ctx.strokeRect(
@@ -156,14 +156,14 @@ const Canvas = ({ active }: any) => {
         const { current: layers } = layersRef;
         const grid = layers?.grid;
         if (!grid) return;
-        const ctx: CanvasRenderingContext2D = grid?.canvas?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = grid?.canvas?.getContext('2d');
 
         for (let i = 0; i < rows; i++) {
             for (let y = 0; y < cols; y++) {
                 const px = i * PIXEL_WIDTH;
                 const py = y * PIXEL_WIDTH;
                 ctx.save();
-                ctx.strokeStyle = "#888888";
+                ctx.strokeStyle = '#888888';
                 ctx.strokeRect(
                     px,
                     py,
@@ -172,7 +172,7 @@ const Canvas = ({ active }: any) => {
                 );
 
                 // ctx.fillStyle='hsla(200,100%,50%,.5)';
-                ctx.fillStyle = "#dedede";
+                ctx.fillStyle = '#dedede';
                 ctx.fillRect(
                     px,
                     py,
@@ -195,7 +195,7 @@ const Canvas = ({ active }: any) => {
     // 初始化图层
     const initLayers = (rows: number, cols: number) => {
         layersConfig.forEach((layer: LayerConfig) => {
-            const layerCanvas = document.createElement("canvas");
+            const layerCanvas = document.createElement('canvas');
             layerCanvas.width = rows * PIXEL_WIDTH;
             layerCanvas.height = cols * PIXEL_WIDTH;
             layersRef.current[layer.name] = {
@@ -251,20 +251,20 @@ const Canvas = ({ active }: any) => {
 
     const animate = () => {
         const { current: canvas } = canvasRef;
-        const ctx: CanvasRenderingContext2D = canvas?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = canvas?.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Object.values(layersRef.current).forEach((layer: LayerState) => {
             // const layerCtx: CanvasRenderingContext2D = layer?.getContext('2d');
             // ctx.save()//用来显示的canvas
             // ctx.globalCompositeOperation="destination-over";//设置多个图层如何混合，这个可以百度canvas混合模式，这个和PS是相近的
             if (!layer.canvas || !layer.visible) return;
-            if (layer.name !== "grid") {
+            if (layer.name !== 'grid') {
                 layer.canvas
-                    .getContext("2d")
+                    .getContext('2d')
                     .clearRect(0, 0, layer.canvas.width, layer.canvas.height);
             }
             layer.items.forEach((item: any) => {
-                const tmpCtx = layer?.canvas?.getContext("2d");
+                const tmpCtx = layer?.canvas?.getContext('2d');
                 tmpCtx.save();
                 tmpCtx.drawImage(
                     item.material.image,
@@ -340,7 +340,7 @@ const Canvas = ({ active }: any) => {
      * @param canvas canvas对象
      */
     const clearCanvas = (canvas: HTMLCanvasElement) => {
-        const ctx: CanvasRenderingContext2D = canvas?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = canvas?.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
@@ -351,7 +351,7 @@ const Canvas = ({ active }: any) => {
      * @returns void
      */
     const handleMoveDesignLayer: (x: number, y: number) => void = (x, y) => {
-        const ctx: CanvasRenderingContext2D = drawLayer.current?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = drawLayer.current?.getContext('2d');
         const { current: move } = moveRef;
         if (!move) return; // 材质未
         // todo 计算材质的宽高，进行材质的移动
@@ -389,7 +389,7 @@ const Canvas = ({ active }: any) => {
         // console.log(move);
         const type = move.type;
         const layer = layers[type];
-        const ctx: CanvasRenderingContext2D = layer?.canvas?.getContext("2d");
+        const ctx: CanvasRenderingContext2D = layer?.canvas?.getContext('2d');
 
         ctx.drawImage(
             move.material.image,
@@ -430,17 +430,17 @@ const Canvas = ({ active }: any) => {
                 handleSingleDesignComplete();
             }
         };
-        wrap.addEventListener("mousemove", mouseMove);
-        wrap.addEventListener("mouseup", mouseUp);
+        wrap.addEventListener('mousemove', mouseMove);
+        wrap.addEventListener('mouseup', mouseUp);
         return () => {
-            wrap.removeEventListener("mousemove", mouseMove);
-            wrap.removeEventListener("mouseup", mouseUp);
+            wrap.removeEventListener('mousemove', mouseMove);
+            wrap.removeEventListener('mouseup', mouseUp);
         };
     });
 
     // 初始化绘制图层
     const initDrawLayer = (rows, cols) => {
-        const layerCanvas = document.createElement("canvas");
+        const layerCanvas = document.createElement('canvas');
         layerCanvas.width = rows * PIXEL_WIDTH;
         layerCanvas.height = cols * PIXEL_WIDTH;
         drawLayer.current = layerCanvas;

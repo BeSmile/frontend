@@ -8,8 +8,7 @@
  */
 
 const fakeUserMenu = <T>(value: T): Promise<T> => {
-  return Promise.resolve(value);
+    return Promise.resolve(value);
 };
 
-fakeUserMenu<string>("User");
-
+fakeUserMenu<string>('User');

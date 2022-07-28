@@ -7,12 +7,12 @@
  * @LastEditTime: 2022-01-18 00:54:18
  */
 export default {
-  path: "/study",
-  // component: "study/",
-  routes: [
-    {
-      path: "/raider",
-      components: "Study/Raider/index",
-    },
-  ],
+    path: '/study',
+    // component: "study/",
+    routes: [
+        {
+            path: '/raider',
+            components: 'Study/Raider/index'
+        }
+    ]
 };
