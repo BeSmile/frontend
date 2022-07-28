@@ -32,7 +32,7 @@ module.exports = {
     prompt: {
         questions: {
             type: {
-                description: "Select the type of change that you're committing",
+                description: 'Select the type of change that you\'re committing',
                 enum: {
                     feat: {
                         description: 'A new feature',
@@ -83,7 +83,7 @@ module.exports = {
                         emoji: '⚙️'
                     },
                     chore: {
-                        description: "Other changes that don't modify src or test files",
+                        description: 'Other changes that don\'t modify src or test files',
                         title: 'Chores',
                         emoji: '♻️'
                     },
@@ -121,7 +121,7 @@ module.exports = {
                     'If issues are closed, the commit requires a body. Please enter a longer description of the commit itself'
             },
             issues: {
-                description: "Add issue references (e.g. 'fix #123', 're #123'.)"
+                description: 'Add issue references (e.g. \'fix #123\', \'re #123\'.)'
             }
         }
     }

@@ -1,5 +1,5 @@
 {
-    "*.ts?(x)": ["prettier --parser=typescript --write", "yarn lint"],
+    "*.ts?(x)": ["prettier --parser=typescript --write", "npx lint"],
     "*.md": ["prettier --write"],
     "src/**/*.css": ["prettier --write"]
 }
