@@ -1,4 +1,5 @@
-import fetch from 'isomorphic-fetch';
+import fetch from './fetch';
+import { FetchResponse } from '@utils/request/fetch/types';
 
 const codeMessage = {
     200: '服务器成功返回请求的数据。',
@@ -81,7 +82,8 @@ export default function request(url: string, option: any) {
     //   }
     // }
     return (
-        fetch(url, newOptions)
+        fetch
+            .request(url, newOptions)
             .then(checkStatus)
             // .then(response => cachedSave(response, hashcode))
             .then((response) => {
@@ -117,3 +119,20 @@ export default function request(url: string, option: any) {
             })
     );
 }
+
+export const GET = <T, R = FetchResponse<T>>(url, data): Promise<R> => {
+    return fetch.GET<T, R>(url, {
+        data
+    });
+};
+
+export const PUT = <T, R = FetchResponse<T>>(url, data): Promise<R> => {
+    return fetch.PUT<T, R>(url, data);
+};
+export const POST = <T, R = FetchResponse<T>>(url, data) => {
+    return fetch.POST<T, R>(url, data);
+};
+
+export const DELETE = <T, R = FetchResponse<T>>(url, data) => {
+    return fetch.DELETE<T, R>(url, data);
+};
