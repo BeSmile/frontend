@@ -76,7 +76,7 @@ const data = {
         $schema: 'http://json-schema.org/draft-07/schema#',
         $id: 'element',
         name: 'Button',
-        import: '@material-ui/core/Button',
+        import: '@mui/material/Button',
         properties: {
             conditional: {},
             transitions: {},

@@ -7,7 +7,8 @@
  * @LastEditTime: 2021-12-16 23:00:13
  */
 import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { Outlet } from 'react-router-dom';
 // import img from '@public/assets/bg.jpeg';
 

@@ -8,14 +8,16 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStyles, fade, makeStyles, Theme } from '@material-ui/core/styles';
+import { alpha, Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { Link, Outlet } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Header from './components/Header';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,9 +50,9 @@ const useStyles = makeStyles((theme: Theme) =>
         search: {
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: alpha(theme.palette.common.white, 0.15),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25)
+                backgroundColor: alpha(theme.palette.common.white, 0.25)
             },
             marginLeft: 0,
             width: '100%',

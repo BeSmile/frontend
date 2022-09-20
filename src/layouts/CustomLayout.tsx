@@ -10,8 +10,10 @@ import React from 'react';
 import Header from './components/Header';
 import MDrawer from './components/MDrawer';
 import { Outlet } from 'react-router-dom';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CssBaseline, Toolbar } from '@material-ui/core';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import { CssBaseline, Toolbar } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

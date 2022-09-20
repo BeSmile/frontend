@@ -121,7 +121,7 @@ export default class IAlert {
     // }
 
     public toJSX = () => {
-        const Component = lazy(() => import('@material-ui/lab/Alert'));
+        const Component = lazy(() => import('@mui/lab/Alert'));
 
         return React.createElement(
             Component,

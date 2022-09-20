@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APP from './router';
 import getSaga from '@utils/getSaga';
 import * as serviceWorker from './serviceWorker';
@@ -49,10 +49,13 @@ models.forEach(function (model) {
 });
 
 (function (containerId) {
+    const theme = createTheme();
     ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
-                <APP />
+                <ThemeProvider theme={theme}>
+                    <APP />
+                </ThemeProvider>
             </BrowserRouter>
         </Provider>,
         document.getElementById(containerId)

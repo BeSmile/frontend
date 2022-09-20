@@ -8,7 +8,9 @@
  */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {
     Divider,
     Drawer,
@@ -17,9 +19,9 @@ import {
     ListItemIcon,
     ListItemText,
     Toolbar
-} from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+} from '@mui/material';
+import MailIcon from '@mui/icons-material/Mail';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 const drawerWidth = 240;
 

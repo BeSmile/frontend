@@ -8,10 +8,10 @@
  */
 import React, { memo } from 'react';
 import classnames from 'classnames/bind';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
 import styles from './index.less';
 
 const cx = classnames.bind(styles);

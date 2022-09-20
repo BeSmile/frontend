@@ -119,12 +119,12 @@ export default class IButton {
     }
 
     public initComponent = () => {
-        const Component = require('@material-ui/core/Button').default;
+        const Component = require('@mui/material/Button').default;
         console.log(Component);
     };
 
     public toJSX = () => {
-        const Component = lazy(() => import('@material-ui/core/Button'));
+        const Component = lazy(() => import('@mui/material/Button'));
 
         return React.createElement(
             Component,

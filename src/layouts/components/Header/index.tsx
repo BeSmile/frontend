@@ -7,9 +7,9 @@
  * @LastEditTime: 2021-12-18 11:32:17
  */
 import React from 'react';
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from '@mui/icons-material/Home';
 import {
     AppBar,
     Badge,
@@ -18,11 +18,13 @@ import {
     InputBase,
     Toolbar,
     Typography
-} from '@material-ui/core';
-import { createStyles, fade, makeStyles, Theme } from '@material-ui/core/styles';
-import MailIcon from '@material-ui/icons/Mail';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+} from '@mui/material';
+import { alpha, Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import MailIcon from '@mui/icons-material/Mail';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,9 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
         search: {
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: alpha(theme.palette.common.white, 0.15),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25)
+                backgroundColor: alpha(theme.palette.common.white, 0.25)
             },
             marginLeft: 0,
             width: '100%',
@@ -112,6 +114,7 @@ const Header: React.FC<HeaderProps> = ({ position = 'static' }) => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        size="large"
                     >
                         <HomeIcon />
                     </IconButton>
@@ -133,17 +136,22 @@ const Header: React.FC<HeaderProps> = ({ position = 'static' }) => {
                         />
                     </div>
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show mails" color="inherit">
+                        <IconButton aria-label="show mails" color="inherit" size="large">
                             <Badge badgeContent={0} color="secondary">
                                 <MailIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton aria-label="show mails" color="inherit">
+                        <IconButton aria-label="show mails" color="inherit" size="large">
                             <Badge badgeContent={11} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton edge="end" aria-label="account of current user" color="inherit">
+                        <IconButton
+                            edge="end"
+                            aria-label="account of current user"
+                            color="inherit"
+                            size="large"
+                        >
                             <AccountCircle />
                         </IconButton>
                     </div>
