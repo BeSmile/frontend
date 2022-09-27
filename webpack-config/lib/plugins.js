@@ -53,7 +53,7 @@ const getPlugins = async () => {
             filename: 'index.html',
             inject: true,
             hash: new Date().getTime(),
-            mountPoint: "<div id='root'></div>",
+            mountPoint: '<div id=\'root\'></div>',
             // value: "23",
             templateParameters: {
                 context: {

@@ -1,6 +1,8 @@
 const path = require('path');
 const rules = require('./lib/rule.js');
 const getPlugins = require('./lib/plugins');
+const proxy = require('./lib/proxy');
+const minimist = require('minimist');
 // var child_process = require("child_process");
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
@@ -10,9 +12,21 @@ let config = {};
 if (process.env.NODE_MODE !== 'plugin') {
     config = require('../.gents.ts');
 }
+const args = minimist(process.argv.slice(2), {
+    // boolean: [
+    //     'help',
+    //     'playground'
+    // ],
+    string: [
+        'env',
+        'port',
+        'host',
+        // 'extensionPath',
+        // 'browser',
+        // 'browserType'
+    ],
+});
 
-// var config = require("../.gents.ts");
-const tsLoader = process.env.NODE_TS;
 
 // fs.watch(modelPath, function (event, filename) {
 //   if(event === "rename") {
@@ -45,7 +59,7 @@ async function renderWebpack() {
         },
 
         entry: {
-            app: path.resolve(__dirname, '..', 'src', tsLoader ? 'index.tsx' : 'index.js')
+            app: path.resolve(__dirname, '..', 'src', 'index.tsx')
         },
         output: {
             path: path.resolve(__dirname, '.', 'dist'), // 输出的路径
@@ -72,17 +86,18 @@ async function renderWebpack() {
         target: 'web',
         plugins: plugins,
         devServer: {
-            host: '127.0.0.1',
+            host: args.host,
             contentBase: path.join(__dirname, '..', 'public'), // 用于指定资源目录
             compress: true,
-            port: 9000,
+            port: args.port,
             historyApiFallback: true,
-            clientLogLevel: 'silent'
+            clientLogLevel: 'silent',
             // before: function (app, server, compiler) {
             //   app.get("/some/path", function (req, res) {
             //     res.json({ custom: "response" });
             //   });
             // }
+            proxy: proxy[args.env],
         },
         externals: {
             'markdown-it': 'markdownIt'
