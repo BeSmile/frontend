@@ -1,3 +1,5 @@
+// module.exports = { extends: ['@commitlint/config-conventional'] }; 使用npm配置好的
+
 module.exports = {
     extends: ['cz'],
     rules: {
