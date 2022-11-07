@@ -9,3 +9,5 @@ dist/
 .Ds_Store
 
 .build/
+
+.vs-code

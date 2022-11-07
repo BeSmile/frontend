@@ -84,6 +84,6 @@
         }
     },
     "include": ["src/**/*", "types"],
-    "exclude": ["build", "node_modules", "dist"],
+    "exclude": ["build", "node_modules", "dist", "public"],
     "types": ["node"]
 }
