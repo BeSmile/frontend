@@ -14,7 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniExtract = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// const CopyWebpackPlugin = require("copy-webpack-plugin");
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
 const modelPath = path.resolve(__dirname, '..', '..', 'src', 'models');
@@ -48,13 +48,13 @@ const getPlugins = async () => {
         }),
         // new CheckerPlugin(),
         new HtmlWebpackPlugin({
-            chunks: ['app'], //限定entry特定的块
+            chunks: ['app', 'vendors', 'runtime'], //限定entry特定的块
             excludeChunks: ['dev-helper'], //排除entry特定的块
             filename: 'index.html',
             inject: true,
             hash: new Date().getTime(),
-            mountPoint: '<div id=\'root\'></div>',
-            // value: "23",
+            mountPoint: "<div id='root'></div>",
+            // value: '23',
             templateParameters: {
                 context: {
                     config: {
@@ -79,8 +79,8 @@ const getPlugins = async () => {
         })
         // new CopyWebpackPlugin({
         //   patterns: [{
-        //     from: path.resolve(__dirname, "..", "..","public"),
-        //     to: path.join(__dirname, "dist"),
+        //     from: path.resolve(__dirname, '..', '..','public'),
+        //     to: path.join(__dirname, 'dist'),
         //   }],
         //   options: {
 

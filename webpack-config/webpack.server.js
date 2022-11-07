@@ -20,13 +20,12 @@ const args = minimist(process.argv.slice(2), {
     string: [
         'env',
         'port',
-        'host',
+        'host'
         // 'extensionPath',
         // 'browser',
         // 'browserType'
-    ],
+    ]
 });
-
 
 // fs.watch(modelPath, function (event, filename) {
 //   if(event === "rename") {
@@ -97,10 +96,12 @@ async function renderWebpack() {
             //     res.json({ custom: "response" });
             //   });
             // }
-            proxy: proxy[args.env],
+            proxy: proxy[args.env]
         },
         externals: {
-            'markdown-it': 'markdownIt'
+            'markdown-it': 'markdownIt',
+            './cptable': 'var cptable',
+            '../xlsx.js': 'var _XLSX'
         }
     };
 }
