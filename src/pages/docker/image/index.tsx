@@ -1,27 +1,21 @@
 // 生成material-ui表格
-import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
+import React from 'react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 // import { useTranslation } from 'react-i18next';
-import Paper from "@mui/material/Paper";
-import { useAsyncEffect, useSafeState } from "ahooks";
-import { getImageList, ImageListType } from "@/services/docker/image";
+import Paper from '@mui/material/Paper';
+import { useAsyncEffect, useSafeState } from 'ahooks';
+import { getImageList, ImageListType } from '@/services/docker/image';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      position: "fixed",
+      position: 'fixed',
       top: 0,
-      width: "100%",
+      width: '100%',
     },
     margin: {
       margin: theme.spacing(0),
@@ -29,14 +23,14 @@ const useStyles = makeStyles((theme: Theme) =>
     table: {
       minWidth: 650,
     },
-  })
+  }),
 );
 
 const ImageList = () => {
-  const classes = useStyles("");
+  const classes = useStyles('');
   const [dataSource, setDataSource] = useSafeState<ImageListType>([]);
   useAsyncEffect(async () => {
-    const res = await getImageList({ a: "dddf" });
+    const res = await getImageList({ a: 'dddf' });
     setDataSource(res.data);
   }, []);
 

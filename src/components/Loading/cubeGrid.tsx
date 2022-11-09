@@ -6,9 +6,9 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 15:15:01
  */
-import React from "react";
-import classNames from "classnames";
-import styles from "./index.module.less";
+import React from 'react';
+import classNames from 'classnames';
+import styles from './index.module.less';
 
 interface CubeGridProps {}
 

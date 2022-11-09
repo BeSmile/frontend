@@ -7,9 +7,9 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 22:15:21
  */
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 // import { useSelector } from "react-redux";
-import P5Editor from "@/components/P5/Editor";
+import P5Editor from '@/components/P5/Editor';
 
 var inc = 0.1;
 var scl = 10;
@@ -28,12 +28,12 @@ const NoiseMap: React.FC = () => {
     console.log(p5.width, canvas);
     cols = p5.floor(p5.width / scl);
     rows = p5.floor(p5.height / scl);
-    canvas.parent("p5");
+    canvas.parent('p5');
   };
 
   const draw = (p5: P5) => {
     p5.background(220);
-    console.log(rows, "rows");
+    console.log(rows, 'rows');
     var yoff = start;
     for (var y = 0; y < rows; y++) {
       // loadPixels();
@@ -46,7 +46,7 @@ const NoiseMap: React.FC = () => {
         // pixels[index + 1] = r;
         // pixels[index + 2] = r;
         // pixels[index + 0] = 255;
-        var color = "0";
+        var color = '0';
         if (r > 0.8) {
           color = `rgba(${255},${255}, ${255}, 1)`;
         } else if (r > 0.6) {
@@ -68,7 +68,7 @@ const NoiseMap: React.FC = () => {
   };
   return (
     <P5Editor draw={draw} setup={setup}>
-      <div ref={canvasRef} id="p5" style={{ width: "100%", height: "100%" }} />
+      <div ref={canvasRef} id="p5" style={{ width: '100%', height: '100%' }} />
     </P5Editor>
   );
 };

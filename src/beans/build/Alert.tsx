@@ -6,8 +6,8 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-01-27 18:28:54
  */
-import React, { lazy } from "react";
-import uniqueId from "lodash/uniqueId";
+import React, { lazy } from 'react';
+import uniqueId from 'lodash/uniqueId';
 
 interface AppearanceInterface {
   position: {
@@ -89,8 +89,8 @@ interface AppearanceInterface {
 
 export default class IAlert {
   // private importAsset: string = "";
-  private _key = "";
-  private _text = "Alert";
+  private _key = '';
+  private _text = 'Alert';
   public appearance: AppearanceInterface = {
     position: {
       left: 0,
@@ -102,9 +102,9 @@ export default class IAlert {
       width: 0,
       height: 0,
     },
-    text: "",
+    text: '',
     props: {
-      severity: "error",
+      severity: 'error',
     },
   };
 
@@ -122,7 +122,7 @@ export default class IAlert {
   // }
 
   public toJSX = () => {
-    const Component = lazy(() => import("@mui/lab/Alert"));
+    const Component = lazy(() => import('@mui/lab/Alert'));
 
     return React.createElement(
       Component,
@@ -131,11 +131,11 @@ export default class IAlert {
         style: {
           left: this.appearance.position.left,
           top: this.appearance.position.top,
-          position: "absolute",
+          position: 'absolute',
         },
         ...this.appearance.props,
       },
-      this._text
+      this._text,
     );
   };
 }

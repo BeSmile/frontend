@@ -6,24 +6,22 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-03 15:21:53
  */
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import createSagaMiddleware from "redux-saga";
-import { applyMiddleware, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import APP from "./router";
-import getSaga from "@/utils/getSaga";
-import injectReducers from "@/utils/injectReducers";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import APP from './router';
+import getSaga from '@/utils/getSaga';
+import injectReducers from '@/utils/injectReducers';
 
-import "./global.less";
+import './global.less';
 
 // MODELS_PATH 根据模型来进行model的注册
-let models = MODELS_PATH.map(
-  (item: string) => require(`./models/${item}`).default
-);
+let models = MODELS_PATH.map((item: string) => require(`./models/${item}`).default);
 // 创建saga中间件方法
 const sagaMiddleware = createSagaMiddleware();
 // 根据model 生成对的reducer对象
@@ -38,9 +36,9 @@ const composeEnhancers = composeWithDevTools({
 const store = createStore(
   rootReducer,
   /* preloadedState, */ composeEnhancers(
-    applyMiddleware(sagaMiddleware)
+    applyMiddleware(sagaMiddleware),
     // other store enhancers if any
-  )
+  ),
 );
 
 models.forEach(function (model) {
@@ -58,6 +56,6 @@ models.forEach(function (model) {
         </ThemeProvider>
       </BrowserRouter>
     </Provider>,
-    document.getElementById(containerId)
+    document.getElementById(containerId),
   );
-})("root");
+})('root');

@@ -7,12 +7,12 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-03 15:55:16
  */
-import React, { useEffect, useRef, useState } from "react";
-import { useMount } from "ahooks";
-import { fromEvent, map, merge } from "rxjs";
-import { io, Socket } from "socket.io-client";
+import React, { useEffect, useRef, useState } from 'react';
+import { useMount } from 'ahooks';
+import { fromEvent, map, merge } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
 
-import styles from "./index.module.less";
+import styles from './index.module.less';
 
 export default () => {
   const MOVE_MODE: number = 0; // 移动模式
@@ -62,8 +62,8 @@ export default () => {
       // 更新画布的css变化
       canvas.style.transform = `scale(${canvasScale},${canvasScale}) translate(${translatePointXRef.current}px,${translatePointYRef.current}px)`;
     };
-    wrapper.removeEventListener("mousemove", mouseMove);
-    wrapper.addEventListener("mousemove", mouseMove);
+    wrapper.removeEventListener('mousemove', mouseMove);
+    wrapper.addEventListener('mousemove', mouseMove);
     const mouseUp = (event: MouseEvent) => {
       const upX: number = event.pageX;
       const upY: number = event.pageY;
@@ -71,10 +71,10 @@ export default () => {
       // 鼠标抬起时候，更新“上一次唯一结束的坐标”
       fillStartPointXRef.current = fillStartPointX + (upX - downX);
       fillStartPointYRef.current = fillStartPointY + (upY - downY);
-      wrapper.removeEventListener("mousemove", mouseMove);
-      wrapper.removeEventListener("mouseup", mouseUp);
+      wrapper.removeEventListener('mousemove', mouseMove);
+      wrapper.removeEventListener('mouseup', mouseUp);
     };
-    wrapper.addEventListener("mouseup", mouseUp);
+    wrapper.addEventListener('mouseup', mouseUp);
   };
 
   // io 发送
@@ -86,15 +86,15 @@ export default () => {
         action,
         data: data,
       },
-      "data"
+      'data',
     );
     socket.emit(
-      "line",
+      'line',
       JSON.stringify({
         type,
         action,
         data: data,
-      })
+      }),
     );
   };
 
@@ -107,14 +107,8 @@ export default () => {
     const wrapHeight: number = wrap?.offsetHeight || 0;
     // 缩放位移坐标变化规律
     // (transformOrigin - downX) / scale * (scale-1) + downX - translateX = pointX
-    const pointX: number =
-      ((wrapWidth / 2 - x) / canvasScale) * (canvasScale - 1) +
-      x -
-      translatePointX;
-    const pointY: number =
-      ((wrapHeight / 2 - y) / canvasScale) * (canvasScale - 1) +
-      y -
-      translatePointY;
+    const pointX: number = ((wrapWidth / 2 - x) / canvasScale) * (canvasScale - 1) + x - translatePointX;
+    const pointY: number = ((wrapHeight / 2 - y) / canvasScale) * (canvasScale - 1) + y - translatePointY;
 
     return {
       pointX,
@@ -140,7 +134,7 @@ export default () => {
     context.moveTo(getPixelPoint(pointX), getPixelPoint(pointY));
 
     // socket推送画线数据
-    ioLineEmit(LINE_MODE, "start", {
+    ioLineEmit(LINE_MODE, 'start', {
       x: pointX,
       y: pointY,
     });
@@ -150,24 +144,24 @@ export default () => {
       const { pointX, pointY } = generateLinePoint(moveX, moveY);
       // 开始绘制画笔线条~
       context.lineTo(getPixelPoint(pointX), getPixelPoint(pointY));
-      ioLineEmit(LINE_MODE, "move", {
+      ioLineEmit(LINE_MODE, 'move', {
         x: pointX,
         y: pointY,
       });
       context.stroke();
     };
-    wrapper.removeEventListener("mousemove", mouseMove);
-    wrapper.addEventListener("mousemove", mouseMove);
+    wrapper.removeEventListener('mousemove', mouseMove);
+    wrapper.addEventListener('mousemove', mouseMove);
     const mouseUp = () => {
       context.closePath();
-      ioLineEmit(LINE_MODE, "close", {
+      ioLineEmit(LINE_MODE, 'close', {
         x: pointX,
         y: pointY,
       });
-      wrapper.removeEventListener("mousemove", mouseMove);
-      wrapper.removeEventListener("mouseup", mouseUp);
+      wrapper.removeEventListener('mousemove', mouseMove);
+      wrapper.removeEventListener('mouseup', mouseUp);
     };
-    wrapper.addEventListener("mouseup", mouseUp);
+    wrapper.addEventListener('mouseup', mouseUp);
   };
 
   // 鼠标按下操作
@@ -182,16 +176,14 @@ export default () => {
         handleMoveMode(downX, downY);
         break;
       case LINE_MODE:
-        handleLineMove(downX, downY, "source-over");
-        canvas.style.cursor =
-          'url("http://cdn.algbb.cn/pencil.ico") 6 26, pointer';
-        wrap.style.cursor = "default";
+        handleLineMove(downX, downY, 'source-over');
+        canvas.style.cursor = 'url("http://cdn.algbb.cn/pencil.ico") 6 26, pointer';
+        wrap.style.cursor = 'default';
         break;
       case ERASER_MODE:
-        handleLineMove(downX, downY, "destination-out");
-        canvas.style.cursor =
-          'url("http://cdn.algbb.cn/eraser.ico") 6 26, pointer';
-        wrap.style.cursor = "default";
+        handleLineMove(downX, downY, 'destination-out');
+        canvas.style.cursor = 'url("http://cdn.algbb.cn/eraser.ico") 6 26, pointer';
+        wrap.style.cursor = 'default';
         break;
       default:
         break;
@@ -210,8 +202,8 @@ export default () => {
 
   const initCanvasEvent = () => {
     const { current: wrapper } = wrapperRef;
-    wrapper.removeEventListener("mousedown", mouseDown);
-    wrapper.addEventListener("mousedown", mouseDown);
+    wrapper.removeEventListener('mousedown', mouseDown);
+    wrapper.addEventListener('mousedown', mouseDown);
   };
 
   /**
@@ -226,7 +218,7 @@ export default () => {
     console.log(ratio);
     canvas.width = clientWidth * ratio;
     canvas.height = clientHeight * ratio;
-    const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
     context2dRef.current = ctx;
     // ctx.fillStyle = "#000";
     // ctx.fillRect(0,0,canvas.width, canvas.height);
@@ -234,22 +226,22 @@ export default () => {
   };
 
   const initSocket = () => {
-    const socket: Socket = io("ws://192.168.0.114:3000/stuff", {
+    const socket: Socket = io('ws://192.168.0.114:3000/stuff', {
       reconnectionDelayMax: 10000,
       auth: {
-        token: "123",
+        token: '123',
       },
       query: {
-        username: "牛子华",
+        username: '牛子华',
       },
     });
-    socket.on("connect", () => {
+    socket.on('connect', () => {
       console.log(socket.connected); // false
     });
-    socket.on("welcome", (msg) => {
+    socket.on('welcome', (msg) => {
       console.log(msg); // false
     });
-    socket.on("line", (msg) => {
+    socket.on('line', (msg) => {
       const msgObject = JSON.parse(msg);
       // const { current: wrapper } = wrapperRef;
       // const { current: canvas } = canvasRef;
@@ -257,19 +249,18 @@ export default () => {
       const handleLineMoveListen = (data) => {
         const point = msgObject.data;
         switch (data.action) {
-          case "start":
-            context.globalCompositeOperation =
-              msgObject.type === LINE_MODE ? "source-over" : "color";
+          case 'start':
+            context.globalCompositeOperation = msgObject.type === LINE_MODE ? 'source-over' : 'color';
             context.beginPath();
             // 设置画笔起点
             context.moveTo(getPixelPoint(point.x), getPixelPoint(point.y));
             break;
-          case "move":
+          case 'move':
             // 设置画笔起点
             context.lineTo(getPixelPoint(point.x), getPixelPoint(point.y));
             context.stroke();
             break;
-          case "close":
+          case 'close':
             context.closePath();
             break;
           default:
@@ -292,8 +283,8 @@ export default () => {
   });
 
   useEffect(() => {
-    const draw$: any = fromEvent(drawRef.current, "click");
-    const eraser$: any = fromEvent(eraserRef.current, "click");
+    const draw$: any = fromEvent(drawRef.current, 'click');
+    const eraser$: any = fromEvent(eraserRef.current, 'click');
     const drawPipe$ = draw$.pipe(map(() => LINE_MODE));
     const eraserPipe$ = eraser$.pipe(map(() => ERASER_MODE));
     const combine$ = merge(drawPipe$, eraserPipe$).subscribe(setMouseMode);

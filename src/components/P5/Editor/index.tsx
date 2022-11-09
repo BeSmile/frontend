@@ -6,8 +6,8 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 22:17:15
  */
-import React, { createContext } from "react";
-import { useMount } from "ahooks";
+import React, { createContext } from 'react';
+import { useMount } from 'ahooks';
 // import CubeGrid from '../Loading/cubeGrid';
 
 export const p5Context = createContext({});
@@ -27,8 +27,8 @@ const P5Editor: React.FC<P5Props> = (props) => {
   };
 
   useMount(() => {
-    const script = document.createElement("script");
-    script.src = "/assets/js/p5/p5.min.js";
+    const script = document.createElement('script');
+    script.src = '/assets/js/p5/p5.min.js';
     window.setup = function () {
       const _this: any = window;
       p5 = {

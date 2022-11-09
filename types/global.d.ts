@@ -14,16 +14,16 @@ interface Window {
   luckysheet?: any;
 }
 
-declare module "*.svg";
-declare module "*.jpg";
-declare module "*.png";
-declare module "*.jpeg";
-declare module "*.gif";
-declare module "*.bmp";
-declare module "*.tiff";
+declare module '*.svg';
+declare module '*.jpg';
+declare module '*.png';
+declare module '*.jpeg';
+declare module '*.gif';
+declare module '*.bmp';
+declare module '*.tiff';
 
-declare module "*.less";
-declare module "*.json";
+declare module '*.less';
+declare module '*.json';
 
 // declare var process: any;
 // declare var require: any;

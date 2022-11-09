@@ -16,32 +16,32 @@ import makeStyles from '@mui/styles/makeStyles';
 import { CssBaseline, Toolbar } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex'
-        },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(3)
-        }
-    })
+  createStyles({
+    root: {
+      display: 'flex',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+  }),
 );
 type CustomLayoutProps = {
-    // children?: React.ReactNode;
+  // children?: React.ReactNode;
 };
 const CustomLayout: React.FC<CustomLayoutProps> = () => {
-    const classes = useStyles('');
-    return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <Header position="fixed" />
-            <MDrawer />
-            <main className={classes.content}>
-                <Toolbar />
-                <Outlet />
-            </main>
-        </div>
-    );
+  const classes = useStyles('');
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Header position="fixed" />
+      <MDrawer />
+      <main className={classes.content}>
+        <Toolbar />
+        <Outlet />
+      </main>
+    </div>
+  );
 };
 
 export default CustomLayout;

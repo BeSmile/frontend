@@ -6,13 +6,15 @@ const path = require('path');
 
 module.exports = (isDev = false) => {
   // swc polyfill 策略，会复用 babel 链路，但效率比 babel 低
-  const polyfillConfig = isDev ? {} : {
-    env: {
-      mode: 'usage', // or entry
-      coreJs: 3,
-      path: path.resolve(__dirname),
-    },
-  };
+  const polyfillConfig = isDev
+    ? {}
+    : {
+        env: {
+          mode: 'usage', // or entry
+          coreJs: 3,
+          path: path.resolve(__dirname),
+        },
+      };
 
   return {
     module: {

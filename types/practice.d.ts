@@ -2,12 +2,7 @@ type answer1 = 64 extends number ? true : false;
 
 export type tDat = typeof Date extends { new (...args: any[]): any } ? true : false;
 
-type FavoriteColors =
-    | 'dark sienna'
-    | 'van dyke brown'
-    | [number, number]
-    | { red: number; green: number }
-    | { red: number; green: number; blue: number };
+type FavoriteColors = 'dark sienna' | 'van dyke brown' | [number, number] | { red: number; green: number } | { red: number; green: number; blue: number };
 
 export type StringColor = Extract<FavoriteColors, string>;
 
@@ -18,46 +13,46 @@ export type NumberArrayColor = Extract<FavoriteColors, [number]>;
 export type NumberColor = Extract<FavoriteColors, number[]>;
 
 type Record<KeyType extends string, ValueType> = {
-    [Key in KeyType]: ValueType;
+  [Key in KeyType]: ValueType;
 };
 
 export type PickWindowProperties<Keys extends keyof Window> = {
-    [Key in Keys]: Window[Key];
+  [Key in Keys]: Window[Key];
 };
 
 interface DataState {
-    digits: number;
-    names: string[];
-    flags: Record<'darkMode' | 'mobile', boolean>;
+  digits: number;
+  names: string[];
+  flags: Record<'darkMode' | 'mobile', boolean>;
 }
 
 export type DataSdk = {
-    [K in keyof DataState as `set${Capitalize<K>}`]: (arg: DataState[K]) => void;
+  [K in keyof DataState as `set${Capitalize<K>}`]: (arg: DataState[K]) => void;
 };
 
 type DocKeys = Extract<keyof Document, `query${string}`>;
 export type KeyFilterDoc = {
-    [Key in DocKeys]: Document[Key];
+  [Key in DocKeys]: Document[Key];
 };
 
 export type ValueFilterDoc = {
-    [K in keyof Document]: Document[K] extends {
-        new (...args: any[]): Element | Element[];
-    }
-        ? Document[K]
-        : never;
+  [K in keyof Document]: Document[K] extends {
+    new (...args: any[]): Element | Element[];
+  }
+    ? Document[K]
+    : never;
 };
 
 interface Color {
-    red: string;
-    green: number;
-    blue: number;
+  red: string;
+  green: number;
+  blue: number;
 }
 
 type ElementFunction = (...args: any[]) => Element | Element[];
 
 type FilteredKeys<ToFilter, Condition> = {
-    [K in keyof ToFilter]: ToFilter[K] extends Condition ? K : never;
+  [K in keyof ToFilter]: ToFilter[K] extends Condition ? K : never;
 }[keyof ToFilter];
 
 type Test = { a: string; b: never; c: number };
@@ -84,13 +79,13 @@ type Contact<S1 extends string, S2 extends string> = `${S1}-${S2}`;
 type ToString<T extends string | number | null> = `${T}`;
 
 type TestT2 = {
-    name: string;
-    age: number;
+  name: string;
+  age: number;
 };
 
 type T1 = Contact<'Lin', 'jinzhi'>;
 type T2 = {
-    [Key in keyof TestT2]: ToString<TestT2[Key]>;
+  [Key in keyof TestT2]: ToString<TestT2[Key]>;
 };
 type T3 = ToString<keyof TestT2>;
 

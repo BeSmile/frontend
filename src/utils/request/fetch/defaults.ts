@@ -1,9 +1,9 @@
-import { FetchDefaults } from "./types";
+import { FetchDefaults } from './types';
 
 const defaults: FetchDefaults = {
   headers: {
     common: {
-      Accept: "application/json, text/plain, */*",
+      Accept: 'application/json, text/plain, */*',
     },
   },
 };

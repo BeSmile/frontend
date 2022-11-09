@@ -7,19 +7,19 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-06-03 10:24:57
  */
-import React, { MutableRefObject, useRef, useState } from "react";
-import styles from "./index.module.less";
-import { useMount, useUpdateEffect } from "ahooks";
+import React, { MutableRefObject, useRef, useState } from 'react';
+import styles from './index.module.less';
+import { useMount, useUpdateEffect } from 'ahooks';
 
 const clickArea = [
   {
     groupID: 6,
-    top: "0.4rem",
+    top: '0.4rem',
     coords: [0, 80],
   },
   {
     groupID: 6,
-    top: "0.4rem",
+    top: '0.4rem',
     coords: [107, 187],
   },
 ];
@@ -86,8 +86,7 @@ export default () => {
     const touchMove = (event: TouchEvent) => {
       if (event.touches.length >= 2) {
         var now = event.touches; //得到第二组两个点
-        var scale =
-          getDistance(now[0], now[1]) / getDistance(start[0], start[1]); //得到缩放比例
+        var scale = getDistance(now[0], now[1]) / getDistance(start[0], start[1]); //得到缩放比例
         // alert(scale);
         setCanvasScale(scale);
         return;
@@ -103,19 +102,19 @@ export default () => {
       upY = moveY;
     };
     // 取消事件监听
-    wrapper.removeEventListener("touchmove", touchMove);
-    wrapper.addEventListener("touchmove", touchMove);
+    wrapper.removeEventListener('touchmove', touchMove);
+    wrapper.addEventListener('touchmove', touchMove);
     const touchEnd = () => {
       // 鼠标抬起时候，更新“上一次唯一结束的坐标”
-      console.log("touch");
+      console.log('touch');
       fillStartPointXRef.current = fillStartPointX + (upX - downX);
       fillStartPointYRef.current = fillStartPointY + (upY - downY);
 
       // 取消事件监听
-      wrapper.removeEventListener("touchmove", touchMove);
-      wrapper.removeEventListener("touchend", touchEnd);
+      wrapper.removeEventListener('touchmove', touchMove);
+      wrapper.removeEventListener('touchend', touchEnd);
     };
-    wrapper.addEventListener("touchend", touchEnd);
+    wrapper.addEventListener('touchend', touchEnd);
   };
 
   const handleCanvas = () => {
@@ -131,8 +130,8 @@ export default () => {
       }
       handleMoveMode(downX, downY);
     };
-    wrapper.removeEventListener("touchstart", touchStart);
-    wrapper.addEventListener("touchstart", touchStart);
+    wrapper.removeEventListener('touchstart', touchStart);
+    wrapper.addEventListener('touchstart', touchStart);
   };
 
   function getDistance(p1: Touch, p2: Touch) {
@@ -146,8 +145,7 @@ export default () => {
     const { current: canvas } = canvasRef;
     const { current: translatePointX } = translatePointXRef;
     const { current: translatePointY } = translatePointYRef;
-    canvas &&
-      (canvas.style.transform = `scale(${canvasScale},${canvasScale}) translate(${translatePointX}px,${translatePointY}px)`);
+    canvas && (canvas.style.transform = `scale(${canvasScale},${canvasScale}) translate(${translatePointX}px,${translatePointY}px)`);
     return () => {
       handleCanvas();
     };
@@ -156,14 +154,14 @@ export default () => {
   useMount(() => {
     const h = canvasRef.current.clientHeight,
       w = canvasRef.current.clientWidth;
-    const ctx = canvasRef.current.getContext("2d");
+    const ctx = canvasRef.current.getContext('2d');
 
     const rt = getPixelRatio(ctx); // 屏幕像素比
     canvasRef.current.width = w * rt; // canvas的宽高要设置像素比 不然模糊
     canvasRef.current.height = h * rt;
 
     const img = new Image();
-    img.src = "https://www.hnznit.com/jf_dev_lzl/static/6001.f09de894.png";
+    img.src = 'https://www.hnznit.com/jf_dev_lzl/static/6001.f09de894.png';
     img.onload = () => {
       const WIDTH = 300 * rt; // 设置固定要显示的内容宽高
       const scaleRatio = img.width / WIDTH; // 图片宽度缩放比
@@ -171,42 +169,30 @@ export default () => {
       // 居中显示，计算原始左侧
       offsetX = Math.abs(WIDTH - w * rt) / 2; // 左侧原始偏移量
       // 图片的像素 需要 通过像素比绘制至地图内。
-      ctx.drawImage(
-        img,
-        0,
-        0,
-        img.width,
-        img.height,
-        offsetX,
-        offsetY,
-        WIDTH,
-        img.height / scaleRatio
-      );
+      ctx.drawImage(img, 0, 0, img.width, img.height, offsetX, offsetY, WIDTH, img.height / scaleRatio);
       // canvasEventsInit(ctx);
       canvasRef.current.style.transformOrigin = `${w / 2}px ${h / 2}px`;
       // 清除上一次变化的效果
-      canvasRef.current.style.transform = "";
-      ctx.font = "20px Georgia";
-      ctx.fillText("Hello World!", 10, 50);
-      ctx.font = "30px Verdana";
+      canvasRef.current.style.transform = '';
+      ctx.font = '20px Georgia';
+      ctx.fillText('Hello World!', 10, 50);
+      ctx.font = '30px Verdana';
       // 创建一个渐变
       // 填充一个渐变
-      ctx.fillText("Big smile!", 10, 90);
+      ctx.fillText('Big smile!', 10, 90);
     };
     // canvasRef.current.addEventListener('touchstart', touchStart, false);
     // canvasRef.current.addEventListener('touchmove', mouseMove, false);
     // canvasRef.current.addEventListener('touchend', touchEnd, false);
     handleCanvas();
     canvasRef.current.addEventListener(
-      "click",
+      'click',
       function (e) {
         console.log(e.offsetY);
-        const group = clickArea.filter(
-          (area) => e.offsetY >= area.coords[0] && e.offsetY <= area.coords[1]
-        );
-        console.log(group, "group");
+        const group = clickArea.filter((area) => e.offsetY >= area.coords[0] && e.offsetY <= area.coords[1]);
+        console.log(group, 'group');
       },
-      false
+      false,
     );
     // return () => {
     //   canvasRef.current.removeEventListener('touchstart', touchStart);

@@ -1,11 +1,6 @@
-import {
-  FetchDefaults,
-  FetchRequestHeaders,
-  FetchHeaderValue,
-  RawFetchHeaders,
-} from "./types";
+import { FetchDefaults, FetchRequestHeaders, FetchHeaderValue, RawFetchHeaders } from './types';
 
-const $defaults = Symbol("defaults");
+const $defaults = Symbol('defaults');
 
 function FetchHeaders(headers: FetchRequestHeaders, defaults: FetchDefaults) {
   headers && this.set(headers); // set的意思是什么
@@ -35,12 +30,10 @@ Object.assign(FetchHeaders.prototype, {
 
 Object.assign(FetchHeaders, {
   from: function (headers: typeof FetchHeaders | RawFetchHeaders | string) {
-    if (typeof headers === "string") {
+    if (typeof headers === 'string') {
       return new this({});
     }
-    return headers instanceof this
-      ? this
-      : (new this(headers) as typeof FetchHeaders);
+    return headers instanceof this ? this : (new this(headers) as typeof FetchHeaders);
   },
 });
 

@@ -1,4 +1,4 @@
-import { FetchInterceptorManager, FetchInterceptorOptions } from "./types";
+import { FetchInterceptorManager, FetchInterceptorOptions } from './types';
 
 // 拦截器
 class InterceptorManager<V> implements FetchInterceptorManager<any> {
@@ -8,11 +8,7 @@ class InterceptorManager<V> implements FetchInterceptorManager<any> {
     this.handlers = [];
   }
 
-  use<T = V>(
-    onFulfilled?: (value: V) => T | Promise<T>,
-    onRejected?: (error: any) => any,
-    options?: FetchInterceptorOptions
-  ): number {
+  use<T = V>(onFulfilled?: (value: V) => T | Promise<T>, onRejected?: (error: any) => any, options?: FetchInterceptorOptions): number {
     this.handlers.push({
       onFulfilled,
       onRejected,
@@ -33,11 +29,7 @@ class InterceptorManager<V> implements FetchInterceptorManager<any> {
    * @param fn fn The function to call for each interceptor
    * @returns {void}
    */
-  forEach(fn: {
-    (interceptor: FetchInterceptorOptions): void;
-    (interceptor: FetchInterceptorOptions): void;
-    (arg0: any): void;
-  }) {
+  forEach(fn: { (interceptor: FetchInterceptorOptions): void; (interceptor: FetchInterceptorOptions): void; (arg0: any): void }) {
     this.handlers.forEach(function forEachHandler(h) {
       if (h !== null) {
         fn(h);

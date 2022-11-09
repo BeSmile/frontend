@@ -6,19 +6,19 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-18 11:35:41
  */
-import React from "react";
-import { connect } from "react-redux";
-import { alpha, Theme } from "@mui/material/styles";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-import { Link, Outlet, To } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
+import React from 'react';
+import { connect } from 'react-redux';
+import { alpha, Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import { Link, Outlet, To } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Header from "./components/Header";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Header from './components/Header';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,52 +34,52 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     img: {
       height: 200,
-      width: "100%",
-      objectFit: "cover",
+      width: '100%',
+      objectFit: 'cover',
     },
     menuButton: {
       marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
-      display: "none",
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
       },
     },
     search: {
-      position: "relative",
+      position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
+      '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
       },
       marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        width: "auto",
+        width: 'auto',
       },
     },
     searchIcon: {
       width: theme.spacing(7),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     inputRoot: {
-      color: "inherit",
+      color: 'inherit',
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 7),
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
         width: 120,
-        "&:focus": {
+        '&:focus': {
           width: 200,
         },
       },
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(3),
       padding: theme.spacing(2),
     },
-  })
+  }),
 );
 
 // event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -102,7 +102,7 @@ function handleClick(index: number) {
     dispatch,
   } = this;
   dispatch({
-    type: "global/updateBreadcrumb",
+    type: 'global/updateBreadcrumb',
     payload: {
       breadcrumbs: breadcrumbs.slice(0, index + 1),
     },
@@ -121,24 +121,16 @@ function generate(bms: any, props: any): Array<React.ReactElement> {
       </Typography>,
       {
         key: len,
-      }
+      },
     );
   }
   let Ele = breadcrumbs.map(
     (
       item: {
         url: To;
-        name:
-          | string
-          | number
-          | boolean
-          | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-          | React.ReactFragment
-          | React.ReactPortal
-          | null
-          | undefined;
+        name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined;
       },
-      k: React.Key | null | undefined
+      k: React.Key | null | undefined,
     ) => (
       <Link
         key={k}
@@ -146,21 +138,21 @@ function generate(bms: any, props: any): Array<React.ReactElement> {
         // component={ReactLink}
         to={item.url}
         onClick={() => {
-          if (typeof k === "number") {
+          if (typeof k === 'number') {
             handleClick.call(props, k);
           }
         }}
       >
         {item.name}
       </Link>
-    )
+    ),
   );
   Ele.push(TypographyUI);
   return Ele;
 }
 
 function BaseLayoutUI(props: any) {
-  const classes = useStyles("");
+  const classes = useStyles('');
   const {
     global: { breadcrumbs = [] },
   } = props;
@@ -171,15 +163,10 @@ function BaseLayoutUI(props: any) {
       <CssBaseline />
       <Container maxWidth="lg">
         <article className={classes.paper}>
-          <Breadcrumbs aria-label="breadcrumb">
-            {generate(breadcrumbs, props)}
-          </Breadcrumbs>
+          <Breadcrumbs aria-label="breadcrumb">{generate(breadcrumbs, props)}</Breadcrumbs>
         </article>
         <Paper className={classes.paper}>
-          <img
-            className={classes.img}
-            src="http://game.gtimg.cn/images/sg/web201706/bg01.jpg"
-          />
+          <img className={classes.img} src="http://game.gtimg.cn/images/sg/web201706/bg01.jpg" />
         </Paper>
         <Typography component="div" className={classes.container}>
           <Outlet />

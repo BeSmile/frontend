@@ -1,4 +1,4 @@
-import { GET } from "@/utils/request";
+import { GET } from '@/utils/request';
 
 export type ImageListParams = {};
 
@@ -11,5 +11,5 @@ export type ImageListType = {
 }[];
 
 export const getImageList = (params: ImageListParams) => {
-  return GET<ImageListType>("/api/docker/images", params);
+  return GET<ImageListType>('/api/docker/images', params);
 };

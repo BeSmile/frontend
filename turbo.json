@@ -1,20 +1,20 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "baseBranch": "origin/master",
-    "pipeline": {
-        "build": {
-            "dependsOn": ["^build"],
-            "outputs": ["dist/**"]
-        },
-        "dev": {
-            "cache": false
-        },
-        "start": {
-            "cache": false
-        },
-        "test": {
-            "outputs": [".jest-cache/**"]
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "baseBranch": "origin/master",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
     },
-    "globalDependencies": ["tsconfig.json", "jest.config.ts"]
+    "dev": {
+      "cache": false
+    },
+    "start": {
+      "cache": false
+    },
+    "test": {
+      "outputs": [".jest-cache/**"]
+    }
+  },
+  "globalDependencies": ["tsconfig.json", "jest.config.ts"]
 }

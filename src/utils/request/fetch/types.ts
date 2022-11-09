@@ -30,31 +30,11 @@ export interface CancelTokenSource {
   cancel: Canceler;
 }
 
-export type ResponseType =
-  | "arraybuffer"
-  | "blob"
-  | "document"
-  | "json"
-  | "text"
-  | "stream";
+export type ResponseType = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | 'stream';
 
-type DataFormMethod = "post" | "POST" | "put" | "PUT" | "patch" | "PATCH";
+type DataFormMethod = 'post' | 'POST' | 'put' | 'PUT' | 'patch' | 'PATCH';
 
-export type ParamMethod =
-  | "get"
-  | "GET"
-  | "delete"
-  | "DELETE"
-  | "head"
-  | "HEAD"
-  | "options"
-  | "OPTIONS"
-  | "purge"
-  | "PURGE"
-  | "link"
-  | "LINK"
-  | "unlink"
-  | "UNLINK";
+export type ParamMethod = 'get' | 'GET' | 'delete' | 'DELETE' | 'head' | 'HEAD' | 'options' | 'OPTIONS' | 'purge' | 'PURGE' | 'link' | 'LINK' | 'unlink' | 'UNLINK';
 
 export type Method = ParamMethod & DataFormMethod;
 
@@ -62,15 +42,10 @@ export interface GenericFormData {
   append(name: string, value: any, options?: any): any;
 }
 
-export type RawFetchRequestHeaders = Partial<
-  RawFetchHeaders & MethodsHeaders & CommonHeaders
->;
+export type RawFetchRequestHeaders = Partial<RawFetchHeaders & MethodsHeaders & CommonHeaders>;
 
 // 对请求体的headers做配置
-export type FetchRequestHeaders = Partial<
-  RawFetchHeaders & MethodsHeaders & CommonHeaders
-> &
-  FetchHeaders;
+export type FetchRequestHeaders = Partial<RawFetchHeaders & MethodsHeaders & CommonHeaders> & FetchHeaders;
 
 export interface FormDataVisitorHelpers {
   defaultVisitor: SerializerVisitor;
@@ -79,13 +54,7 @@ export interface FormDataVisitorHelpers {
 }
 
 export interface SerializerVisitor {
-  (
-    this: GenericFormData,
-    value: any,
-    key: string | number,
-    path: null | Array<string | number>,
-    helpers: FormDataVisitorHelpers
-  ): boolean;
+  (this: GenericFormData, value: any, key: string | number, path: null | Array<string | number>, helpers: FormDataVisitorHelpers): boolean;
 }
 
 export interface SerializerOptions {
@@ -115,8 +84,7 @@ export interface GenericAbortSignal {
   removeEventListener: (...args: any) => any;
 }
 
-export interface FetchDefaults<D = any>
-  extends Omit<FetchRequestConfig<D>, "headers"> {
+export interface FetchDefaults<D = any> extends Omit<FetchRequestConfig<D>, 'headers'> {
   headers: HeadersDefaults;
 }
 
@@ -166,26 +134,14 @@ type MethodsHeaders = {
 };
 
 //
-type FetchHeaderMatcher = (
-  this: FetchHeaders,
-  value: string,
-  name: string,
-  headers: RawFetchHeaders
-) => boolean;
+type FetchHeaderMatcher = (this: FetchHeaders, value: string, name: string, headers: RawFetchHeaders) => boolean;
 
 // 定义headers的常用方法
 export declare class FetchHeaders {
-  constructor(
-    headers?: RawFetchHeaders | FetchHeaders,
-    defaultHeaders?: RawFetchHeaders | FetchHeaders
-  );
+  constructor(headers?: RawFetchHeaders | FetchHeaders, defaultHeaders?: RawFetchHeaders | FetchHeaders);
 
   //
-  set(
-    headerName?: string,
-    value?: FetchHeaderValue,
-    rewrite?: boolean | FetchHeaderMatcher
-  ): FetchHeaders;
+  set(headerName?: string, value?: FetchHeaderValue, rewrite?: boolean | FetchHeaderMatcher): FetchHeaders;
 
   // set(headers?: RawFetchHeaders | FetchHeaders, rewrite?: boolean): FetchHeaders;
   //
@@ -236,18 +192,13 @@ export interface FetchRequestTransformer {
 }
 
 export interface FetchResponseTransformer {
-  (
-    this: FetchRequestConfig,
-    data: any,
-    headers: FetchResponseHeaders,
-    status?: number
-  ): any;
+  (this: FetchRequestConfig, data: any, headers: FetchResponseHeaders, status?: number): any;
 }
 
 // 响应response  set-cookie.后端设置响应
 export type RaFetchResponseHeaders = Partial<
   Record<string, string> & {
-    "set-cookie"?: string[];
+    'set-cookie'?: string[];
   }
 >;
 export type FetchResponseHeaders = RaFetchResponseHeaders & FetchHeaders;
@@ -267,11 +218,7 @@ export interface FetchInterceptorOptions {
 }
 
 export interface FetchInterceptorManager<V> {
-  use<T = V>(
-    onFulfilled?: (value: V) => T | Promise<T>,
-    onRejected?: (error: any) => any,
-    options?: FetchInterceptorOptions
-  ): number;
+  use<T = V>(onFulfilled?: (value: V) => T | Promise<T>, onRejected?: (error: any) => any, options?: FetchInterceptorOptions): number;
 
   eject(id: number): void;
 
@@ -289,71 +236,26 @@ export interface IFetch {
     response: FetchInterceptorManager<FetchResponse>;
   };
   defaults: FetchDefaults;
-  request: <T, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    options?: FetchRequestConfig<D>
-  ) => Promise<R>;
+  request: <T, R = FetchResponse<T>, D = any>(url: string, data?: D, options?: FetchRequestConfig<D>) => Promise<R>;
 
   getUri(config?: FetchRequestConfig): string;
-  get<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  delete<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  head<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  options<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  post<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  put<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  patch<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  postForm<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  putForm<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
-  patchForm<T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: FetchRequestConfig<D>
-  ): Promise<R>;
+  get<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
+  delete<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
+  head<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
+  options<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
+  post<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  put<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  patch<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  postForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  putForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  patchForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
 }
 
 export interface IFetchInstance extends IFetch {
-  <T = any, R = FetchResponse<T>, D = any>(
-    config: FetchRequestConfig<D>
-  ): FetchPromise<R>;
-  <T = any, R = FetchResponse<T>, D = any>(
-    url: string,
-    config?: FetchRequestConfig<D>
-  ): FetchPromise<R>;
+  <T = any, R = FetchResponse<T>, D = any>(config: FetchRequestConfig<D>): FetchPromise<R>;
+  <T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): FetchPromise<R>;
 
-  defaults: Omit<FetchDefaults, "headers"> & {
+  defaults: Omit<FetchDefaults, 'headers'> & {
     headers: HeadersDefaults & {
       [key: string]: FetchHeaderValue;
     };

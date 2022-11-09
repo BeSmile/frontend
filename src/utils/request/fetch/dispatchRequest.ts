@@ -1,8 +1,8 @@
-import isomorphicFetch from "isomorphic-fetch";
-import { transformData } from "./transformData";
-import FetchHeaders from "./FetchHeaders";
-import CanceledError from "./cancel/CanceledError";
-import { FetchRequestConfig } from "./types";
+import isomorphicFetch from 'isomorphic-fetch';
+import { transformData } from './transformData';
+import FetchHeaders from './FetchHeaders';
+import CanceledError from './cancel/CanceledError';
+import { FetchRequestConfig } from './types';
 
 /**
  * Throws a `CanceledError` if cancellation has been requested.
@@ -21,10 +21,7 @@ function throwIfCancellationRequested(config: FetchRequestConfig) {
   }
 }
 
-function dispatchRequest<R, D>(
-  url: string,
-  config: FetchRequestConfig<D>
-): Promise<R> {
+function dispatchRequest<R, D>(url: string, config: FetchRequestConfig<D>): Promise<R> {
   throwIfCancellationRequested(config);
 
   config.headers = FetchHeaders.from(config.headers);
@@ -34,7 +31,7 @@ function dispatchRequest<R, D>(
 
   // 转化请求参数
   config.body = transformData.call(config, config.transformRequest);
-  console.log("requestConfig", config);
+  console.log('requestConfig', config);
   return isomorphicFetch(url, {
     body: config.body,
     // headers: config.headers,
@@ -59,17 +56,13 @@ function dispatchRequest<R, D>(
           return reason;
         }
         return Promise.reject(reason);
-      }
+      },
     )
     .then((response) => ({
       ...response,
       data: {
         ...response.data,
-        data: transformData.call(
-          config,
-          config.transformResponse || [],
-          response.data || null
-        ),
+        data: transformData.call(config, config.transformResponse || [], response.data || null),
       },
     })) as Promise<R>;
 }

@@ -6,10 +6,10 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-09-17 15:28:48
  */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 // import { useSelector } from "react-redux";
-import P5Editor from "@/components/P5/Editor";
-import _ from "lodash";
+import P5Editor from '@/components/P5/Editor';
+import _ from 'lodash';
 
 var inc = 0.1;
 var scl = 10;
@@ -26,7 +26,7 @@ const NoiseMap: React.FC = () => {
     const canvas = p5.createCanvas(w, h);
     cols = p5.floor(p5.width / scl);
     rows = p5.floor(p5.height / scl);
-    canvas.parent("p5");
+    canvas.parent('p5');
   };
 
   const draw = (p5: any) => {
@@ -45,7 +45,7 @@ const NoiseMap: React.FC = () => {
         // pixels[index + 1] = r;
         // pixels[index + 2] = r;
         // pixels[index + 0] = 255;
-        var color = "0";
+        var color = '0';
         const or = Math.random();
         const opacity = or < 0.1 ? or : 0;
         if (r > 0.8) {
@@ -77,7 +77,7 @@ const NoiseMap: React.FC = () => {
     const debounceMouse = _.throttle((e: MouseEvent) => {
       start = Math.sqrt(Math.pow(e.offsetX, 2) + Math.pow(e.offsetY, 2)) / 10;
     }, 1000 / 60);
-    p5Container.addEventListener("mousemove", debounceMouse);
+    p5Container.addEventListener('mousemove', debounceMouse);
   }, [p5Ref]);
 
   return (

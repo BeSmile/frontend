@@ -6,12 +6,12 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-19 10:23:52
  */
-import React from "react";
-import type { RouteObject } from "react-router-dom";
-import { useRoutes } from "react-router-dom";
-import { getRoutes } from "./router";
-import LazyRoute from "@/router/components/LazyRoute";
-import { useMount, useSafeState } from "ahooks";
+import React from 'react';
+import type { RouteObject } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import { getRoutes } from './router';
+import LazyRoute from '@/router/components/LazyRoute';
+import { useMount, useSafeState } from 'ahooks';
 
 type IRouter = {
   path: string;
@@ -39,7 +39,7 @@ const generateRouter = (root: string, router: GRouter): RouteObject[] => {
       element: <LazyRoute source={router.routerComponents[route.parentId]} />,
       children: [
         {
-          path: "",
+          path: '',
           element: <LazyRoute source={router.routerComponents[route.path]} />,
         },
       ],
@@ -52,7 +52,7 @@ const RouteUI = function () {
   const [routes, setRoutes] = useSafeState<RouteObject[]>([]);
   useMount(async () => {
     const rs = (await getRoutes()) as unknown as GRouter;
-    const rts = generateRouter("", rs);
+    const rts = generateRouter('', rs);
     const baseRoute: RouteObject[] = [
       ...rts,
       // {

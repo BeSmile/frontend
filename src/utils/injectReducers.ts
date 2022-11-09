@@ -7,7 +7,7 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-18 11:27:44
  */
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
 export default function injectReducers(models) {
   let rootReducers = {};
@@ -21,11 +21,11 @@ export default function injectReducers(models) {
       rootReducers[namespace] = (state = initialState) => state;
     }
     const fn = function (state = initialState, action) {
-      if (action.type.indexOf("/") < 0) {
+      if (action.type.indexOf('/') < 0) {
         // console.warn("不是合法的reducer");
         return state;
       }
-      const reducerSplit = action.type.split("/");
+      const reducerSplit = action.type.split('/');
       const reducerName = reducerSplit[1]; // reducer对应的name名称
       // eslint-disable-next-line no-prototype-builtins
       if (reducers.hasOwnProperty(reducerName)) {

@@ -10,7 +10,7 @@ import React from 'react';
 
 // 等比组件
 const GeometricGrid = () => {
-    return <section />;
+  return <section />;
 };
 
 export default GeometricGrid;

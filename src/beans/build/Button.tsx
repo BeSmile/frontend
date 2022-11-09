@@ -6,8 +6,8 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-27 16:07:27
  */
-import React, { lazy } from "react";
-import uniqueId from "lodash/uniqueId";
+import React, { lazy } from 'react';
+import uniqueId from 'lodash/uniqueId';
 
 interface AppearanceInterface {
   position: {
@@ -90,8 +90,8 @@ interface AppearanceInterface {
 
 export default class IButton {
   // private importAsset: string = "";
-  private _key = "";
-  private _text = "Button";
+  private _key = '';
+  private _text = 'Button';
   public appearance: AppearanceInterface = {
     position: {
       left: 0,
@@ -103,10 +103,10 @@ export default class IButton {
       width: 0,
       height: 0,
     },
-    text: "",
+    text: '',
     props: {
-      color: "secondary",
-      variant: "contained",
+      color: 'secondary',
+      variant: 'contained',
     },
   };
   constructor(params: any) {
@@ -119,12 +119,12 @@ export default class IButton {
   }
 
   public initComponent = () => {
-    const Component = require("@mui/material/Button").default;
+    const Component = require('@mui/material/Button').default;
     console.log(Component);
   };
 
   public toJSX = () => {
-    const Component = lazy(() => import("@mui/material/Button"));
+    const Component = lazy(() => import('@mui/material/Button'));
 
     return React.createElement(
       Component,
@@ -133,11 +133,11 @@ export default class IButton {
         style: {
           left: this.appearance.position.left,
           top: this.appearance.position.top,
-          position: "absolute",
+          position: 'absolute',
         },
         ...this.appearance.props,
       },
-      this._text
+      this._text,
     );
   };
 }

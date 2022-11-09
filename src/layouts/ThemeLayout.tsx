@@ -6,10 +6,10 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 23:00:13
  */
-import React from "react";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-import { Outlet } from "react-router-dom";
+import React from 'react';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import { Outlet } from 'react-router-dom';
 // import img from '@public/assets/bg.jpeg';
 
 const useStyles = makeStyles(() =>
@@ -19,11 +19,11 @@ const useStyles = makeStyles(() =>
     },
     background: {
       // backgroundImage: `url(${img})`,
-      height: "100%",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
+      height: '100%',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
     },
-  })
+  }),
 );
 
 const ThemeLayout = () => {

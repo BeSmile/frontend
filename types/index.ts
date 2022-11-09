@@ -37,13 +37,13 @@ export interface MenuCombination extends MenuItem {
 }
 
 const setMenuData = <T extends MenuItem>(data: T): T => {
-  data.label = "111";
+  data.label = '111';
   return data;
 };
 
 const menu: MenuItem = {
-  label: "机构",
-  value: "001",
+  label: '机构',
+  value: '001',
 };
 
 setMenuData<MenuItem>(menu);
@@ -62,14 +62,14 @@ type UserEnum = {
 };
 
 let u: UserEnum = {
-  name: "Bob",
+  name: 'Bob',
   age: 123,
-  username: "Bob",
-  avatar: "Bob",
-  password: "Bob",
+  username: 'Bob',
+  avatar: 'Bob',
+  password: 'Bob',
 };
 
-u.password = "2345";
+u.password = '2345';
 
 class Foo<T, U> {
   test: T;
@@ -79,7 +79,7 @@ class Foo<T, U> {
   }
 
   getTypeNameOfTest(): string {
-    return "";
+    return '';
   }
 
   getUName(value: U): U {
@@ -90,6 +90,6 @@ class Foo<T, U> {
 const foo = new Foo<Date, string>(new Date());
 foo.getTypeNameOfTest(); // => "Date"
 
-const baa = new Foo<string, string>("Howdy");
+const baa = new Foo<string, string>('Howdy');
 baa.getTypeNameOfTest();
-baa.getUName("st");
+baa.getUName('st');

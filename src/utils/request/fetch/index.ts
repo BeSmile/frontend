@@ -1,17 +1,9 @@
-import merge from "lodash/merge";
+import merge from 'lodash/merge';
 // const AbortController = require('abort-controller');
-import InterceptorManager from "./InterceptorManager";
-import {
-  FetchResponse,
-  FetchRequestConfig,
-  FetchDefaults,
-  IFetchInstance,
-  FetchInterceptorManager,
-  IFetch,
-  InterceptorHandler,
-} from "./types";
-import dispatchRequest from "./dispatchRequest";
-import defaults from "./defaults";
+import InterceptorManager from './InterceptorManager';
+import { FetchResponse, FetchRequestConfig, FetchDefaults, IFetchInstance, FetchInterceptorManager, IFetch, InterceptorHandler } from './types';
+import dispatchRequest from './dispatchRequest';
+import defaults from './defaults';
 
 // eslint-disable-next-line no-undef
 // @ts-ignore
@@ -30,10 +22,7 @@ class Fetch implements IFetch {
     };
   }
 
-  request<T, R = FetchResponse<T>, D = any>(
-    url: string,
-    options?: FetchRequestConfig<D>
-  ): Promise<R> {
+  request<T, R = FetchResponse<T>, D = any>(url: string, options?: FetchRequestConfig<D>): Promise<R> {
     const config = merge(this.defaults, options);
     // const controller = new AbortController();
     // const signal = controller.signal;
@@ -46,11 +35,7 @@ class Fetch implements IFetch {
     //   }, false);
     // }
 
-    config.method = (
-      config.method ||
-      this.defaults.method ||
-      "get"
-    ).toLowerCase();
+    config.method = (config.method || this.defaults.method || 'get').toLowerCase();
 
     //todo 处理header下的请求配置 。如header common以及对应不同请求下的配置
 
@@ -58,31 +43,20 @@ class Fetch implements IFetch {
     const requestInterceptorChain: InterceptorHandler[] = []; // 实际会请求的拦截器
     let synchronousRequestInterceptors = true; // 获取是否当前的拦截器是否为同步的
 
-    this.interceptors.request.forEach(function unshiftRequest(
-      interceptor: InterceptorHandler
-    ) {
+    this.interceptors.request.forEach(function unshiftRequest(interceptor: InterceptorHandler) {
       // 如果不是运行中的拦截器跳过
-      if (
-        typeof interceptor.runWhen === "function" &&
-        !interceptor.runWhen(config)
-      ) {
+      if (typeof interceptor.runWhen === 'function' && !interceptor.runWhen(config)) {
         return;
       }
       // 判断是否都是同步请求
-      synchronousRequestInterceptors =
-        synchronousRequestInterceptors && interceptor.synchronous;
+      synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
 
       requestInterceptorChain.unshift(interceptor);
     });
 
     const responseInterceptorChain: any = []; // 响应链
-    this.interceptors.response.forEach(function pushResponseInterceptors(
-      interceptor: any
-    ) {
-      requestInterceptorChain.push(
-        interceptor.onFulfilled,
-        interceptor.onRejected
-      );
+    this.interceptors.response.forEach(function pushResponseInterceptors(interceptor: any) {
+      requestInterceptorChain.push(interceptor.onFulfilled, interceptor.onRejected);
     });
 
     let promise;
@@ -139,27 +113,15 @@ class Fetch implements IFetch {
     len = responseInterceptorChain.length;
 
     while (i < len) {
-      promise = promise.then(
-        responseInterceptorChain[i++],
-        responseInterceptorChain[i++]
-      );
+      promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
     }
 
     return promise as Promise<R>;
   }
 }
 
-const FormMethods = ["post", "put", "patch", "POST", "PUT", "PATCH"];
-const ParamsMethods = [
-  "delete",
-  "get",
-  "head",
-  "options",
-  "DELETE",
-  "GET",
-  "HEAD",
-  "OPTIONS",
-];
+const FormMethods = ['post', 'put', 'patch', 'POST', 'PUT', 'PATCH'];
+const ParamsMethods = ['delete', 'get', 'head', 'options', 'DELETE', 'GET', 'HEAD', 'OPTIONS'];
 
 ParamsMethods.forEach((method) => {
   Fetch.prototype[method] = function (url: string, config: FetchRequestConfig) {
@@ -168,7 +130,7 @@ ParamsMethods.forEach((method) => {
       merge(config || {}, {
         method,
         data: (config || {}).data,
-      })
+      }),
     );
   };
 });
@@ -183,10 +145,10 @@ FormMethods.forEach((method) => {
           data,
           headers: isForm
             ? {
-                "Content-Type": "multipart/form-data",
+                'Content-Type': 'multipart/form-data',
               }
             : {},
-        })
+        }),
       );
     };
   };

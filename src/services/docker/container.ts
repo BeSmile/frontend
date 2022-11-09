@@ -1,7 +1,7 @@
-import { GET, POST, PUT, DELETE } from "@/utils/request";
+import { GET, POST, PUT, DELETE } from '@/utils/request';
 
 export const getContainerList = () => {
-  return GET<any>("/api/docker/containers");
+  return GET<any>('/api/docker/containers');
 };
 
 export const removeContainerById = (id: string) => {

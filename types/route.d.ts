@@ -9,10 +9,10 @@
 import React from 'react';
 
 export interface Route {
-    path: string;
-    component?: React.FunctionComponent | React.Component | string;
-    routes?: Array<Route>;
-    layout?: React.FunctionComponent | React.Component | string;
+  path: string;
+  component?: React.FunctionComponent | React.Component | string;
+  routes?: Array<Route>;
+  layout?: React.FunctionComponent | React.Component | string;
 }
 
 export {};

@@ -6,7 +6,7 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-18 11:26:04
  */
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 type SafeComponentProps = {
   component: React.FunctionComponent | React.ComponentClass;

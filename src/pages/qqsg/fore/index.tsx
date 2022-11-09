@@ -1,31 +1,31 @@
-import React from "react";
-import { Theme } from "@mui/material/styles";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import clsx from "clsx";
+import React from 'react';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import clsx from 'clsx';
 // import Grid from '@mui/material/Grid';
 // import Typography from '@mui/material/Typography';
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: '100%',
       marginTop: theme.spacing(3),
-      overflowX: "auto",
+      overflowX: 'auto',
     },
     table: {
       minWidth: 650,
     },
     title: {
-      textAlign: "center",
+      textAlign: 'center',
     },
     total: {
       marginTop: theme.spacing(3),
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       flexBasis: 200,
     },
-  })
+  }),
 );
 const rows = [
   { from: 0, to: 1, money: 30000, energy: 5000, num: 1 },
@@ -110,7 +110,7 @@ const total = rows.reduce(
     money: 0,
     energy: 0,
     num: 0,
-  }
+  },
 );
 
 interface BaseState {
@@ -120,11 +120,11 @@ interface BaseState {
 }
 
 const Fore = function () {
-  const classes = useStyles("");
+  const classes = useStyles('');
   const [values, setValues] = React.useState<BaseState>({
-    amount: "",
-    start: "",
-    end: "",
+    amount: '',
+    start: '',
+    end: '',
   });
 
   const [totals, setTotals] = React.useState<Row>({
@@ -148,7 +148,7 @@ const Fore = function () {
         money: 0,
         energy: 0,
         num: 0,
-      }
+      },
     );
     setTotals(total);
   };
@@ -157,12 +157,11 @@ const Fore = function () {
   //     generateTotal(values);
   // }, [values, totals])
 
-  const handleChange =
-    (prop: keyof BaseState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      let valuesTmp = { ...values, [prop]: event.target.value };
-      setValues(valuesTmp);
-      generateTotal(valuesTmp);
-    };
+  const handleChange = (prop: keyof BaseState) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    let valuesTmp = { ...values, [prop]: event.target.value };
+    setValues(valuesTmp);
+    generateTotal(valuesTmp);
+  };
 
   return (
     <React.Fragment>
@@ -211,11 +210,9 @@ const Fore = function () {
           variant="outlined"
           label="起始等级"
           value={values.start}
-          onChange={handleChange("start")}
+          onChange={handleChange('start')}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">lv</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">lv</InputAdornment>,
           }}
         />
         <TextField
@@ -224,11 +221,9 @@ const Fore = function () {
           variant="outlined"
           label="目标等级"
           value={values.end}
-          onChange={handleChange("end")}
+          onChange={handleChange('end')}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">lv</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">lv</InputAdornment>,
           }}
         />
         <TextField
@@ -237,11 +232,9 @@ const Fore = function () {
           variant="outlined"
           label="爱爱爱的活力"
           value={values.amount}
-          onChange={handleChange("amount")}
+          onChange={handleChange('amount')}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">￥</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">￥</InputAdornment>,
           }}
         />
         <TextField

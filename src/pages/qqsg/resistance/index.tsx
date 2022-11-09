@@ -1,25 +1,25 @@
-import React from "react";
-import { Theme } from "@mui/material/styles";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React from 'react';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: '100%',
       marginTop: theme.spacing(3),
-      overflowX: "auto",
+      overflowX: 'auto',
     },
     table: {
       minWidth: 650,
     },
-  })
+  }),
 );
 const rows = [
   { from: 0, to: 1, money: 10000, energy: 500 },
@@ -86,7 +86,7 @@ const rows = [
 // ];
 
 const Resistance = function () {
-  const classes = useStyles("");
+  const classes = useStyles('');
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>

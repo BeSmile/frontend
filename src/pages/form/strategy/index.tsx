@@ -6,14 +6,14 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-14 01:08:29
  */
-import React from "react";
-import { Button, Form, Input, Select } from "antd";
-import styles from "./index.module.less";
+import React from 'react';
+import { Button, Form, Input, Select } from 'antd';
+import styles from './index.module.less';
 
 class ICondition {
-  op: string = "eq";
+  op: string = 'eq';
   value: number = 0;
-  label: string = "";
+  label: string = '';
 
   setValue(value: number) {
     this.value = value;
@@ -31,8 +31,8 @@ class ICondition {
 class EqCondition extends ICondition {
   constructor() {
     super();
-    this.label = "=";
-    this.op = "eq";
+    this.label = '=';
+    this.op = 'eq';
     this.value = 0;
   }
 }
@@ -40,8 +40,8 @@ class EqCondition extends ICondition {
 class NeqCondition extends ICondition {
   constructor() {
     super();
-    this.label = "!=";
-    this.op = "neq";
+    this.label = '!=';
+    this.op = 'neq';
     this.value = 0;
   }
 }
@@ -49,8 +49,8 @@ class NeqCondition extends ICondition {
 class LteqCondition extends ICondition {
   constructor() {
     super();
-    this.label = "<=";
-    this.op = "lteq";
+    this.label = '<=';
+    this.op = 'lteq';
     this.value = 0;
   }
 }
@@ -58,8 +58,8 @@ class LteqCondition extends ICondition {
 class GteqCondition extends ICondition {
   constructor() {
     super();
-    this.label = ">=";
-    this.op = "gteq";
+    this.label = '>=';
+    this.op = 'gteq';
     this.value = 0;
   }
 }
@@ -67,15 +67,15 @@ class GteqCondition extends ICondition {
 class LtCondition extends ICondition {
   constructor() {
     super();
-    this.label = "<";
-    this.op = "lt";
+    this.label = '<';
+    this.op = 'lt';
     this.value = 0;
   }
 }
 
 class Rule {
-  label: string = "";
-  key: string = "";
+  label: string = '';
+  key: string = '';
   value: number = 0;
   ops: ICondition[] = [];
   render: any;
@@ -134,22 +134,22 @@ class FilterFactory {
 }
 const proxyRules: FilterFactory = new FilterFactory();
 proxyRules.proxy(
-  new QDRule("渠道", "qudao", 0, [
+  new QDRule('渠道', 'qudao', 0, [
     new EqCondition(),
     new NeqCondition(),
     new LteqCondition(),
     // new GteqCondition(),
     // new LtCondition(),
-  ])
+  ]),
 );
 proxyRules.proxy(
-  new QDRule("广告营销", "guanggao", 0, [
+  new QDRule('广告营销', 'guanggao', 0, [
     new EqCondition(),
     // new NeqCondition(),
     new LteqCondition(),
     new GteqCondition(),
     new LtCondition(),
-  ])
+  ]),
 );
 
 type Props = {

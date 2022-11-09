@@ -10,8 +10,8 @@ import { FetchRequestConfig } from '../types';
  * @returns {CanceledError} The created error.
  */
 function CanceledError(message?: string, config?: FetchRequestConfig, request?: any) {
-    console.log(message, config, request);
-    this.name = 'CanceledError';
+  console.log(message, config, request);
+  this.name = 'CanceledError';
 }
 
 export default CanceledError;

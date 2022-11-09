@@ -1,5 +1,5 @@
-import { useMount } from "ahooks";
-import React from "react";
+import { useMount } from 'ahooks';
+import React from 'react';
 
 const XlsxComponent = () => {
   useMount(() => {
@@ -8,9 +8,9 @@ const XlsxComponent = () => {
       return;
     }
     luckysheet?.create({
-      container: "luckysheet",
+      container: 'luckysheet',
       // plugins:['chart'],
-      title: "",
+      title: '',
       allowCopy: false, // 是否允许拷贝
       showtoolbar: false, // 是否显示工具栏
       showinfobar: false, // 是否显示顶部信息栏
@@ -40,13 +40,13 @@ const XlsxComponent = () => {
     });
   });
   const luckyCss = {
-    margin: "0px",
-    padding: "0px",
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    left: "0px",
-    top: "0px",
+    margin: '0px',
+    padding: '0px',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    left: '0px',
+    top: '0px',
   } as React.CSSProperties;
 
   return <div id="luckysheet" style={luckyCss}></div>;

@@ -6,27 +6,23 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-06-18 18:13:16
  */
-import React, { useRef } from "react";
-import img from "./Building_Mini-Pod.png";
-import { useMount } from "ahooks";
+import React, { useRef } from 'react';
+import img from './Building_Mini-Pod.png';
+import { useMount } from 'ahooks';
 
 enum Direction {
-  Top = "↑",
-  Left = "←",
-  Right = "→",
-  Down = "↓",
-  X = "*",
+  Top = '↑',
+  Left = '←',
+  Right = '→',
+  Down = '↓',
+  X = '*',
 }
 
 const CStroke = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const matrix: Array<Array<number>> = [];
   // 获得方向
-  const getPixelDirection: (
-    imageData: Array<Array<number>>,
-    x: number,
-    y: number
-  ) => Direction = (imageData: Array<Array<number>>, x, y) => {
+  const getPixelDirection: (imageData: Array<Array<number>>, x: number, y: number) => Direction = (imageData: Array<Array<number>>, x, y) => {
     const top = imageData[x][y - 1];
     const leftTop = imageData[x - 1][y - 1];
     const left = imageData[x - 1][y];
@@ -36,60 +32,25 @@ const CStroke = () => {
     // console.log(`┗ ${left} | ${active} ┛`);
     // console.log('-----');
 
-    if (
-      (!leftTop && !top && !left && !active) ||
-      (leftTop && top && !left && !active) ||
-      (leftTop && top && left && !active) ||
-      (!leftTop && top && !left && !active)
-    )
-      return Direction.Right;
-    if (
-      (!leftTop && !top && left && active) ||
-      (!leftTop && top && left && active) ||
-      (!leftTop && top && left && !active) ||
-      (!leftTop && !top && left && !active)
-    )
-      return Direction.Left;
+    if ((!leftTop && !top && !left && !active) || (leftTop && top && !left && !active) || (leftTop && top && left && !active) || (!leftTop && top && !left && !active)) return Direction.Right;
+    if ((!leftTop && !top && left && active) || (!leftTop && top && left && active) || (!leftTop && top && left && !active) || (!leftTop && !top && left && !active)) return Direction.Left;
 
-    if (
-      (leftTop && !top && !left && !active) ||
-      (leftTop && !top && left && active) ||
-      (leftTop && !top && !left && active) ||
-      (leftTop && !top && left && !active)
-    )
-      return Direction.Top;
+    if ((leftTop && !top && !left && !active) || (leftTop && !top && left && active) || (leftTop && !top && !left && active) || (leftTop && !top && left && !active)) return Direction.Top;
 
-    if (
-      (!leftTop && top && !left && active) ||
-      (!leftTop && !top && !left && active) ||
-      (leftTop && top && !left && active)
-    )
-      return Direction.Down;
+    if ((!leftTop && top && !left && active) || (!leftTop && !top && !left && active) || (leftTop && top && !left && active)) return Direction.Down;
 
     return Direction.X;
   };
 
   useMount(() => {
     const { current: canvas } = canvasRef;
-    const ctx: CanvasRenderingContext2D = canvas?.getContext(
-      "2d"
-    ) as CanvasRenderingContext2D;
+    const ctx: CanvasRenderingContext2D = canvas?.getContext('2d') as CanvasRenderingContext2D;
     const width = canvas?.width || 0;
     const height = canvas?.height || 0;
     const image = new Image();
     image.src = img;
     image.onload = () => {
-      ctx.drawImage(
-        image,
-        0,
-        0,
-        image.width,
-        image.height,
-        0,
-        0,
-        image.width * 2,
-        image.height * 2
-      );
+      ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * 2, image.height * 2);
 
       const imageData = ctx.getImageData(0, 0, width, height).data;
       // for (var i=0;i<imgData.data.length;i+=4) {
@@ -113,7 +74,7 @@ const CStroke = () => {
             g = imageData[position + 1],
             b = imageData[position + 2];
           if (r + g + b !== 0) {
-            ctx.fillStyle = "#dede";
+            ctx.fillStyle = '#dede';
             ctx.fillRect(x, y, 1, 1);
             matrix[y][x] = 1;
             // console.log(y, x);
@@ -150,7 +111,7 @@ const CStroke = () => {
             break;
         }
         dir = getPixelDirection(matrix, x, y);
-        ctx.fillStyle = "#ff0033";
+        ctx.fillStyle = '#ff0033';
         ctx.fillRect(y, x, 1, 1);
         // console.log(x, y, dir);
         walk(x, y, dir);

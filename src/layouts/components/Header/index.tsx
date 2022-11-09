@@ -6,25 +6,17 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-18 11:32:17
  */
-import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
-import {
-  AppBar,
-  Badge,
-  Container,
-  IconButton,
-  InputBase,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { alpha, Theme } from "@mui/material/styles";
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-import MailIcon from "@mui/icons-material/Mail";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import React from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import { AppBar, Badge, Container, IconButton, InputBase, Toolbar, Typography } from '@mui/material';
+import { alpha, Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import MailIcon from '@mui/icons-material/Mail';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,45 +31,45 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      display: "none",
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
       },
     },
     search: {
-      position: "relative",
+      position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
+      '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
       },
       marginLeft: 0,
-      width: "100%",
+      width: '100%',
       marginRight: theme.spacing(1),
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        width: "auto",
+        width: 'auto',
       },
     },
     searchIcon: {
       width: theme.spacing(7),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     inputRoot: {
-      color: "inherit",
+      color: 'inherit',
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 7),
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
         width: 120,
-        "&:focus": {
+        '&:focus': {
           width: 200,
         },
       },
@@ -90,32 +82,25 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     sectionDesktop: {
-      [theme.breakpoints.up("md")]: {
-        display: "flex",
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
       },
     },
-  })
+  }),
 );
 
 type HeaderProps = {
-  position?: "fixed" | "static";
+  position?: 'fixed' | 'static';
 };
 
-const Header: React.FC<HeaderProps> = ({ position = "static" }) => {
-  const classes = useStyles("");
+const Header: React.FC<HeaderProps> = ({ position = 'static' }) => {
+  const classes = useStyles('');
   const navigate = useNavigate();
   return (
     <AppBar position={position} className={classes.appBar}>
       <Container maxWidth="lg">
         <Toolbar className={classes.toolBar}>
-          <IconButton
-            onClick={() => navigate("/")}
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            size="large"
-          >
+          <IconButton onClick={() => navigate('/')} edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer" size="large">
             <HomeIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -132,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ position = "static" }) => {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </div>
           <div className={classes.sectionDesktop}>
@@ -146,12 +131,7 @@ const Header: React.FC<HeaderProps> = ({ position = "static" }) => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              color="inherit"
-              size="large"
-            >
+            <IconButton edge="end" aria-label="account of current user" color="inherit" size="large">
               <AccountCircle />
             </IconButton>
           </div>
