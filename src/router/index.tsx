@@ -32,11 +32,17 @@ type GRouter = {
 // 父路由-使用懒加载
 const generateRouter = (root: string, router: GRouter): RouteObject[] => {
   const routes = Object.values(router.routes || {});
-  console.log(routes, "rroutes", router);
+
   return routes.map((route) => {
     return {
       path: `${root}/${route.path}`,
-      element: <LazyRoute source={router.routerComponents[route.path]} />,
+      element: <LazyRoute source={router.routerComponents[route.parentId]} />,
+      children: [
+        {
+          path: "",
+          element: <LazyRoute source={router.routerComponents[route.path]} />,
+        },
+      ],
     };
   });
 };

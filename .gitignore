@@ -11,3 +11,5 @@ dist/
 .build/
 
 .vs-code
+
+src/router/router.tsx
