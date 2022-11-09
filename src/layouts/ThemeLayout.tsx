@@ -6,33 +6,33 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-16 23:00:13
  */
-import React from 'react';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import createStyles from "@mui/styles/createStyles";
+import makeStyles from "@mui/styles/makeStyles";
+import { Outlet } from "react-router-dom";
 // import img from '@public/assets/bg.jpeg';
 
 const useStyles = makeStyles(() =>
-    createStyles({
-        root: {
-            flexGrow: 1
-        },
-        background: {
-            // backgroundImage: `url(${img})`,
-            height: '100%',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-        }
-    })
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    background: {
+      // backgroundImage: `url(${img})`,
+      height: "100%",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+    },
+  })
 );
 
 const ThemeLayout = () => {
-    const classes = useStyles();
-    return (
-        <div className={classes.background}>
-            <Outlet />
-        </div>
-    );
+  const classes = useStyles();
+  return (
+    <div className={classes.background}>
+      <Outlet />
+    </div>
+  );
 };
 
 export default ThemeLayout;

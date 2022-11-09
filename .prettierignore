@@ -1,0 +1,12 @@
+config/
+lib/
+node_modules
+public
+npm/
+gulp/
+webpack-config/
+dist/
+.build
+.husky
+.idea
+scripts

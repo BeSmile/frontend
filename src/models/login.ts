@@ -6,34 +6,34 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:45:18
  */
-var login = localStorage.getItem('login') || false;
+var login = localStorage.getItem("login") || false;
 
 export interface LoginState {}
 
 export default {
-    namespace: 'login',
-    state: {
-        loggedIn: login
+  namespace: "login",
+  state: {
+    loggedIn: login,
+  },
+  effects: {
+    *login(state: { callback: () => any }, { put }: any) {
+      yield put({
+        type: "login",
+        payload: {
+          loggedIn: true,
+        },
+      });
+      localStorage.setItem("login", "true");
+      state.callback && state.callback();
     },
-    effects: {
-        *login(state, { put }) {
-            yield put({
-                type: 'login',
-                payload: {
-                    loggedIn: true
-                }
-            });
-            localStorage.setItem('login', 'true');
-            state.callback && state.callback();
-        }
+  },
+  reducers: {
+    login: (state: any, action: { payload?: {} | undefined }) => {
+      const { payload = {} } = action;
+      return {
+        ...state,
+        ...payload,
+      };
     },
-    reducers: {
-        login: (state, action) => {
-            const { payload = {} } = action;
-            return {
-                ...state,
-                ...payload
-            };
-        }
-    }
+  },
 };

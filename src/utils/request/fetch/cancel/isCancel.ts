@@ -1,3 +1,3 @@
-export default function isCancel(value) {
-    return !!(value && value.__CANCEL__);
+export default function isCancel(value: { __CANCEL__: any }) {
+  return !!(value && value.__CANCEL__);
 }

@@ -46,7 +46,9 @@ async function main() {
 
   startServer(serverArgs);
   if(openSystemBrowser) {
-    opn(`http://${HOST}:${PORT}/`);
+    // opn(`http://${HOST}:${PORT}/`, {
+    //   name: 'frontend',
+    // });
   }
 }
 
@@ -67,7 +69,6 @@ function startServer(runnerArguments) {
 
   process.on('exit', () => proc.kill());
   process.on('SIGINT', () => {
-    console.log(1111);
     proc.kill();
     process.exit(128 + 2); // https://nodejs.org/docs/v14.16.0/api/process.html#process_signal_events
   });

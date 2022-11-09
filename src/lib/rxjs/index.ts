@@ -51,34 +51,19 @@ new Observable((subscriber) => {
     }, 3000);
     subscriber.next(3);
     // subscriber.complete(123);
-}).pipe(
-    map((ev: number) => {
-        if (ev === 3) {
-            try {
-                return ev;
-            } catch (e) {
-                // return 11223;
-            }
-        }
-        return ev;
-    })
-    // retry((e) => {
-    //   // console.log("got error", e, "try retry");
-    //   return `retry ${e}`;
-    // })
-);
+});
 
 const observer: any = {
-    next(value) {
+    next(value: string) {
         console.log('next value got', value);
     },
-    error(value) {
+    error(value: string) {
         console.log('error value got', value);
     },
-    closed(value) {
+    closed(value: string) {
         console.log('closed value got', value);
     },
-    complete(value) {
+    complete(value: string) {
         console.log('complete value got', value);
     }
 };

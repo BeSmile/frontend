@@ -6,25 +6,25 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-27 16:07:27
  */
-import React, { lazy } from 'react';
-import uniqueId from 'lodash/uniqueId';
+import React, { lazy } from "react";
+import uniqueId from "lodash/uniqueId";
 
 interface AppearanceInterface {
-    position: {
-        left: number;
-        top: number;
-        right: number;
-        bottom: number;
-    };
-    rect: {
-        width: number;
-        height: number;
-    };
-    text: string;
-    props: {
-        color?: any;
-        variant?: any;
-    };
+  position: {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+  };
+  rect: {
+    width: number;
+    height: number;
+  };
+  text: string;
+  props: {
+    color?: any;
+    variant?: any;
+  };
 }
 
 // interface ButtonInterface {
@@ -89,55 +89,55 @@ interface AppearanceInterface {
  */
 
 export default class IButton {
-    // private importAsset: string = "";
-    private _key = '';
-    private _text = 'Button';
-    public appearance: AppearanceInterface = {
-        position: {
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: 0
+  // private importAsset: string = "";
+  private _key = "";
+  private _text = "Button";
+  public appearance: AppearanceInterface = {
+    position: {
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+    },
+    rect: {
+      width: 0,
+      height: 0,
+    },
+    text: "",
+    props: {
+      color: "secondary",
+      variant: "contained",
+    },
+  };
+  constructor(params: any) {
+    // this.importAsset = importAsset;
+    this._key = uniqueId(`Button-${Date.now()}-`);
+    this.appearance.position.left = params.left;
+    this.appearance.position.top = params.top;
+    this.appearance.rect.width = params.width;
+    this.appearance.rect.height = params.height;
+  }
+
+  public initComponent = () => {
+    const Component = require("@mui/material/Button").default;
+    console.log(Component);
+  };
+
+  public toJSX = () => {
+    const Component = lazy(() => import("@mui/material/Button"));
+
+    return React.createElement(
+      Component,
+      {
+        key: this._key,
+        style: {
+          left: this.appearance.position.left,
+          top: this.appearance.position.top,
+          position: "absolute",
         },
-        rect: {
-            width: 0,
-            height: 0
-        },
-        text: '',
-        props: {
-            color: 'secondary',
-            variant: 'contained'
-        }
-    };
-    constructor(params) {
-        // this.importAsset = importAsset;
-        this._key = uniqueId(`Button-${Date.now()}-`);
-        this.appearance.position.left = params.left;
-        this.appearance.position.top = params.top;
-        this.appearance.rect.width = params.width;
-        this.appearance.rect.height = params.height;
-    }
-
-    public initComponent = () => {
-        const Component = require('@mui/material/Button').default;
-        console.log(Component);
-    };
-
-    public toJSX = () => {
-        const Component = lazy(() => import('@mui/material/Button'));
-
-        return React.createElement(
-            Component,
-            {
-                key: this._key,
-                style: {
-                    left: this.appearance.position.left,
-                    top: this.appearance.position.top,
-                    position: 'absolute'
-                },
-                ...this.appearance.props
-            },
-            this._text
-        );
-    };
+        ...this.appearance.props,
+      },
+      this._text
+    );
+  };
 }

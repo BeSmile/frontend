@@ -6,44 +6,49 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:49:22
  */
-import { actionCreatorFactory, DvaModelBuilder } from 'dva-model-creator';
-import { ThemeState } from './theme';
-import { LoginState } from './login';
+import { actionCreatorFactory, DvaModelBuilder } from "dva-model-creator";
+import { ThemeState } from "./theme";
+import { LoginState } from "./login";
 
 export interface breadcrumb {
-    name: string;
-    url: string;
+  name: string;
+  url: string;
 }
 
 export interface RootState {
-    theme: ThemeState;
-    login: LoginState;
+  theme: ThemeState;
+  login: LoginState;
 }
 
 export type BreadcrumbList = Array<breadcrumb>;
 
 export interface GlobalState {
-    breadcrumbs: BreadcrumbList;
+  breadcrumbs: BreadcrumbList;
 }
 
 let initialState: GlobalState = {
-    breadcrumbs: []
+  breadcrumbs: [],
 };
 
-const actionCreator = actionCreatorFactory('global');
-const updateBreadcrumb = actionCreator<any>('updateBreadcrumb');
-const updateBreadcrumbReducer = actionCreator<BreadcrumbList>('updateBreadcrumbReducer');
+const actionCreator = actionCreatorFactory("global");
+const updateBreadcrumb = actionCreator<any>("updateBreadcrumb");
+const updateBreadcrumbReducer = actionCreator<BreadcrumbList>(
+  "updateBreadcrumbReducer"
+);
 
-const model = new DvaModelBuilder<GlobalState>(initialState, 'global')
-    .case(updateBreadcrumbReducer, (state: GlobalState, payload: BreadcrumbList) => {
-        return {
-            ...state,
-            breadcrumbs: payload
-        };
-    })
-    .takeEvery(updateBreadcrumb, function* (payload, { put }) {
-        yield put(updateBreadcrumbReducer(payload.breadcrumbs));
-    })
-    .build();
+const model = new DvaModelBuilder<GlobalState>(initialState, "global")
+  .case(
+    updateBreadcrumbReducer,
+    (state: GlobalState, payload: BreadcrumbList) => {
+      return {
+        ...state,
+        breadcrumbs: payload,
+      };
+    }
+  )
+  .takeEvery(updateBreadcrumb, function* (payload, { put }) {
+    yield put(updateBreadcrumbReducer(payload.breadcrumbs));
+  })
+  .build();
 
 export default model;

@@ -27,30 +27,12 @@ const args = minimist(process.argv.slice(2), {
     ]
 });
 
-// fs.watch(modelPath, function (event, filename) {
-//   if(event === "rename") {
-//     clearTimeout(tm2);
-//     tm2 = setTimeout(function() {
-//       // When NodeJS exits
-//       process.on("exit", function () {
-//         require("child_process").spawn(process.argv.shift(), process.argv, {
-//             cwd: process.cwd(),
-//             detached : true,
-//             stdio: "inherit"
-//         });
-//       });
-//       process.exit();
-//     }, 1000);
-//   }
-// });
-
 // 生成webpack文件
 async function renderWebpack() {
-    // var webpack = require("webpack");
     const plugins = await getPlugins();
 
     return {
-        stats: 'none', // 错误提示
+        stats: 'errors-warnings',
         mode: 'development',
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],

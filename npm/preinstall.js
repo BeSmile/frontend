@@ -22,7 +22,6 @@ if(!/(pnpm|yarn)/.exec(process.env.npm_execpath || '')) {
   err = true;
 }
 
-
 if(err) {
   process.exit(1);
 }
