@@ -30,40 +30,43 @@ type GRouter = {
 };
 
 // 父路由-使用懒加载
-const generateRouter = (root: string, router: GRouter): RouteObject[] => {
+const generateRouter = (root: string, router: GRouter): RouteObject => {
   const routes = Object.values(router.routes || {});
+  // 根据parentId过滤出数组
+  // const parentId = root ? root : '@@/global-layout';
+  const routeComponentId = root || '@@/global-layout';
 
-  return routes.map((route) => {
+  if (root === '@@/global-layout') {
     return {
-      path: `${root}/${route.path}`,
-      element: <LazyRoute source={router.routerComponents[route.parentId]} />,
-      children: [
-        {
-          path: '',
-          element: <LazyRoute source={router.routerComponents[route.path]} />,
-        },
-      ],
+      path: root,
+      children: [],
     };
-  });
+  }
+  const childrenRoutes = routes.filter((route) => route.parentId === routeComponentId);
+  const rootPath = root ? router.routes[root].path.replace('/_layout', '') : '';
+  return {
+    path: root ? rootPath : '',
+    element: <LazyRoute source={router.routerComponents[routeComponentId]} />,
+    children:
+      childrenRoutes.length <= 0
+        ? []
+        : childrenRoutes.map((route) => {
+            // 根据root获取route的下一个
+            const gRouter = generateRouter(route.id, router);
+            return {
+              ...gRouter,
+              path: !rootPath ? gRouter.path : gRouter.path?.replace(`${rootPath}/`, ''),
+            };
+          }),
+  } as RouteObject;
 };
 
 // 这是主路由
 const RouteUI = function () {
   const [routes, setRoutes] = useSafeState<RouteObject[]>([]);
   useMount(async () => {
-    const rs = (await getRoutes()) as unknown as GRouter;
-    const rts = generateRouter('', rs);
-    const baseRoute: RouteObject[] = [
-      ...rts,
-      // {
-      // 	path: '*',
-      // 	element: (
-      // 		<CubeLoadingRoute>
-      // 			<NotFound/>
-      // 		</CubeLoadingRoute>
-      // 	)
-      // }
-    ];
+    const originRoutes = (await getRoutes()) as unknown as GRouter;
+    const baseRoute: RouteObject[] = [generateRouter('', originRoutes)];
     setRoutes(baseRoute);
   });
 

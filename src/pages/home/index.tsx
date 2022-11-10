@@ -1,7 +1,7 @@
-import React, { memo, Suspense } from 'react';
+import React, { memo } from 'react';
 
 const HomeFC = () => {
-  return <Suspense fallback={<div>11223</div>} />;
+  return <div>1111</div>;
 };
 
 export default memo(HomeFC);
