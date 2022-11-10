@@ -13,7 +13,6 @@ const convertChunkName = (name) => {
  * @returns {string|*}
  */
 const convertRoutePath = (path) => {
-  console.log(path, 'path');
   if(path === '404') {
     return '*';
   }

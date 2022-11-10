@@ -15,7 +15,6 @@ const MiniExtract = require('mini-css-extract-plugin');
 const GenerateRouterPlugin = require('../plugins/router/GenerateRouterPlugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
 const modelPath = path.resolve(__dirname, '..', '..', 'src', 'models');
