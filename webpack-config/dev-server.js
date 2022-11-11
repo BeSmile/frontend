@@ -4,6 +4,7 @@ const path = require('path');
 const engine = require('ejs-locals');
 const chainWebpack = require('./webpack.server');
 const minimist = require('minimist');
+const proxy = require('express-http-proxy');
 
 const webpack = require('webpack');
 
@@ -36,6 +37,34 @@ const cliMain = async () => {
     path: '/__webpack_hmr',
     // 支持配置express热加载 https://cstroman.medium.com/webpack-hot-module-replacement-with-express-5e4ac67f9faf
   }));
+  const proxyServer = webpackConfig.devServer.proxy || {};
+  for (const proxyPath in proxyServer) {
+    const proxyData = proxyServer[proxyPath];
+    if(!proxyData.target) {
+      continue;
+    }
+  
+    Object.entries(proxyData.pathRewrite).forEach(rewrite => {
+      const reg = new RegExp(rewrite[0]);
+  
+      const prefix = proxyPath.replace(reg, rewrite[1]);
+      console.log(proxyPath, proxyData.target + prefix);
+    });
+    
+    app.use(proxyPath, proxy(proxyData.target, {
+      //请求路径解析（可选）
+      proxyReqPathResolver: function(req) {
+        const originUrl = proxyPath + req.url;
+        if('pathRewrite' in proxyData) {
+          return Object.entries(proxyData.pathRewrite).reduce((url, next) => {
+            const reg = new RegExp(next[0]);
+            return url.replace(reg, next[1]);
+          }, originUrl);
+        }
+        return originUrl;
+      },
+    }));
+  }
   
   app.get('*', (_, res, next) => {
     // 使用实际运行后的目录, 所有的路径请求指向虚拟目录下的index.html文件
