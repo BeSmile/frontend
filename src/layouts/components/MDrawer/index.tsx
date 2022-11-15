@@ -60,7 +60,7 @@ const menus = [
   [
     {
       name: 'preview',
-      path: '/css/mapPreview',
+      path: '/css/map-preview',
     },
     {
       name: 'mask',
@@ -82,6 +82,7 @@ const MDrawer: React.FC = () => {
     >
       <Toolbar />
       <div className={classes.drawerContainer}>
+        <Divider />
         {menus.map((menuItem, i) => (
           <React.Fragment key={`menu-${i}`}>
             <List>
@@ -92,7 +93,7 @@ const MDrawer: React.FC = () => {
                 </ListItem>
               ))}
             </List>
-            {i % 2 === 0 && <Divider />}
+            <Divider />
           </React.Fragment>
         ))}
       </div>

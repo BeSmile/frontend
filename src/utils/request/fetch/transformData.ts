@@ -14,6 +14,10 @@ export function transformData<D extends FetchRequestConfig['transformRequest'] |
 
   let data = context.data;
 
+  if (!fns) {
+    return data;
+  }
+
   // 循环处理返回的数据，如果是数组，则循环处理
   (isArray(fns) ? fns : [fns]).forEach((fn: FetchResponseTransformer) => {
     data = fn.call(config, data, headers, response ? response.status : undefined);

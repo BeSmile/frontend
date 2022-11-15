@@ -70,7 +70,7 @@ const RouteUI = function () {
     setRoutes(baseRoute);
   });
 
-  return <div>{useRoutes(routes)}</div>;
+  return useRoutes(routes);
 };
 
 export default RouteUI;
