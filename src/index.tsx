@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-01-03 15:21:53
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
@@ -47,8 +47,9 @@ models.forEach(function (model) {
 });
 
 (function (containerId) {
+  const render = ReactDOM.createRoot(document.getElementById(containerId)!);
   const theme = createTheme();
-  ReactDOM.render(
+  render.render(
     <Provider store={store}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
@@ -56,6 +57,5 @@ models.forEach(function (model) {
         </ThemeProvider>
       </BrowserRouter>
     </Provider>,
-    document.getElementById(containerId),
   );
 })('root');
