@@ -6,12 +6,15 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:41:28
  */
+
+interface Constructable<T> {
+  new (...args: any): T;
+}
+
 interface Window {
   //在这里声明xxx之后就能在文件中 window.xxx这样调用了
-  // xxx: any;
-  setup: () => void;
-  draw: () => void;
   luckysheet?: any;
+  p5: Constructable<P5>;
 }
 
 declare module '*.svg';
