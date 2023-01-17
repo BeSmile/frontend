@@ -1,0 +1,73 @@
+.markdown-body {
+  overflow: hidden;
+  scroll-behavior: smooth;
+  background-color: #fff;
+  background-size: 50px 50px;
+  color: #383838;
+  font-size: 15px;
+  line-height: 30px;
+  letter-spacing: 2px;
+  word-break: break-word;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  .markdown-body h6 {
+    margin: 24px 0 12px;
+  }
+
+  pre {
+    position: relative;
+
+    code {
+      padding: 2px 0.4em;
+      overflow-x: auto;
+      //color: #a862ea;
+      font-weight: 700;
+      word-break: break-word;
+      font-family: Consolas, Monaco, Menlo, monospace;
+      color: #333;
+      background: #f8f8f8;
+
+      &::before {
+        content: attr(lang);
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: hsla(0deg, 0, 54.9%, 80%);
+      }
+    }
+
+    & > code {
+      display: block;
+      padding: 1.5em;
+      word-break: normal;
+      font-size: 0.9em;
+      font-style: normal;
+      font-weight: 400;
+      font-family: Consolas, Monaco, Menlo, monospace;
+      line-height: 18px;
+      color: #383838;
+      border-radius: 2px;
+      scroll-behavior: smooth;
+      box-shadow: 0 0 4px @border-grey-color;
+    }
+  }
+
+  a,
+  code,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  li,
+  p {
+    opacity: 0.85;
+    vertical-align: baseline;
+    transition: all 0.1s ease;
+  }
+}
