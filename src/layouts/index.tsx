@@ -13,6 +13,7 @@ import Header from './components/Header';
 import MDrawer from '@/layouts/components/MDrawer';
 import { getThemeMedia } from '@/utils';
 import { matchRoutePath } from '@/utils/route';
+import { isArray } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) => {
   const toolStyle = getThemeMedia('toolbar', theme);
@@ -130,10 +131,12 @@ function BaseLayoutUI(props: any) {
       <Header position="fixed" />
       <main className={classes.content}>
         <CssBaseline />
-        <Container maxWidth={false}>
-          <article className={classes.paper}>
-            <Breadcrumbs aria-label="breadcrumb">{generate(breadcrumbs, props)}</Breadcrumbs>
-          </article>
+        <Container maxWidth={false} disableGutters={true}>
+          {isArray(breadcrumbs) && !!breadcrumbs?.length && (
+            <article className={classes.paper}>
+              <Breadcrumbs aria-label="breadcrumb">{generate(breadcrumbs, props)}</Breadcrumbs>
+            </article>
+          )}
           <Outlet />
         </Container>
         <Paper className={classes.footer}>---- ----</Paper>
