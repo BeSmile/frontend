@@ -17,9 +17,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import APP from './router';
 import getSaga from '@/utils/getSaga';
 import injectReducers from '@/utils/injectReducers';
-
+import { initWatch } from '@/utils/monitor';
 import './global.less';
 
+initWatch();
 // MODELS_PATH 根据模型来进行model的注册
 let models = MODELS_PATH.map((item: string) => require(`./models/${item}`).default);
 // 创建saga中间件方法
