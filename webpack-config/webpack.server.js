@@ -48,10 +48,11 @@ async function renderWebpack(execEnv = 'webpack') {
     //     "react-dom": "ReactDOM"
     // },
     resolveLoader: {
-      alias: {
+      // alias: {
         // "db-loader": path.resolve(__dirname, ".","babel-loader.js")
         // "no-console-loader": path.resolve(__dirname, "loaders/no-console.ts")
-      }
+      // }
+      modules: ['node_modules', path.resolve(__dirname, 'loaders')],
     },
     devtool: 'eval-source-map',
     module: {

@@ -135,8 +135,11 @@ const devTsLoader = {
   }
 };
 const rules = [
-  process.env.NODE_ENV === 'production' ? babelLoader : devTsLoader,
-
+  process.env.NODE_ENV !== 'production' ? babelLoader : devTsLoader,
+  {
+    test: /.md$/,
+    loader: 'md-loader',
+  },
   {
     test: /\.(png|jpe?g|gif)$/i,
     use: [
