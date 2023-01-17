@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) => {
       flexGrow: 1,
       marginTop: toolStyle?.minHeight || 48,
       padding: theme.spacing(1),
+      overflow: 'hidden',
     },
     paper: {
       margin: theme.spacing(2, 0, 2, 0),

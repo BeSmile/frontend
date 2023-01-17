@@ -12,6 +12,16 @@ class Reader  {
     this.line = line;
     return line || undefined;
   }
+  makeStyle(){
+    const langReg = /language-(\w*)/gi;
+    if(langReg.test(this.line)) {
+      // console.log(true, this.line.match(langReg));
+      const lang = this.line.match(langReg)[0]?.replace('language-', '');
+      // console.log(this.line.replace(/<code/g, `<code lang='${lang}'`));
+      return this.line.replace(/<code/g, `<code lang='${lang}'`);
+    }
+    return this.line;
+  }
 }
 
 const parse = (lines) => {
@@ -22,9 +32,9 @@ const parse = (lines) => {
   let collapse = false;
   while (reader.next()) {
     if(!collapse)  {
-      content += reader.line;
+      content += reader.makeStyle();
     } else {
-      content = content + reader.line + '\\n';
+      content = content + reader.makeStyle() + '\\n';
     }
     
     if(reader.line.indexOf('<pre>')) {
