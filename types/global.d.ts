@@ -24,6 +24,7 @@ declare module '*.jpeg';
 declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
+declare module '*.md';
 
 declare module '*.less';
 declare module '*.json';
