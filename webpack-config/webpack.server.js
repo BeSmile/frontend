@@ -78,7 +78,6 @@ async function renderWebpack(execEnv = 'webpack') {
       proxy: proxy[args.env]
     },
     externals: {
-      'markdown-it': 'markdownIt',
       './cptable': 'var cptable',
       '../xlsx.js': 'var _XLSX'
     }

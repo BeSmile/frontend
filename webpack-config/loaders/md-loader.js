@@ -1,68 +1,37 @@
-const showdown  = require('showdown');
-const Lazy = require('lazy');
+const MarkdownIt  = require('markdown-it');
+const hljs = require('highlight.js'); // https://highlightjs.org
+const fancyLog = require('fancy-log');
 
-class Reader  {
-  stacks=[];
-  line=undefined;
-  constructor({ lines }) {
-    this.stacks = lines;
-  }
-  next() {
-    const line = this.stacks.shift();
-    this.line = line;
-    return line || undefined;
-  }
-  makeStyle(){
-    const langReg = /language-(\w*)/gi;
-    if(langReg.test(this.line)) {
-      // console.log(true, this.line.match(langReg));
-      const lang = this.line.match(langReg)[0]?.replace('language-', '');
-      // console.log(this.line.replace(/<code/g, `<code lang='${lang}'`));
-      return this.line.replace(/<code/g, `<code lang='${lang}'`);
-    }
-    return this.line;
-  }
-}
-
-const parse = (lines) => {
-  const reader = new Reader({
-    lines
-  });
-  let content = '';
-  let collapse = false;
-  while (reader.next()) {
-    if(!collapse)  {
-      content += reader.makeStyle();
-    } else {
-      content = content + reader.makeStyle() + '\\n';
-    }
-    
-    if(reader.line.indexOf('<pre>')) {
-      collapse = true;
-    } else if(reader.line.indexOf('</pre>')) {
-      collapse = false;
-    }
-  }
-  return content;
+const getLineNums = (lines) => {
+  return lines.reduce((str, _, num) => str + `<span aria-hidden="true" serial="${num}"></span>`, '');
 };
 
+const md = new MarkdownIt({
+  langPrefix:  'language-',
+  html: true,
+  typographer:  false,
+  breaks:false,
+  highlight: function (str, lang) {
+    const lines = str.split(/\n/g);
+    lines.pop();
+    const lineCode = `<span class="line-serial-nums">${getLineNums(lines)}</span>`;
+
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return `<pre class="hljs"><code lang="${lang}">${lineCode}${hljs.highlight(str, { language: lang, ignoreIllegals: true }).value}</code></pre>`;
+      } catch (error) {
+        fancyLog.error(error);
+      }
+    }
+    
+    return `<pre class="hljs"><code>${lineCode}${md.utils.escapeHtml(str)}</code></pre>`;
+  }
+});
+
 function loader(source) {
-  const converter = new showdown.Converter(), html = converter.makeHtml(source);
-  const lazy = new Lazy;
-  let content = '';
-  lazy
-    .lines
-    .map(String)
-    .map(function(line) {
-      return line.replace(/"/g, '\'');
-    })
-    .join(function (lines) {
-      // 判断是否有存在pre标签内
-      content = parse(lines);
-    });
-  lazy.emit('data', html);
-  lazy.emit('end');
-  return `const html = "${content}";export default function createMarkup() { return {__html: html} }`;
+  const html = md.render(source);
+  let content = html.split(/(?!\r)\n/g).join('\\n');
+  return `const html = '${content}';export default function createMarkup() { return {__html: html} }`;
 }
 
 module.exports = loader;

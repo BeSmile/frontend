@@ -1,3 +1,5 @@
+@padding: 30px;
+
 .markdown-body {
   overflow: hidden;
   scroll-behavior: smooth;
@@ -18,41 +20,69 @@
     margin: 24px 0 12px;
   }
 
-  pre {
-    position: relative;
+  :global{
+    pre{
+      &.hljs{
+        line-height: 24px;
+        position: relative;
+        background-color: #263238;
 
-    code {
-      padding: 2px 0.4em;
-      overflow-x: auto;
-      //color: #a862ea;
-      font-weight: 700;
-      word-break: break-word;
-      font-family: Consolas, Monaco, Menlo, monospace;
-      color: #333;
-      background: #f8f8f8;
+        code {
+          padding: @padding calc(@padding + 1em);
+          overflow-x: auto;
+          //color: #a862ea;
+          font-weight: 700;
+          word-break: break-word;
+          font-family: Consolas, Monaco, Menlo, monospace;
+          color: rgba(233, 237, 237, 1);
+          //background: #f8f8f8;
 
-      &::before {
-        content: attr(lang);
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        color: hsla(0deg, 0, 54.9%, 80%);
+          &::before {
+            content: attr(lang);
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: hsla(0deg, 0, 54.9%, 80%);
+          }
+        }
+
+        .line-serial-nums{
+          position: absolute;
+          left: 0;
+          top: @padding;
+          bottom: @padding;
+          width: @padding;
+          counter-reset: line-counter;
+          user-select: none;
+          text-align: right;
+
+          &>span{
+            display: block;
+            counter-increment: line-counter;
+            color: #546e7a;
+            &::before{
+
+              content: counter(line-counter);
+              display: block;
+            }
+          }
+        }
       }
-    }
 
-    & > code {
-      display: block;
-      padding: 1.5em;
-      word-break: normal;
-      font-size: 0.9em;
-      font-style: normal;
-      font-weight: 400;
-      font-family: Consolas, Monaco, Menlo, monospace;
-      line-height: 18px;
-      color: #383838;
-      border-radius: 2px;
-      scroll-behavior: smooth;
-      box-shadow: 0 0 4px @border-grey-color;
+      & > code {
+        display: block;
+        padding: 1.5em;
+        word-break: normal;
+        font-size: 0.9em;
+        font-style: normal;
+        font-weight: 400;
+        font-family: Consolas, Monaco, Menlo, monospace;
+        line-height: 18px;
+        color: #383838;
+        border-radius: 2px;
+        scroll-behavior: smooth;
+        box-shadow: 0 0 4px @border-grey-color;
+      }
     }
   }
 
