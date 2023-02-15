@@ -30,8 +30,8 @@ const md = new MarkdownIt({
 
 function loader(source) {
   const html = md.render(source);
-  let content = html.split(/(?!\r)\n/g).join('\\n');
-  return `const html = '${content}';export default function createMarkup() { return {__html: html} }`;
+  // line.replace(/\\(?:[1-7][0-7]{0,2}|[0-7]{2,3})/, '');
+  return `const html = ${JSON.stringify(html)};export default function createMarkup() { return {__html: html} }`;
 }
 
 module.exports = loader;

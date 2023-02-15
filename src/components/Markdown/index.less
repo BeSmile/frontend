@@ -20,9 +20,19 @@
     margin: 24px 0 12px;
   }
 
-  :global{
-    pre{
-      &.hljs{
+  :global {
+    p {
+      code {
+        background-color: #2a2e35;
+        color: #c8d0db;
+        padding: 0 2px;
+        font-size: 0.9rem;
+        border-radius: 2px;
+      }
+    }
+
+    pre {
+      &.hljs {
         line-height: 24px;
         position: relative;
         background-color: #263238;
@@ -34,7 +44,7 @@
           font-weight: 700;
           word-break: break-word;
           font-family: Consolas, Monaco, Menlo, monospace;
-          color: rgba(233, 237, 237, 1);
+          color: rgba(233, 237, 237, 100%);
           //background: #f8f8f8;
 
           &::before {
@@ -46,7 +56,7 @@
           }
         }
 
-        .line-serial-nums{
+        .line-serial-nums {
           position: absolute;
           left: 0;
           top: @padding;
@@ -56,12 +66,12 @@
           user-select: none;
           text-align: right;
 
-          &>span{
+          & > span {
             display: block;
             counter-increment: line-counter;
             color: #546e7a;
-            &::before{
 
+            &::before {
               content: counter(line-counter);
               display: block;
             }
