@@ -1,6 +1,11 @@
 import { Theme } from '@mui/material/styles';
 import { CSSProperties } from '@mui/material/styles/createMixins';
 
+/**
+ * 获取mui组件的media尺寸
+ * @param componentName
+ * @param theme
+ */
 export const getThemeMedia = (componentName: string, theme: Theme) => {
   const component = theme.mixins[componentName];
   const breakpoints = theme.breakpoints;
