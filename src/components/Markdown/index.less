@@ -1,3 +1,5 @@
+@import "url('../../themes/app')";
+
 @padding: 30px;
 
 .markdown-body {
@@ -18,6 +20,19 @@
   h5,
   .markdown-body h6 {
     margin: 24px 0 12px;
+  }
+
+  table {
+    border: 1px solid @border-grey-color;
+    border-collapse: collapse;
+
+    tr {
+      td,
+      th {
+        padding: @padding-sm-size;
+        border: 1px solid @border-grey-color;
+      }
+    }
   }
 
   :global {
