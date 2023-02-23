@@ -9,6 +9,7 @@
  */
 import React, { MutableRefObject, useRef, useState } from 'react';
 import styles from './index.module.less';
+import Preview6001 from '@/assets/images/6001.f09de894.png';
 import { useMount, useUpdateEffect } from 'ahooks';
 
 const clickArea = [
@@ -161,7 +162,7 @@ export default () => {
     canvasRef.current.height = h * rt;
 
     const img = new Image();
-    img.src = 'https://www.hnznit.com/jf_dev_lzl/static/6001.f09de894.png';
+    img.src = Preview6001;
     img.onload = () => {
       const WIDTH = 300 * rt; // 设置固定要显示的内容宽高
       const scaleRatio = img.width / WIDTH; // 图片宽度缩放比
