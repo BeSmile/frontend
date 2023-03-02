@@ -13,3 +13,7 @@
 ```/bin/bash
 ./webui.sh --opt-split-attention-v1 --disable-nan-check --no-half --use-cpu all --share --listen
 ```
+
+### tag 地址
+
+[tag 生成地址](https://wolfchen.top/tag/)
