@@ -6,10 +6,11 @@
 **/node_modules
 
 dist/
-.Ds_Store
 
 .build/
 
 .vs-code
 
 src/router/router.tsx
+
+.DS_Store
