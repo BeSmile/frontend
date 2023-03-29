@@ -5,8 +5,7 @@
  */
 const isGlobalCssRule = (resourcePath) => {
     // antd样式与global.css, index.css走全局样式
-    const Global_Style = [/antd.css$/i, /global.css$/i, /index.css$/i];
-    // console.log(resourcePath, 'global', Global_Style.some(reg => reg.test(resourcePath)));
+    const Global_Style = [/antd/i, /global.css$/i, /index.css$/i, /monaco-editor/i, /(\w+).css/i];
     return Global_Style.some((reg) => reg.test(resourcePath));
 };
 

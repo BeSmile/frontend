@@ -122,6 +122,10 @@ const cssRules = [
         }
       }
     ]
+  },
+  {
+    test: /\.ttf$/,
+    use: ['file-loader']
   }
 ];
 

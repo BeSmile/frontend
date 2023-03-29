@@ -30,6 +30,7 @@ module.exports = {
     'comma-dangle': 0,
     'react/jsx-uses-vars': 1,
     'react/display-name': 1,
+    'import-notation': 0,
     '@typescript-eslint/ban-ts-comment': 'off',
     // 'no-unused-vars': ['error', { 'vars': 'all', 'args': 'after-used', 'ignoreRestSiblings': false }],
     '@typescript-eslint/no-unused-vars': ['error'],

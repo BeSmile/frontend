@@ -3,9 +3,12 @@ const rules = require('./lib/rule.js');
 const getPlugins = require('./lib/plugins');
 const proxy = require('./lib/proxy');
 const minimist = require('minimist');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
 
 let config = {};
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 if (process.env.NODE_MODE !== 'plugin') {
   config = require('../.gents.ts');
@@ -34,6 +37,11 @@ async function renderWebpack(execEnv = 'webpack') {
         path.resolve(__dirname, '..', 'src', 'index.tsx'),
         execEnv === 'bash' && 'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
       ].filter(app => app),
+      'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
+      'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
+      'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
+      'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
+      'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker'
     },
     output: {
       path: path.resolve(__dirname, '.', 'dist'), // 输出的路径
@@ -42,6 +50,7 @@ async function renderWebpack(execEnv = 'webpack') {
       // publicPath: path.resolve(__dirname, "..", "public"),
       library: 'APP',
       libraryTarget: 'window',
+      globalObject: 'self',
     },
     // externals: {
     //     "react": "React",
@@ -61,10 +70,12 @@ async function renderWebpack(execEnv = 'webpack') {
     target: 'web',
     plugins: [
       ...plugins,
-      new webpack.HotModuleReplacementPlugin(),
-    ],
+      isDevelopment && new ReactRefreshWebpackPlugin(),
+      execEnv === 'bash'  && new webpack.HotModuleReplacementPlugin(),
+    ].filter(Boolean),
     devServer: {
       host: args.host,
+      hot: true,
       contentBase: path.join(__dirname, '..', 'public'), // 用于指定资源目录
       compress: true,
       port: args.port,
@@ -75,7 +86,7 @@ async function renderWebpack(execEnv = 'webpack') {
       //     res.json({ custom: "response" });
       //   });
       // }
-      proxy: proxy[args.env]
+      proxy: proxy[args.env],
     },
     externals: {
       './cptable': 'var cptable',

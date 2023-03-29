@@ -4,10 +4,10 @@ const path = require('path');
 const engine = require('ejs-locals');
 const chainWebpack = require('./webpack.server');
 const minimist = require('minimist');
+
 const proxy = require('express-http-proxy');
 
 const webpack = require('webpack');
-
 
 const middleware = require('webpack-dev-middleware'); //webpack hot reloading middleware
 
@@ -32,6 +32,14 @@ const cliMain = async () => {
     // webpack-dev-middleware options
     publicPath: webpackConfig.output.publicPath,
   }));
+  
+  // 设置webContainer需要配置的策略
+  app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+    res.header('Cross-Origin-Opener-Policy', 'same-origin');
+    next();
+  });
   
   app.use(require('webpack-hot-middleware')(compiler,{
     path: '/__webpack_hmr',

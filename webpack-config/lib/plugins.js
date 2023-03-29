@@ -78,7 +78,7 @@ const getPlugins = async () => {
           syntactic: true
         }
       }
-    })
+    }),
     // new CopyWebpackPlugin({
     //   patterns: [{
     //     from: path.resolve(__dirname, '..', '..','public'),
