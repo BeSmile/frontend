@@ -1,12 +1,12 @@
 import React, { useRef, useCallback } from 'react';
 import { WebContainer } from '@webcontainer/api';
-import PrimaryTheme from './themes/Primary';
-import { files } from './templates/files';
+import PrimaryTheme from './Primary';
+import { files } from '../idea/templates/files';
 import { IdeaContextProvider } from './context';
 import { Terminal } from 'xterm';
 import { useMount, useBoolean, useSafeState } from 'ahooks';
-import { iniRemoteFiles } from './helpers';
-import { TreeNodeType } from './types';
+import { iniRemoteFiles } from '../idea/helpers';
+import { TreeNodeType } from '../idea/types';
 
 const Idea = () => {
   const containerRef = useRef<WebContainer>();

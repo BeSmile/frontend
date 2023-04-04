@@ -9,8 +9,8 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SvgIconProps } from '@mui/material/SvgIcon';
-import { useSideBarContext } from '@/pages/idea/context';
 import { TreeNodeType } from '@/pages/idea/types';
+import { SideBarType } from '@/pages/idea/components/SideBar/types';
 
 declare module 'react' {
   interface CSSProperties {
@@ -89,9 +89,8 @@ function StyledTreeItem(props: StyledTreeItemProps) {
  * 结构目录
  * @constructor
  */
-export const SideBar: React.FC = () => {
+export const SideBar: React.FC<SideBarType> = ({ projectFiles }) => {
   const theme = useTheme();
-  const { projectFiles } = useSideBarContext();
 
   const generateTreeNode = (files: TreeNodeType[]) => {
     return (
@@ -99,7 +98,7 @@ export const SideBar: React.FC = () => {
         <StyledTreeItem
           key={file.key}
           nodeId={file.key}
-          labelText={file.label}
+          labelText={file.code}
           labelIcon={SupervisorAccountIcon}
           // labelInfo="90"
           // color="#1a73e8"
@@ -112,7 +111,7 @@ export const SideBar: React.FC = () => {
   };
 
   return (
-    <TreeView aria-label="tree" defaultExpanded={['0']} defaultCollapseIcon={<ArrowDropDownIcon />} defaultExpandIcon={<ArrowRightIcon />} defaultEndIcon={<div style={{ width: 24 }} />} sx={{ height: '100%', flexGrow: 1, width: 240, overflowY: 'auto', backgroundColor: theme.palette.primary.dark }}>
+    <TreeView aria-label="tree" defaultExpanded={['0']} defaultCollapseIcon={<ArrowDropDownIcon />} defaultExpandIcon={<ArrowRightIcon />} defaultEndIcon={<div style={{ width: 24 }} />} sx={{ height: '100%', flexGrow: 0, width: 240, overflowY: 'auto', backgroundColor: theme.palette.primary.dark }}>
       <StyledTreeItem nodeId="0" labelText="Project Name" labelIcon={FolderOpenIcon}>
         {generateTreeNode(projectFiles)}
       </StyledTreeItem>

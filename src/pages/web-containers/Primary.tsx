@@ -1,10 +1,11 @@
 import React from 'react';
-import { ActivityBar, SideBar, MenuBar, Tabbar } from './components';
+import { ActivityBar, SideBar, MenuBar, Tabbar, CodePreview, Terminal } from './components';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import { getThemeMedia } from '@/utils/theme';
-import { CodeEditor, CodePreview, Terminal } from '@/pages/idea/components';
+import { useSideBarContext } from './context';
+import { CodeEditor } from '@/pages/idea/components';
 import Box from '@mui/material/Box';
 
 // pallete 调色盘地址
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 export const PrimaryTheme = () => {
   const styles = useStyles();
+  const { projectFiles } = useSideBarContext();
 
   return (
     <ThemeProvider<Theme> theme={ideaTheme}>
@@ -61,7 +63,7 @@ export const PrimaryTheme = () => {
         </div>
         <section className={styles.body}>
           <ActivityBar />
-          <SideBar />
+          <SideBar projectFiles={projectFiles} />
           <Box component="div" sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
             <Tabbar />
             <CodeEditor value="" />

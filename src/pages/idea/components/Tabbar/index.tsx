@@ -7,7 +7,7 @@ import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import Typography from '@mui/material/Typography';
-import { useIdeaTabsContext } from '@/pages/idea/context';
+import { useIdeaTabsContext } from '@/pages/web-containers/context';
 import { TabType } from '@/pages/idea/types';
 
 const TabsList = styled(TabsListUnstyled)(({ theme }) => ({

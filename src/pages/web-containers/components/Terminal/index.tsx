@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useIdeaContext, useWebContainerContext } from '@/pages/idea/context';
+import { useIdeaContext, useWebContainerContext } from '@/pages/web-containers/context';
 import { Terminal as XTerminal } from 'xterm';
 import 'xterm/css/xterm.css';
 import { useEventListener, useUpdateEffect } from 'ahooks';

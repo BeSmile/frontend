@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Box from '@mui/material/Box';
-import { useIdeaContext } from '@/pages/idea/context';
+import { useIdeaContext } from '@/pages/web-containers/context';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 
