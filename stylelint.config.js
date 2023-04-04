@@ -22,7 +22,7 @@ module.exports = {
         ignoreKeywords: ['currentColor'],
       },
     ],
-    'import-notation': 'string',
+    // 'import-notation': 'string',
     /**
      * 支持 [icss](https://github.com/css-modules/icss)
      */
