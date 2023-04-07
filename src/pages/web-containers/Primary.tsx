@@ -6,6 +6,7 @@ import { createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 import { getThemeMedia } from '@/utils/theme';
 import { useSideBarContext } from './context';
 import { CodeEditor } from '@/pages/idea/components';
+
 import Box from '@mui/material/Box';
 
 // pallete 调色盘地址
@@ -65,7 +66,7 @@ export const PrimaryTheme = () => {
           <ActivityBar />
           <SideBar projectFiles={projectFiles} />
           <Box component="div" sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-            <Tabbar />
+            <Tabbar activeTabs={[]} />
             <CodeEditor value="" />
             <Terminal />
           </Box>

@@ -1,14 +1,11 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
-import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import Typography from '@mui/material/Typography';
-import { useIdeaTabsContext } from '@/pages/web-containers/context';
-import { TabType } from '@/pages/idea/types';
+import { TabbarProps } from './types';
 
 const TabsList = styled(TabsListUnstyled)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -57,29 +54,27 @@ const Tab = styled(TabUnstyled)(({ theme }) => ({
   },
 }));
 
-export const Tabbar = () => {
-  const activeTabs = useIdeaTabsContext();
-  const [value, setValue] = React.useState<string>('');
-
-  const handleChange = (tab: TabType) => {
-    setValue(tab.id);
-  };
-
+export const Tabbar: React.FC<TabbarProps> = ({ activeTabs, onChange, onRemoveItem }) => {
   return (
-    <Box sx={{ bgcolor: 'primary.dark' }}>
-      <TabsUnstyled defaultValue={0} value={value}>
-        <TabsList>
-          {activeTabs.map((tab) => (
-            <Tab key={tab.id} onClick={() => handleChange(tab)}>
-              <Typography sx={{ mr: 1 }}>My account</Typography>
-              <IconButton sx={{ padding: 0, size: 8, color: 'grey' }} aria-label="upload picture" component="label">
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            </Tab>
-          ))}
-        </TabsList>
-      </TabsUnstyled>
-    </Box>
+    <TabsList>
+      {activeTabs.map((tab) => (
+        <Tab value={tab.key} key={tab.key} onChange={() => onChange?.(tab)}>
+          <Typography sx={{ mr: 1 }}>{tab.path}</Typography>
+          <IconButton
+            onClick={(e: any) => {
+              e?.preventDefault();
+              e?.stopPropagation();
+              onRemoveItem?.(tab);
+            }}
+            sx={{ padding: 0, size: 8, color: 'grey' }}
+            aria-label="upload picture"
+            component="label"
+          >
+            <ClearIcon fontSize="small" />
+          </IconButton>
+        </Tab>
+      ))}
+    </TabsList>
   );
 };
 

@@ -1,6 +1,21 @@
 /** @satisfies {import('@webcontainer/api').FileSystemTree} */
 
 export const files = {
+  'index.tsx': {
+    file: {
+      contents: `
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.tsx';
+ReactDOM.render(
+  <React.StrictMode>
+    <App/>
+    <div>Hello, Sandbox!</div>
+  </React.StrictMode>,
+  document.getElementById('root')
+);`,
+    },
+  },
   'index.js': {
     file: {
       contents: `

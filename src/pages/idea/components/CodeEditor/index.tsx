@@ -49,15 +49,14 @@ export const CodeEditor: React.FC<CodeEditorType> = ({ value }) => {
         value,
         language: 'typescript',
         theme: 'vs-dark',
-        roundedSelection: false,
-        scrollBeyondLastLine: false,
+        roundedSelection: true,
+        scrollBeyondLastLine: true,
       });
     }
     return () => {
       editor.dispose();
     };
   }, []);
-
   return <div className={styles.root} ref={editorRef} />;
 };
 

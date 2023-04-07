@@ -10,6 +10,8 @@ import { FILE_STAT } from '@/pages/idea/models/file';
 import { FILE_TYPE } from '@/pages/idea/const';
 import { CodeIframe, forwardRefProps } from '@/pages/sandbox/components';
 import { TreeNodeType } from '../idea/types';
+import { files } from '@/pages/idea/templates/files';
+import { DirectoryNode } from '@webcontainer/api';
 
 // @ts-ignore
 self.MonacoEnvironment = {
@@ -57,6 +59,7 @@ const defaultCode: TreeNodeType = {
   stat: FILE_STAT.NEW_FILE,
   type: FILE_TYPE.FILE,
   path: 'index.tsx',
+  node: files as unknown as DirectoryNode,
   code: `
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -89,7 +89,7 @@ function StyledTreeItem(props: StyledTreeItemProps) {
  * 结构目录
  * @constructor
  */
-export const SideBar: React.FC<SideBarType> = ({ projectFiles }) => {
+export const SideBar: React.FC<SideBarType> = ({ projectFiles, onNodeSelect, activated }) => {
   const theme = useTheme();
 
   const generateTreeNode = (files: TreeNodeType[]) => {
@@ -98,7 +98,7 @@ export const SideBar: React.FC<SideBarType> = ({ projectFiles }) => {
         <StyledTreeItem
           key={file.key}
           nodeId={file.key}
-          labelText={file.code}
+          labelText={file.path}
           labelIcon={SupervisorAccountIcon}
           // labelInfo="90"
           // color="#1a73e8"
@@ -111,7 +111,15 @@ export const SideBar: React.FC<SideBarType> = ({ projectFiles }) => {
   };
 
   return (
-    <TreeView aria-label="tree" defaultExpanded={['0']} defaultCollapseIcon={<ArrowDropDownIcon />} defaultExpandIcon={<ArrowRightIcon />} defaultEndIcon={<div style={{ width: 24 }} />} sx={{ height: '100%', flexGrow: 0, width: 240, overflowY: 'auto', backgroundColor: theme.palette.primary.dark }}>
+    <TreeView
+      selected={activated?.key || ''}
+      onNodeSelect={onNodeSelect}
+      aria-label="tree"
+      defaultCollapseIcon={<ArrowDropDownIcon />}
+      defaultExpandIcon={<ArrowRightIcon />}
+      defaultEndIcon={<div style={{ width: 24 }} />}
+      sx={{ height: '100%', flexGrow: 0, width: 240, overflowY: 'auto', backgroundColor: theme.palette.primary.dark }}
+    >
       <StyledTreeItem nodeId="0" labelText="Project Name" labelIcon={FolderOpenIcon}>
         {generateTreeNode(projectFiles)}
       </StyledTreeItem>
