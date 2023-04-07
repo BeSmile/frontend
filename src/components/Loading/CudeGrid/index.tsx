@@ -12,7 +12,7 @@ import styles from './index.module.less';
 
 interface CubeGridProps {}
 
-const CubeGrid: React.FC<CubeGridProps> = () => {
+export const CubeGrid: React.FC<CubeGridProps> = () => {
   return (
     <div className={styles.skContainer}>
       <div className={styles.skCubeGrid}>

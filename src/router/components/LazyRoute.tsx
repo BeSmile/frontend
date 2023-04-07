@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
-import CubeGridLoading from '@/components/Loading/cubeGrid';
+import { CubeGrid } from '@/components/Loading';
 
 const LazyRoute = ({ source }: { source: React.FunctionComponent }) => {
   const Component = source;
   return (
-    <Suspense fallback={<CubeGridLoading />}>
+    <Suspense fallback={<CubeGrid />}>
       <Component />
     </Suspense>
   );

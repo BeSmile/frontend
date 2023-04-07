@@ -4,12 +4,13 @@ const path = require('path');
 const engine = require('ejs-locals');
 const chainWebpack = require('./webpack.server');
 const minimist = require('minimist');
-
+const helmet = require('helmet');
 const proxy = require('express-http-proxy');
 
 const webpack = require('webpack');
 
-const middleware = require('webpack-dev-middleware'); //webpack hot reloading middleware
+const middleware = require('webpack-dev-middleware');//webpack hot reloading middleware
+const fancyLog = require('fancy-log');
 
 const cliMain = async () => {
   const app = express(), DIST_DIR = path.join(__dirname, '..');
@@ -33,13 +34,21 @@ const cliMain = async () => {
     publicPath: webpackConfig.output.publicPath,
   }));
   
-  // 设置webContainer需要配置的策略
-  app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Cross-Origin-Embedder-Policy', 'require-corp');
-    res.header('Cross-Origin-Opener-Policy', 'same-origin');
-    next();
-  });
+  /**
+   * 设置webContainer需要配置的策略
+   * 需要根据webcontainer的路径进行动态配置策略
+   */
+  // app.use(function(req, res, next) {
+  //   res.header('Access-Control-Allow-Origin', '*');
+  //   res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+  //   res.header('Cross-Origin-Opener-Policy', 'same-origin');
+  //   next();
+  // });
+  
+  app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false,
+  }));
   
   app.use(require('webpack-hot-middleware')(compiler,{
     path: '/__webpack_hmr',
@@ -56,7 +65,7 @@ const cliMain = async () => {
       const reg = new RegExp(rewrite[0]);
   
       const prefix = proxyPath.replace(reg, rewrite[1]);
-      console.log(proxyPath, proxyData.target + prefix);
+      fancyLog.info(proxyPath, proxyData.target + prefix);
     });
     
     app.use(proxyPath, proxy(proxyData.target, {
@@ -86,7 +95,7 @@ const cliMain = async () => {
     });
   });
   
-  app.listen(args.port, () => console.log(`Example app listening on port ${args.port}!`));
+  app.listen(args.port, () => fancyLog.info(`app listening on port ${args.port}!`));
 };
 
 // 判断当前文件是否直接被调用
