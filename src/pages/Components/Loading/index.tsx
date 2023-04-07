@@ -7,10 +7,10 @@
  * @LastEditTime: 2021-05-28 14:46:22
  */
 import React from 'react';
-import Loading from '@/components/Loading/cubeGrid';
+import { CubeGrid } from '@/components/Loading';
 
 const LoadingPage: React.FC = () => {
-  return <Loading />;
+  return <CubeGrid />;
 };
 
 export default LoadingPage;
