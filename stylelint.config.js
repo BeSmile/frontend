@@ -35,7 +35,7 @@ module.exports = {
     'function-no-unknown': [
       true,
       {
-        ignoreFunctions: ['fade', 'darken'],
+        ignoreFunctions: ['fade', 'darken', 'lighten'],
       },
     ],
     'property-no-vendor-prefix': [true, { ignoreProperties: ['box', 'line-clamp'] }],
