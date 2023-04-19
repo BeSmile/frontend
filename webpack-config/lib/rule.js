@@ -33,11 +33,13 @@ const cssLoader = {
         if (/pure.css$/i.test(resourcePath)) {
           return 'pure';
         }
-
-        if (isGlobalCssRule(resourcePath)) {
-          return 'global'; // 全局css样式
-        }
-        return 'local'; // 组件内生效
+        
+        if(/(\w+).module.less/gi.test(resourcePath))
+          return 'local'; // 组件内生效
+        // if (isGlobalCssRule(resourcePath)) {
+        //   return 'global'; // 全局css样式
+        // }
+        return 'global'; // 全局css样式
       }
     }
   }
@@ -124,7 +126,7 @@ const cssRules = [
     ]
   },
   {
-    test: /\.ttf$/,
+    test: /\.(ttf|woff2)$/,
     use: ['file-loader']
   }
 ];

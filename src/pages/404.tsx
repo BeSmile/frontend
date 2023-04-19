@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './404.less';
+import styles from './404.module.less';
 
 function PageNotFound() {
   return (

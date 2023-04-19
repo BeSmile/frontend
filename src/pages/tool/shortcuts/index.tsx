@@ -12,7 +12,7 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
-import styles from './index.less';
+import styles from './index.module.less';
 
 const cx = classnames.bind(styles);
 

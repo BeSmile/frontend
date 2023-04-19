@@ -8,7 +8,7 @@
  * @LastEditTime: 2021-06-10 16:22:32
  */
 import React, { useEffect, useRef } from 'react';
-import styles from './index.less';
+import styles from './index.module.less';
 
 export default () => {
   const tetrisRef = useRef<HTMLCanvasElement>();

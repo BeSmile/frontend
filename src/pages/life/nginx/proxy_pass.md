@@ -1,6 +1,6 @@
 # proxy_pass
 
-## 不带location path
+## 不带 location path
 
 转发域名后加`/`
 
@@ -12,7 +12,7 @@ location  /proxy/ {
 
 `127.0.0.1:80/proxy/test` -> `127.0.0.1:81/test`
 
-## 带location path
+## 带 location path
 
 ```nginx
 location  /proxy/ {
