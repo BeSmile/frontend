@@ -29,8 +29,6 @@ class SafeComponent extends Component<SafeComponentProps, SafeComponentState> {
     return { hasError: false };
   }
 
-  componentDidUpdate() {}
-
   render() {
     const { hasError } = this.state;
     const { component: Component } = this.props;

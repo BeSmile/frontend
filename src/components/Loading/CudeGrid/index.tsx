@@ -1,18 +1,8 @@
-/*
- * @Description:
- * @Version:
- * @Author: BeSmile
- * @Date: 2021-05-27 11:51:38
- * @LastEditors: BeSmile
- * @LastEditTime: 2021-05-28 15:15:01
- */
 import React from 'react';
 import classNames from 'classnames';
 import styles from './index.module.less';
 
-interface CubeGridProps {}
-
-export const CubeGrid: React.FC<CubeGridProps> = () => {
+export const CubeGrid: React.FC = () => {
   return (
     <div className={styles.skContainer}>
       <div className={styles.skCubeGrid}>

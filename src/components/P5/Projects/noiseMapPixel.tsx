@@ -11,11 +11,11 @@ import React, { useEffect, useRef } from 'react';
 import P5Editor from '@/components/P5/Editor';
 import _ from 'lodash';
 
-var inc = 0.1;
-var scl = 10;
-var cols = 0;
-var rows = 0;
-var start = 0;
+const inc = 0.1;
+const scl = 10;
+let cols = 0;
+let rows = 0;
+let start = 0;
 
 const NoiseMap: React.FC = () => {
   const p5Ref = useRef<HTMLDivElement>(null);
@@ -33,19 +33,19 @@ const NoiseMap: React.FC = () => {
     p5.background(220);
     p5.clear();
     p5.noStroke();
-    var yoff = start;
-    for (var y = 0; y < rows; y++) {
+    let yoff = start;
+    for (let y = 0; y < rows; y++) {
       // loadPixels();
-      var xoff = 0;
-      for (var x = 0; x < cols; x++) {
+      let xoff = 0;
+      for (let x = 0; x < cols; x++) {
         // var index = (x + y * p5.width);
-        var r = p5.noise(xoff, yoff);
+        const r = p5.noise(xoff, yoff);
         xoff += inc;
         // pixels[index + 0] = r;
         // pixels[index + 1] = r;
         // pixels[index + 2] = r;
         // pixels[index + 0] = 255;
-        var color = '0';
+        let color = '0';
         const or = Math.random();
         const opacity = or < 0.1 ? or : 0;
         if (r > 0.8) {

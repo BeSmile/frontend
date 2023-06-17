@@ -18,7 +18,7 @@ interface DragComponentProps {
 }
 
 const DragComponentFC = memo((props: DragComponentProps) => {
-  const { children, offset = 0, onDragStart = () => {}, onDragEnd = () => {}, onDrag = () => {}, elementId } = props;
+  const { children, offset = 0, onDragStart, onDragEnd, onDrag, elementId } = props;
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     // const target = e.target as HTMLDivElement;
@@ -43,7 +43,7 @@ const DragComponentFC = memo((props: DragComponentProps) => {
     e.dataTransfer.setData('elementId', elementId);
     e.dataTransfer.setData('clickOffsetX', String(clickOffsetX));
     e.dataTransfer.setData('clickOffsetY', String(clickOffsetY));
-    onDragStart(e);
+    onDragStart?.(e);
   };
 
   /**
@@ -51,7 +51,7 @@ const DragComponentFC = memo((props: DragComponentProps) => {
    * @param e callback event
    */
   const handleDrag = (e: DragEvent<HTMLDivElement>) => {
-    onDrag(e);
+    onDrag?.(e);
   };
 
   /**
@@ -60,7 +60,7 @@ const DragComponentFC = memo((props: DragComponentProps) => {
    */
   const handleDragEnd = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    onDragEnd(e);
+    onDragEnd?.(e);
   };
 
   useEffect(() => {
