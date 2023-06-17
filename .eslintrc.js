@@ -4,8 +4,8 @@ module.exports = {
     node: true,
     es6: true,
   },
-  plugins: ['react-hooks', 'unused-imports', '@typescript-eslint'],
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  plugins: ['react-hooks', 'unused-imports', '@typescript-eslint', 'eslint-plugin-react', 'react'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
@@ -23,6 +23,7 @@ module.exports = {
     P5: 'readonly',
   },
   rules: {
+    'react/jsx-uses-react': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     semi: 2,
@@ -35,8 +36,7 @@ module.exports = {
     // 'no-unused-vars': ['error', { 'vars': 'all', 'args': 'after-used', 'ignoreRestSiblings': false }],
     '@typescript-eslint/no-unused-vars': ['error'],
     'no-console': 1,
-    'no-unused-vars': 'off',
-
+    'no-undef': 'error',
     'no-unexpected-multiline': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
