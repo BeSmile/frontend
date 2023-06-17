@@ -93,9 +93,10 @@ const convertLazyRoute = (files, absolutePagePath, pageDir) => {
     const relativePagesPath = getPagePath(absolutePagePath, fileName);
     // 取得以src/pages/文件名下的chunkName
     const chunkName = utils.convertChunkName(utils.getNoFileSuffix(`${pageDir}/${relativePagesPath}`));
-    // 通过文件路径获得id
+    // 通过文件路径获得id, 去除后缀的文件名
     const pathId =  utils.getNoFileSuffix(relativePagesPath);
-    prev[pathId] = {
+    const name = pathId === 'index' ? '/' : pathId;
+    prev[name] = {
       chunkName,
       relativeRouterPath,
     };

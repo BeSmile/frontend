@@ -42,6 +42,7 @@ const generateRouter = (root: string, router: GRouter): RouteObject => {
       children: [],
     };
   }
+  // 查找子路由
   const childrenRoutes = routes.filter((route) => route.parentId === routeComponentId);
   const rootPath = root ? router.routes[root].path.replace('/_layout', '') : '';
   return {
