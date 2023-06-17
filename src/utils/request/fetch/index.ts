@@ -1,13 +1,13 @@
 import merge from 'lodash/merge';
 // const AbortController = require('abort-controller');
 import InterceptorManager from './InterceptorManager';
-import { FetchResponse, FetchRequestConfig, FetchDefaults, IFetchInstance, FetchInterceptorManager, IFetch, InterceptorHandler } from './types';
+import { FetchResponse, FetchRequestConfig, FetchDefaults, IFetchInstance, FetchInterceptorManager, InterceptorHandler } from './types';
 import dispatchRequest from './dispatchRequest';
 import defaults from './defaults';
 
 // eslint-disable-next-line no-undef
 // @ts-ignore
-class Fetch implements IFetch {
+class Fetch {
   defaults: FetchDefaults;
   interceptors: {
     request: FetchInterceptorManager<FetchRequestConfig>;
@@ -66,7 +66,9 @@ class Fetch implements IFetch {
     // 非同步情况下, 将执行步骤放入数组当中
     if (!synchronousRequestInterceptors) {
       const chain: any = [dispatchRequest.bind(this), undefined]; // 作用是啥？？？
+      // eslint-disable-next-line prefer-spread
       chain.unshift.apply(chain, requestInterceptorChain); // 头部插入请求拦截器
+      // eslint-disable-next-line prefer-spread
       chain.push.apply(chain, responseInterceptorChain); // 末尾插入相应拦截器
 
       len = chain.length;

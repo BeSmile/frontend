@@ -1,6 +1,8 @@
 import { GET } from '@/utils/request';
 
-export type ImageListParams = {};
+export type ImageListParams = {
+  pageNo?: string;
+};
 
 export type ImageListType = {
   from?: string;

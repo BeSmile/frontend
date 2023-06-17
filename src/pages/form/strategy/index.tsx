@@ -11,9 +11,9 @@ import { Button, Form, Input, Select } from 'antd';
 import styles from './index.module.less';
 
 class ICondition {
-  op: string = 'eq';
-  value: number = 0;
-  label: string = '';
+  op = 'eq';
+  value = 0;
+  label = '';
 
   setValue(value: number) {
     this.value = value;
@@ -74,9 +74,9 @@ class LtCondition extends ICondition {
 }
 
 class Rule {
-  label: string = '';
-  key: string = '';
-  value: number = 0;
+  label = '';
+  key = '';
+  value = 0;
   ops: ICondition[] = [];
   render: any;
   proxy: any;
@@ -156,7 +156,7 @@ type Props = {
   rule: Rule;
 };
 
-class RuleComponent extends React.Component<Props, {}> {
+class RuleComponent extends React.Component<Props> {
   componentDidMount() {
     const { rule } = this.props;
     // 注入update模式

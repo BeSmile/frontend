@@ -15,9 +15,9 @@ import { io, Socket } from 'socket.io-client';
 import styles from './index.module.less';
 
 export default () => {
-  const MOVE_MODE: number = 0; // 移动模式
-  const LINE_MODE: number = 1; // 划线模式
-  const ERASER_MODE: number = 2; // 橡皮擦模式
+  const MOVE_MODE = 0; // 移动模式
+  const LINE_MODE = 1; // 划线模式
+  const ERASER_MODE = 2; // 橡皮擦模式
   const [mouseMode, setMouseMode] = useState<number>(LINE_MODE); // 模式
   const drawRef = useRef<HTMLDivElement>();
   const eraserRef = useRef<HTMLDivElement>();

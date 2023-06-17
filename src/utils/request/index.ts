@@ -123,7 +123,7 @@ export const GET = <T, R = FetchResponse<T>>(url: string, data?: ImageListParams
   });
 };
 
-export const PUT = <T, R = FetchResponse<T>>(url: string, data: {}): Promise<R> => {
+export const PUT = <T, R = FetchResponse<T>>(url: string, data: any): Promise<R> => {
   return fetch.put<T, R>(url, data);
 };
 export const POST = <T, R = FetchResponse<T>>(url: string, data?: any) => {

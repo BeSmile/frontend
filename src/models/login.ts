@@ -6,9 +6,11 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-05-28 11:45:18
  */
-var login = localStorage.getItem('login') || false;
+const login = localStorage.getItem('login') || false;
 
-export interface LoginState {}
+export interface LoginState {
+  userName: string;
+}
 
 export default {
   namespace: 'login',
@@ -28,7 +30,7 @@ export default {
     },
   },
   reducers: {
-    login: (state: any, action: { payload?: {} | undefined }) => {
+    login: (state: any, action: { payload?: Record<any, any> | undefined }) => {
       const { payload = {} } = action;
       return {
         ...state,

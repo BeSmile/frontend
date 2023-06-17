@@ -26,7 +26,7 @@ export interface GlobalState {
   breadcrumbs: BreadcrumbList;
 }
 
-let initialState: GlobalState = {
+const initialState: GlobalState = {
   breadcrumbs: [],
 };
 

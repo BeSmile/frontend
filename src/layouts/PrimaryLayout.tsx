@@ -73,7 +73,7 @@ function handleClick(index: number) {
 }
 
 function generate(bms: any, props: any): Array<React.ReactElement> {
-  let breadcrumbs = JSON.parse(JSON.stringify(bms));
+  const breadcrumbs = JSON.parse(JSON.stringify(bms));
   const len = breadcrumbs.length;
   let TypographyUI = null;
   if (breadcrumbs.length >= 1) {
@@ -87,7 +87,7 @@ function generate(bms: any, props: any): Array<React.ReactElement> {
       },
     );
   }
-  let Ele = breadcrumbs.map(
+  const Ele = breadcrumbs.map(
     (
       item: {
         url: To;
@@ -147,6 +147,7 @@ function BaseLayoutUI(props: any) {
 
 interface defaultProps {
   // product: Array<any>
+  global: any;
 }
 
 const mapToProps = (state: { global: any }): defaultProps => {

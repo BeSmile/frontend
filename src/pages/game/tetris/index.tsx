@@ -17,7 +17,7 @@ export default () => {
     const context = canvas.getContext('2d');
     context.scale(20, 20);
     // 根据宽高生成 12 * 20的数组
-    let makeMatrix = function (w, h) {
+    const makeMatrix = function (w, h) {
       const matrix = [];
       while (h--) {
         matrix.push(new Array(w).fill(0));
@@ -25,7 +25,7 @@ export default () => {
       return matrix;
     };
     // 生成不同的形状
-    let makePiece = (type: string) => {
+    const makePiece = (type: string) => {
       if (type === 't') {
         return [
           [0, 0, 0],
@@ -72,7 +72,7 @@ export default () => {
       return [];
     };
 
-    let points = function () {
+    const points = function () {
       let rowCount = 1;
       outer: for (let y = area.length - 1; y > 0; --y) {
         for (let x = 0; x < area[y].length; ++x) {
@@ -89,7 +89,7 @@ export default () => {
     };
 
     // 判断是否超出编辑
-    let collide = function (area, player) {
+    const collide = function (area, player) {
       const [m, o] = [player.matrix, player.pos];
       for (let y = 0; y < m.length; ++y) {
         for (let x = 0; x < m[y].length; ++x) {
@@ -101,20 +101,20 @@ export default () => {
       return false;
     };
 
-    let drawMatrix = function (matrix, offset) {
+    const drawMatrix = function (matrix, offset) {
       matrix.forEach((row, y) => {
         row.forEach((value, x) => {
           if (value !== 0) {
             // context.fillStyle=colors[value];
             // context.fillRect(x+offset.x,y+offset.y,1,1);
-            let imgTag = new Image();
+            const imgTag = new Image();
             imgTag.src = colors[value];
             context.drawImage(imgTag, x + offset.x, y + offset.y, 1, 1);
           }
         });
       });
     };
-    let merge = function (area, player) {
+    const merge = function (area, player) {
       player.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
           if (value !== 0) {
@@ -123,7 +123,7 @@ export default () => {
         });
       });
     };
-    let rotate = function (matrix, dir) {
+    const rotate = function (matrix, dir) {
       for (let y = 0; y < matrix.length; ++y) {
         for (let x = 0; x < y; ++x) {
           [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
@@ -135,7 +135,7 @@ export default () => {
         matrix.reverse();
       }
     };
-    let playerReset = function () {
+    const playerReset = function () {
       const pieces = 'ijlostz';
       // 优先生成一个俄罗斯块
       player.matrix = makePiece(pieces[Math.floor(Math.random() * pieces.length)]);
@@ -148,7 +148,7 @@ export default () => {
         gameRun = false;
       }
     };
-    let playerDrop = function () {
+    const playerDrop = function () {
       player.pos.y++;
       // 处理边界
       if (collide(area, player)) {
@@ -159,13 +159,13 @@ export default () => {
         updateScore();
       }
     };
-    let playerMove = function (dir) {
+    const playerMove = function (dir) {
       player.pos.x += dir;
       if (collide(area, player)) {
         player.pos.x -= dir;
       }
     };
-    let playerRotate = function (dir) {
+    const playerRotate = function (dir) {
       const pos = player.pos.x;
       let offset = 1;
       rotate(player.matrix, dir);
@@ -179,7 +179,7 @@ export default () => {
         }
       }
     };
-    let draw = function () {
+    const draw = function () {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.fillStyle = '#000000';
       context.fillRect(0, 0, canvas.width, canvas.height);
@@ -187,9 +187,9 @@ export default () => {
       drawMatrix(area, { x: 0, y: 0 });
       drawMatrix(player.matrix, player.pos);
     };
-    let dropInter = 100;
+    const dropInter = 100;
     let time = 0;
-    let update = function () {
+    const update = function () {
       time++;
       if (time >= dropInter) {
         playerDrop();
@@ -198,7 +198,7 @@ export default () => {
       draw();
     };
     // 更新积分
-    let updateScore = function () {
+    const updateScore = function () {
       context.font = 'bold 1px Comic Sans MS';
       context.fillStyle = '#ffffff';
       context.textAlign = 'left';
@@ -206,7 +206,7 @@ export default () => {
       context.fillText('Score:' + player.score, 0.2, 0);
     };
     // 游戏结束
-    let gameOver = function () {
+    const gameOver = function () {
       clearInterval(gameLoop);
       context.font = '2px Comic Sans MS';
       context.fillStyle = '#ffffff';

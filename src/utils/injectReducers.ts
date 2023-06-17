@@ -10,13 +10,13 @@
 import { combineReducers } from 'redux';
 
 export default function injectReducers(models) {
-  let rootReducers = {};
+  const rootReducers = {};
 
   models.forEach((model) => {
     if (!model) return;
     const reducers = model.reducers || {};
     const namespace = model.namespace; //命名空间
-    let initialState = model.state; //初始化reduce state值
+    const initialState = model.state; //初始化reduce state值
     if (0 === Object.keys(reducers).length) {
       rootReducers[namespace] = (state = initialState) => state;
     }

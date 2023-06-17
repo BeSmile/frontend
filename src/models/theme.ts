@@ -21,7 +21,7 @@ export interface ThemeState {
 const actionCreator = actionCreatorFactory('theme');
 const updateBuildTheme = actionCreator<BuildThemeState>('updateBuildTheme'); // 更新build主题
 
-let initialState: ThemeState = {
+const initialState: ThemeState = {
   buildTheme: {
     menuSpace: 0, // 菜单间距
     elementSpace: 0, // 元素列表间距

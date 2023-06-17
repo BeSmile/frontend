@@ -18,7 +18,7 @@ interface MsmqState {
   toasts: Array<any>;
 }
 
-let initialState = {
+const initialState = {
   toasts: [],
 };
 

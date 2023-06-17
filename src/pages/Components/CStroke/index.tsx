@@ -64,13 +64,13 @@ const CStroke = () => {
       for (let x = 0; x < height; x++) {
         matrix.push(new Array(width));
       }
-      let startX: number = -1,
-        startY: number = -1;
+      let startX = -1,
+        startY = -1;
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           // todo 需要将imageData转换成x、y坐标
           const position = (x + y * width) * 4;
-          var r = imageData[position],
+          const r = imageData[position],
             g = imageData[position + 1],
             b = imageData[position + 2];
           if (r + g + b !== 0) {
@@ -93,7 +93,7 @@ const CStroke = () => {
       // const prefix = getPixelDirection(matrix, startX, startY);
       // console.log("prefix", prefix, startX, startY);
       const walk = (x: number, y: number, direction?: string) => {
-        let dir: Direction;
+        let dir: Direction = Direction.Left;
         switch (direction) {
           case Direction.Left:
             x--;

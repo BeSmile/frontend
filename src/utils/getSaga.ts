@@ -12,6 +12,7 @@ import { call, fork, put, takeLatest } from 'redux-saga/effects';
 
 // saga相关/ 已经不是最优的解决方案
 function getWatcher(key, sagaWithOnEffect) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const _this = this;
   return function* () {
     const curry = function (action) {
