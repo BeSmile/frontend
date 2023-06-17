@@ -22,7 +22,8 @@ import './global.less';
 
 initWatch();
 // MODELS_PATH 根据模型来进行model的注册
-let models = MODELS_PATH.map((item: string) => require(`./models/${item}`).default);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const models = MODELS_PATH.map((item: string) => require(`./models/${item}`).default);
 // 创建saga中间件方法
 const sagaMiddleware = createSagaMiddleware();
 // 根据model 生成对的reducer对象
@@ -49,7 +50,11 @@ models.forEach(function (model) {
 
 (function (containerId) {
   const render = ReactDOM.createRoot(document.getElementById(containerId)!);
-  const theme = createTheme();
+  const theme = createTheme({
+    typography: {
+      fontFamily: ['zpix', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"'].join(','),
+    },
+  });
   render.render(
     <Provider store={store}>
       <BrowserRouter>
