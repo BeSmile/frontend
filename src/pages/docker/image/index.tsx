@@ -30,7 +30,7 @@ const ImageList = () => {
   const classes = useStyles('');
   const [dataSource, setDataSource] = useSafeState<ImageListType>([]);
   useAsyncEffect(async () => {
-    const res = await getImageList({ a: 'dddf' });
+    const res = await getImageList({ pageNo: 1 });
     setDataSource(res.data);
   }, []);
 

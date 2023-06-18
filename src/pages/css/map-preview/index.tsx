@@ -27,8 +27,8 @@ const clickArea = [
 
 export default () => {
   // let tMatrix = [1, 0, 0, 1, 0, 0]; //x缩放，无，无，y缩放，x平移，y平移
-  let offsetX = 0,
-    offsetY = 0;
+  let offsetX = 0;
+  const offsetY = 0;
   // let upX = 0;
   // let upY = 0;
   // let isDoubleTouch = false; //是否为多触点
@@ -86,8 +86,8 @@ export default () => {
     let upY = downY;
     const touchMove = (event: TouchEvent) => {
       if (event.touches.length >= 2) {
-        var now = event.touches; //得到第二组两个点
-        var scale = getDistance(now[0], now[1]) / getDistance(start[0], start[1]); //得到缩放比例
+        const now = event.touches; //得到第二组两个点
+        const scale = getDistance(now[0], now[1]) / getDistance(start[0], start[1]); //得到缩放比例
         // alert(scale);
         setCanvasScale(scale);
         return;
@@ -136,7 +136,7 @@ export default () => {
   };
 
   function getDistance(p1: Touch, p2: Touch) {
-    var x = p2.clientX - p1.clientX,
+    const x = p2.clientX - p1.clientX,
       y = p2.clientY - p1.clientY;
     return Math.sqrt(x * x + y * y);
   }

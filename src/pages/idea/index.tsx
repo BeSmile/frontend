@@ -72,7 +72,6 @@ export const IdeaLayout = () => {
   const [projectFiles, setProjectFiles] = useState<TreeNodeType[]>([]);
   const [value, setValue] = useState<TreeNodeType | undefined>(undefined);
   const { select: triggerNodeSelect, selected, unSelect, setSelected } = useSelections<TreeNodeType>([]);
-
   const globalGraphRef = useRef({});
 
   useMount(() => {
