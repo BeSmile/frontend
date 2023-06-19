@@ -126,6 +126,7 @@ const FormMethods = ['post', 'put', 'patch', 'POST', 'PUT', 'PATCH'];
 const ParamsMethods = ['delete', 'get', 'head', 'options', 'DELETE', 'GET', 'HEAD', 'OPTIONS'];
 
 ParamsMethods.forEach((method) => {
+  // @ts-ignore
   Fetch.prototype[method] = function (url: string, config: FetchRequestConfig) {
     return this.request(
       url,
@@ -154,7 +155,9 @@ FormMethods.forEach((method) => {
       );
     };
   };
+  // @ts-ignore
   Fetch.prototype[method] = generateHttpMethod();
+  // @ts-ignore
   Fetch.prototype[`${method}Form`] = generateHttpMethod(true);
 });
 

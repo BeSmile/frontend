@@ -158,7 +158,7 @@ const Fore = function () {
   // }, [values, totals])
 
   const handleChange = (prop: keyof BaseState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    let valuesTmp = { ...values, [prop]: event.target.value };
+    const valuesTmp = { ...values, [prop]: event.target.value };
     setValues(valuesTmp);
     generateTotal(valuesTmp);
   };

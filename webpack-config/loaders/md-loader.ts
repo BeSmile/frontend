@@ -1,12 +1,12 @@
-const MarkdownIt  = require('markdown-it');
-const hljs = require('highlight.js'); // https://highlightjs.org
-const fancyLog = require('fancy-log');
+import MarkdownIt from 'markdown-it';
+import  hljs from 'highlight.js'; // https://highlightjs.org
+import  fancyLog from 'fancy-log';
 
-const getLineNums = (lines) => {
+const getLineNums = (lines: string[]) => {
   return lines.reduce((str, _, num) => str + `<span aria-hidden="true" serial="${num}"></span>`, '');
 };
 
-const md = new MarkdownIt({
+const md: MarkdownIt = new MarkdownIt({
   langPrefix:  'language-',
   html: true,
   typographer:  false,
@@ -28,10 +28,10 @@ const md = new MarkdownIt({
   }
 });
 
-function loader(source) {
+function loader(source: string) {
   const html = md.render(source);
   // line.replace(/\\(?:[1-7][0-7]{0,2}|[0-7]{2,3})/, '');
   return `const html = ${JSON.stringify(html)};export default function createMarkup() { return {__html: html} }`;
 }
 
-module.exports = loader;
+export default loader;

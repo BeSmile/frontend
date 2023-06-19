@@ -9,7 +9,7 @@ import { CodeIframe, forwardRefProps } from '@/pages/sandbox/components';
 import TabsUnstyled, { tabsUnstyledClasses } from '@mui/base/TabsUnstyled';
 import TabPanelUnstyled, { tabPanelUnstyledClasses } from '@mui/base/TabPanelUnstyled';
 import { TreeNodeType } from '@/pages/idea/types';
-import { iniRemoteFiles } from '@/pages/idea/helpers';
+import { iniRemoteFiles, NodeGraph } from '@/pages/idea/helpers';
 import { useCreation, useSelections, useUnmount, useMount } from 'ahooks';
 import { files } from '../idea/templates/files';
 import { SingleSelectTreeViewProps } from '@mui/lab/TreeView/TreeView';
@@ -72,7 +72,7 @@ export const IdeaLayout = () => {
   const [projectFiles, setProjectFiles] = useState<TreeNodeType[]>([]);
   const [value, setValue] = useState<TreeNodeType | undefined>(undefined);
   const { select: triggerNodeSelect, selected, unSelect, setSelected } = useSelections<TreeNodeType>([]);
-  const globalGraphRef = useRef({});
+  const globalGraphRef = useRef<NodeGraph>({});
 
   useMount(() => {
     globalGraphRef.current = {};

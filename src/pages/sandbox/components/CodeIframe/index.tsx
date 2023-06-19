@@ -13,11 +13,13 @@ const useStyles = makeStyles(() =>
 export type forwardRefProps = {
   iframe: HTMLIFrameElement | null;
 };
-
-export type CodeIframeProps = {};
+//
+// export type CodeIframeProps = {
+//   id: string;
+// };
 
 // eslint-disable-next-line react/display-name
-export const CodeIframe = forwardRef<forwardRefProps, CodeIframeProps>((_, forwardedRef) => {
+export const CodeIframe = forwardRef<forwardRefProps>((_, forwardedRef) => {
   const styles = useStyles();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 

@@ -6,46 +6,47 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2021-12-14 16:44:29
  */
-const webpack = require('webpack');
-const fs = require('fs');
-const {ESBuildPlugin} = require('esbuild-loader');
+import  webpack from 'webpack';
+// import fs from 'fs';
+import   path from 'path';
+import {ESBuildPlugin} from 'esbuild-loader';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniExtract = require('mini-css-extract-plugin');
-const GenerateRouterPlugin = require('../plugins/router/GenerateRouterPlugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniExtract from 'mini-css-extract-plugin';
+import GenerateRouterPlugin from '../plugins/router/GenerateRouterPlugin';
+// import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-const path = require('path');
-const modelPath = path.resolve(__dirname, '..', '..', 'src', 'models');
-
-function getModel(modelPath) {
-  let models = [];
-
-  return new Promise((resolve) => {
-    fs.readdir(modelPath, function (err, files) {
-      if (err || typeof files === 'undefined') {
-        resolve([]);
-        return;
-      }
-      files
-        .filter((fileName) => fileName.indexOf('d.ts') < 0)
-        .forEach(function (filename) {
-          const res = filename.split('.');
-          models.push(res[0]);
-        });
-      resolve(models);
-    });
-  });
-}
+// const modelPath = path.resolve(__dirname, '..', '..', 'src', 'models');
+//
+// function getModel(modelPath) {
+//   const models = [];
+//
+//   return new Promise((resolve) => {
+//     fs.readdir(modelPath, function (err, files) {
+//       if (err || typeof files === 'undefined') {
+//         resolve([]);
+//         return;
+//       }
+//       files
+//         .filter((fileName) => fileName.indexOf('d.ts') < 0)
+//         .forEach(function (filename) {
+//           const res = filename.split('.');
+//           models.push(res[0]);
+//         });
+//       resolve(models);
+//     });
+//   });
+// }
 
 const getPlugins = async () => {
-  const models = await getModel(modelPath);
+  // const models = await getModel(modelPath);
   const plugins = [
     new ESBuildPlugin(),
     new webpack.DefinePlugin({
       ENV_PATH: JSON.stringify(false),
-      MODELS_PATH: JSON.stringify(models)
+      MODELS_PATH: JSON.stringify([])
     }),
     new GenerateRouterPlugin(),
     // new CheckerPlugin(),
@@ -54,7 +55,7 @@ const getPlugins = async () => {
       excludeChunks: ['dev-helper'], //排除entry特定的块
       filename: 'index.html',
       inject: true,
-      hash: new Date().getTime(),
+      hash: true,
       mountPoint: '<div id=\'root\'></div>',
       // value: '23',
       templateParameters: {
@@ -66,7 +67,7 @@ const getPlugins = async () => {
       },
       template: path.resolve('.', 'public', 'document.ejs') // 模板
     }),
-    new FriendlyErrorsWebpackPlugin(), // 错误友好提示plugin
+    // new FriendlyErrorsWebpackPlugin(), // 错误友好提示plugin
     new ForkTsCheckerWebpackPlugin({
       // ? fork一个进程进行检查，并设置async为false，将错误信息反馈给webpack
       async: false,
@@ -100,4 +101,4 @@ const getPlugins = async () => {
   return plugins;
 };
 
-module.exports = getPlugins;
+export default getPlugins;

@@ -3,12 +3,9 @@
  * @param resourcePath
  * @returns {boolean}
  */
-const isGlobalCssRule = (resourcePath) => {
+export const isGlobalCssRule = (resourcePath: string) => {
     // antd样式与global.css, index.css走全局样式
     const Global_Style = [/antd/i, /global.css$/i, /index.css$/i, /monaco-editor/i, /(\w+).css/i];
     return Global_Style.some((reg) => reg.test(resourcePath));
 };
 
-module.exports = {
-    isGlobalCssRule
-};

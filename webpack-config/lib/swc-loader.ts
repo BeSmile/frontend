@@ -1,6 +1,6 @@
-const GetSwcOptions = require('../../swcrc');
+import GetSwcOptions from '../../swcrc';
 
-module.exports = {
+export default {
     test: /\.(ts|tsx)$/,
     exclude: /(node_modules)/,
     use: {

@@ -1,4 +1,4 @@
-module.exports = {
+const TsLoader  = {
   test: /\.(ts|tsx)$/,
   exclude: /node_modules/,
   use: [
@@ -37,3 +37,5 @@ module.exports = {
     }
   ]
 };
+
+export default TsLoader;

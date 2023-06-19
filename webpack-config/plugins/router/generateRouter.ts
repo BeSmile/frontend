@@ -1,7 +1,7 @@
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const utils = require('./utils');
+import glob from 'glob';
+import path from 'path';
+import fs from 'fs';
+import { convertChunkName, convertRoutePath, getNoFileSuffix } from './utils';
 
 const PROJECT_PATH = process.cwd();
 const ROUTER_PATH = `${PROJECT_PATH}/src/router`;
@@ -13,7 +13,12 @@ const layoutKey = '@@/global-layout';
  */
 const isExistDefaultLayout = fs.existsSync(`${LAYOUT_PATH}/index.tsx`);
 
-const generateRouter = (options) => {
+type Options = {
+  // pages的目录
+  PAGE_DIR: string;
+}
+
+const generateRouter = (options?: Options) => {
   const config = Object.assign({
     PAGE_DIR: 'src/pages',
   }, options);
@@ -47,34 +52,51 @@ export async function getRoutes() {
   });
 };
 
-const getPathParent = (path) => {
+const getPathParent = (path: string) => {
   return path.split('/').slice(0, -1).join('/');
 };
+
+type RouterComponent = {
+  [key: string]: {
+    path?: string;
+    chunkName: string;
+    relativeRouterPath: string;
+  }
+}
+
+type Routers ={
+  [key:string]:{
+    path: string;
+    id: string;
+    file: string;
+    parentId: string;
+  }
+}
 
 /**
  * 转换文件名至router对象
  * @param routerComponents routers数组对象
  * @returns {{}}
  */
-const convertFileNameToRouteStruct = (routerComponents) => {
+const convertFileNameToRouteStruct = (routerComponents: RouterComponent) => {
   const ids =  Object.keys(routerComponents);
-  return ids.reduce((routes, id) => {
+  return ids.reduce((routes: Routers, id: string) => {
     // 获取父目录,并判断是否存在_layout文件
     const layoutPath = `${getPathParent(id)}/_layout`;
     // 去除文件后缀
     routes[id] = {
       // 供react-router-dom使用的path
-      path: utils.convertRoutePath(id),
+      path: convertRoutePath(id),
       id,
       // 判断是否存在layout目录文件
       parentId: ids.includes(layoutPath) && layoutPath !== id ? layoutPath : layoutKey,
       file: routerComponents[id].relativeRouterPath,
     };
     return routes;
-  }, {});
+  }, {} as Routers);
 };
 
-const getPagePath = (prefix, absolutePath) => {
+const getPagePath = (prefix: string, absolutePath: string) => {
   return absolutePath.replace(`${path.normalize(prefix)}/`, '');
 };
 
@@ -85,23 +107,23 @@ const getPagePath = (prefix, absolutePath) => {
  * @param pageDir   src/pages
  * @returns {*}
  */
-const convertLazyRoute = (files, absolutePagePath, pageDir) => {
-  const routesComponents =  files.reduce((prev, fileName) => {
+const convertLazyRoute = (files: string[], absolutePagePath: string, pageDir: string): RouterComponent => {
+  const routesComponents =  files.reduce((prev: RouterComponent, fileName: string) => {
     // 获取页面文件至router文件的相对路径 ../../等等
     const relativeRouterPath = path.relative(ROUTER_PATH, fileName);
     // 获得页面路径相对src/pages的路径
     const relativePagesPath = getPagePath(absolutePagePath, fileName);
     // 取得以src/pages/文件名下的chunkName
-    const chunkName = utils.convertChunkName(utils.getNoFileSuffix(`${pageDir}/${relativePagesPath}`));
+    const chunkName = convertChunkName(getNoFileSuffix(`${pageDir}/${relativePagesPath}`));
     // 通过文件路径获得id, 去除后缀的文件名
-    const pathId =  utils.getNoFileSuffix(relativePagesPath);
+    const pathId =  getNoFileSuffix(relativePagesPath);
     const name = pathId === 'index' ? '/' : pathId;
     prev[name] = {
       chunkName,
       relativeRouterPath,
     };
     return prev;
-  }, {});
+  }, {} as RouterComponent);
   
   if(isExistDefaultLayout) {
     // React.lazy(() => import(/* webpackChunkName: "layouts__index" */'@/layouts/index.tsx'))
@@ -115,4 +137,4 @@ const convertLazyRoute = (files, absolutePagePath, pageDir) => {
   return routesComponents;
 };
 
-module.exports = generateRouter;
+export default generateRouter;

@@ -1,19 +1,18 @@
+import * as path from 'path';
 const env = process.env.NODE_ENV;
-const MiniExtract = require('mini-css-extract-plugin');
-let gentsConfig = {};
-if (process.env.NODE_MODE !== 'plugin') {
-  gentsConfig = require('../../.gents.ts');
-}
-const path = require('path');
-const fs = require('fs');
-const babelLoader = require('./babel-loader');
-const lessToJS = require('less-vars-to-js');
-const {isGlobalCssRule} = require('./utils');
+import * as MiniExtract from 'mini-css-extract-plugin';
+
+// let gentsConfig = {};
+// if (process.env.NODE_MODE !== 'plugin') {
+//   gentsConfig = require('../../.gents');
+// }
+
+import babelLoader from './babel-loader';
+import lessToJs from './lessToJs';
+import * as fs from 'fs';
 
 // 主题文件通过lessToJS 导入less中
-const themeVariables = lessToJS(
-  fs.readFileSync(path.resolve('src/styles/theme-file.less'), 'utf8')
-);
+const themeVariables = lessToJs(fs.readFileSync(path.resolve('src/styles/theme-file.less'), 'utf8'));
 
 const cssLoader = {
   loader: 'css-loader',
@@ -29,12 +28,12 @@ const cssLoader = {
       // exportOnlyLocals: true,
       exportLocalsConvention: 'dashesOnly', // dashes -转化为驼峰，但是保留，dashesOnly只保留转化为驼峰后的
       localIdentHashPrefix: 'hash', // 无效字段 不知道为什么
-      mode: (resourcePath) => {
+      mode: (resourcePath: string) => {
         if (/pure.css$/i.test(resourcePath)) {
           return 'pure';
         }
         
-        if(/(\w+).module.less/gi.test(resourcePath))
+        if (/(\w+).module.less/gi.test(resourcePath))
           return 'local'; // 组件内生效
         // if (isGlobalCssRule(resourcePath)) {
         //   return 'global'; // 全局css样式
@@ -83,11 +82,11 @@ const cssRules = [
           //   // More information about available properties https://webpack.js.org/api/loaders/
           //   const { resourcePath, rootContext } = loaderContext;
           //   const relativePath = path.relative(rootContext, resourcePath);
-
+          
           //   if (relativePath === 'styles/foo.less') {
           //     return '@value: 100px;' + content;
           //   }
-
+          
           //   return '@value: 200px;' + content;
           // },
           sourceMap: true,
@@ -99,7 +98,7 @@ const cssRules = [
             modules: true,
             javascriptEnabled: true, // 开启
             modifyVars: {
-              ...gentsConfig.theme,
+              // ...gentsConfig.theme,
               ...themeVariables
             } // 定义全局的主题样式
           }
@@ -130,7 +129,6 @@ const cssRules = [
     use: ['file-loader']
   }
 ];
-
 const devTsLoader = {
   test: /\.(ts|tsx)$/,
   loader: 'esbuild-loader',
@@ -144,7 +142,7 @@ const rules = [
   process.env.NODE_ENV !== 'production' ? babelLoader : devTsLoader,
   {
     test: /.md$/,
-    loader: 'md-loader',
+    loader: path.resolve(__dirname, '../loaders/md-loader.ts')
   },
   {
     test: /\.(png|jpe?g|gif)$/i,
@@ -162,4 +160,4 @@ const rules = [
   // },
 ];
 
-module.exports = rules;
+export default rules;

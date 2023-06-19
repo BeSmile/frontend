@@ -9,7 +9,7 @@
 import { delay } from 'redux-saga/effects';
 import without from 'lodash/without';
 
-let toastPools: string | any[] = []; // 消息池
+let toastPools: string[] = []; // 消息池
 let activeToasts: string[] = []; // 活跃消息
 const MAXTIME = 10000; //消息持续时间
 const MAXTOTAL = 3;

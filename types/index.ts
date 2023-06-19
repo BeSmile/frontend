@@ -20,7 +20,7 @@ const getMenuData = <T>(name: T[]): T[] => {
   // }
   return name;
 };
-var p: number[] = [1, 2, 3];
+const p: number[] = [1, 2, 3];
 getMenuData<number>(p);
 
 interface MenuItem {
@@ -61,7 +61,7 @@ type UserEnum = {
   [key in keyof User]: number | string;
 };
 
-let u: UserEnum = {
+const u: UserEnum = {
   name: 'Bob',
   age: 123,
   username: 'Bob',

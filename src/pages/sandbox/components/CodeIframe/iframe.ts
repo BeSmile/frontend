@@ -126,6 +126,7 @@ export default (window: Window, document: Document) => {
       }
 
       // 引入公共依赖
+      // @ts-ignore
       const extLib = window[moduleName] || window[externals[moduleName]];
       if (extLib) {
         return extLib;
@@ -225,7 +226,7 @@ export default (window: Window, document: Document) => {
     const allGlobalValues = Object.values(allGlobals);
     try {
       // #2. 源代码外面加一层函数，构建函数的入参为 require, module, exports
-      const newCode = `(function evaluate(` + allGlobalKeys + `) {` + transpiledCode + `\n})`;
+      const newCode = '(function evaluate(' + allGlobalKeys + ') {' + transpiledCode + '\n})';
       // #3. 利用 eval 执行此函数，并传入 require, module, exports
       eval(newCode).apply(window, allGlobalValues);
       return module.exports;

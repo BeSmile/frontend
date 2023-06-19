@@ -5,8 +5,8 @@
     /* 指定存储增量编译信息的文件位置 */
     //    "tsBuildInfoFile": "./",
     // "removeComments": true,// 输出的时候移除注释
-    "target": "esnext",
     "module": "esnext",
+    "target": "es5",
     "importHelpers": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -22,7 +22,7 @@
     //      "dom"
     //    ],
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //    "suppressImplicitAnyIndexErrors": true,
     /* 有未使用到的本地变量时报错 */
     "noUnusedLocals": false,
     /* 有未使用到的函数参数时报错 */
@@ -38,8 +38,6 @@
     /* 类的实例属性必须初始化 */
     // "strictPropertyInitialization": true,
     // "strictNullChecks": true,
-    /**************模块解析配置**************/
-    /**************模块解析配置**************/
     /**************模块解析配置**************/
     "moduleResolution": "node",
     "baseUrl": "./",
@@ -87,7 +85,19 @@
       "*": ["./types/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.tsx", "src/**/*.ts", "types"],
+  "include": ["src/**/*", "types/**/*", "webpack-config/**/*"],
   "exclude": ["build", "node_modules", "dist", "public"],
-  "types": ["node"]
+  "types": ["node"],
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "module": "CommonJS",
+      "noImplicitAny": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true
+    }
+  }
 }

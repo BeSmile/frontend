@@ -1,6 +1,6 @@
 const path = require('path');
 const fancyLog = require('fancy-log');
-const rules = require('./lib/rule.js');
+const rules = require('./lib/rule.ts');
 const getPlugins = require('./lib/plugins');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const util = require('../lib/util');

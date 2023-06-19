@@ -2,9 +2,9 @@
  * // https://swc.rs/docs/getting-started
  * @type {path.PlatformPath | path}
  */
-const path = require('path');
+import path from 'path';
 
-module.exports = (isDev = false) => {
+export default (isDev = false) => {
   // swc polyfill 策略，会复用 babel 链路，但效率比 babel 低
   const polyfillConfig = isDev
     ? {}

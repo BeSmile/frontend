@@ -4,7 +4,9 @@ import { FILE_TYPE } from '../const';
 import { TreeNodeType } from '../types';
 import { FILE_STAT } from '@/pages/idea/models/file';
 
-export function iniRemoteFiles(originFile: FileSystemTree, nodeGraph: { [key: string]: TreeNodeType } = {}): TreeNodeType[] {
+export type NodeGraph = { [key: string]: TreeNodeType };
+
+export function iniRemoteFiles(originFile: FileSystemTree, nodeGraph: NodeGraph = {}): TreeNodeType[] {
   const keys = Object.keys(originFile);
 
   return keys.map((label: string) => {

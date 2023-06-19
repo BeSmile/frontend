@@ -3,7 +3,7 @@
  * @param name    src/pages/home
  * @returns {*}   src__pages__home
  */
-const convertChunkName = (name) => {
+export const convertChunkName = (name: string) => {
   return name.replace(/[[/_\].]/g, '__');
 };
 
@@ -12,19 +12,13 @@ const convertChunkName = (name) => {
  * @param path          页面path名
  * @returns {string|*}
  */
-const convertRoutePath = (path) => {
+export const convertRoutePath = (path: string) => {
   if(path === '404') {
     return '*';
   }
   return path;
 };
 
-const getNoFileSuffix = (path) => {
+export const getNoFileSuffix = (path: string) => {
   return path.replace(/\/index/gi, '').replace(/.ts(x)/gi, '');
-};
-
-module.exports = {
-  convertRoutePath,
-  convertChunkName,
-  getNoFileSuffix,
 };

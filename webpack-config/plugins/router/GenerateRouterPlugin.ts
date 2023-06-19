@@ -1,11 +1,13 @@
-const generateRouter = require('./generateRouter');
-const gulp = require('gulp');
-const path = require('path');
-const fancyLog = require('fancy-log');
+import generateRouter from './generateRouter';
+import gulp from 'gulp';
+import path from 'path';
+import fancyLog from 'fancy-log';
+import { Compiler } from 'webpack';
+import fs from 'fs';
 
 const watchDir = path.join(__dirname, '../../../src/pages');
 
-const watchRouterNamesTask = function() {
+const watchRouterNamesTask = function(): fs.FSWatcher {
   const watcher = gulp.watch([`${watchDir}/**/*.tsx`]);
   fancyLog.info(`start watch ${watchDir}`);
   
@@ -22,17 +24,18 @@ const watchRouterNamesTask = function() {
 };
 
 class GenerateRouterPlugin {
-  apply(compiler) {
+  apply(compiler: Compiler) {
+    let watcher: fs.FSWatcher;
     compiler.hooks.afterEnvironment.tap('GenerateRouterPlugin', ()=>{
       generateRouter();
-      this.watcher = watchRouterNamesTask();
+      watcher= watchRouterNamesTask();
     });
     compiler.hooks.watchClose.tap('GenerateRouterPlugin', () =>  {
       fancyLog.info('webpack closed');
-      this.watcher.unwatch();
-      this.watcher.close();
+      // watcher.unwatch();
+      watcher.close();
     });
   }
 }
 
-module.exports = GenerateRouterPlugin;
+export default GenerateRouterPlugin;
