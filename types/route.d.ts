@@ -16,3 +16,10 @@ export interface Route {
 }
 
 export {};
+
+export type Router = {
+  path: string;
+  // 文件路径
+  component: string | undefined;
+  routes?: Router[];
+};

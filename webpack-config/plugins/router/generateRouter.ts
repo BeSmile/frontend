@@ -1,17 +1,10 @@
 import glob from 'glob';
 import path from 'path';
 import fs from 'fs';
-import { convertChunkName, convertRoutePath, getNoFileSuffix } from './utils';
+import { getLazyComponentPath, getNoFileSuffix } from './utils';
 
 const PROJECT_PATH = process.cwd();
 const ROUTER_PATH = `${PROJECT_PATH}/src/router`;
-const LAYOUT_PATH  = `${PROJECT_PATH}/src/layouts`;
-const layoutKey = '@@/global-layout';
-
-/**
- * 是否存在默认文件
- */
-const isExistDefaultLayout = fs.existsSync(`${LAYOUT_PATH}/index.tsx`);
 
 type Options = {
   // pages的目录
@@ -27,21 +20,24 @@ const generateRouter = (options?: Options) => {
   const pattern = `${FULL_PAGE_DIR}/**/*.tsx`;
 
   const files = glob.sync(pattern).filter(file => !file.includes('/components/'));
-  
-  const routerComponents = convertLazyRoute(files, FULL_PAGE_DIR, config.PAGE_DIR);
-  
-  const routers = convertFileNameToRouteStruct(routerComponents);
-  
+  const routers = [{
+    path: '/',
+    component: getLazyComponentPath('layouts/index'),
+    routes: generateRoutes({
+      files,
+      dirName: '/',
+      absolutePagesPath : FULL_PAGE_DIR
+    })
+  }];
+  // 处理404页面
+  const handleRoutes = routers.map(route => route.path === '/404' ? { ...route, path: '&'} : route);
+  // const routerComponents = convertLazyRoute(files, FULL_PAGE_DIR, config.PAGE_DIR);
+  // const routers = convertFileNameToRouteStruct(routerComponents);
   fs.writeFile(`${ROUTER_PATH}/router.tsx`, `
 // @ts-nocheck
 import React from 'react';
-export async function getRoutes() {
-  return {
-    routes: ${JSON.stringify(routers).replace(/"/g, '\'')},
-    routerComponents: {${Object.keys(routerComponents).map(id =>
-    `'${id}': React.lazy(() => import(/* webpackChunkName: "${routerComponents[id].chunkName}" */'${routerComponents[id].relativeRouterPath}'))`
-  )}},
-  };
+export function getRoutes() {
+  return ${JSON.stringify(handleRoutes).replace(/"\^/g,'').replace(/\$"/g, '').replace(/\\"/g, '\'')};
 }
   `, {
     encoding: 'utf8',
@@ -52,89 +48,57 @@ export async function getRoutes() {
   });
 };
 
-const getPathParent = (path: string) => {
-  return path.split('/').slice(0, -1).join('/');
-};
-
-type RouterComponent = {
-  [key: string]: {
-    path?: string;
-    chunkName: string;
-    relativeRouterPath: string;
-  }
+type Router = {
+  path: string;
+  // 文件路径
+  component: string | undefined;
+  routes?: Router[]
 }
 
-type Routers ={
-  [key:string]:{
-    path: string;
-    id: string;
-    file: string;
-    parentId: string;
-  }
+type RoutesOptions = {
+  // 文件夹目录
+  dirName: string;
+  // 所有的文件目录
+  files: string[];
+  // path的绝对路径
+  absolutePagesPath: string;
 }
-
-/**
- * 转换文件名至router对象
- * @param routerComponents routers数组对象
- * @returns {{}}
- */
-const convertFileNameToRouteStruct = (routerComponents: RouterComponent) => {
-  const ids =  Object.keys(routerComponents);
-  return ids.reduce((routes: Routers, id: string) => {
-    // 获取父目录,并判断是否存在_layout文件
-    const layoutPath = `${getPathParent(id)}/_layout`;
-    // 去除文件后缀
-    routes[id] = {
-      // 供react-router-dom使用的path
-      path: convertRoutePath(id),
-      id,
-      // 判断是否存在layout目录文件
-      parentId: ids.includes(layoutPath) && layoutPath !== id ? layoutPath : layoutKey,
-      file: routerComponents[id].relativeRouterPath,
-    };
-    return routes;
-  }, {} as Routers);
-};
-
-const getPagePath = (prefix: string, absolutePath: string) => {
-  return absolutePath.replace(`${path.normalize(prefix)}/`, '');
-};
-
-/**
- * 将文件名转换为 id => component 集合
- * @param files   文件数组
- * @param absolutePagePath  页面路径在文件系统的绝对路径   ${Local}/src/pages
- * @param pageDir   src/pages
- * @returns {*}
- */
-const convertLazyRoute = (files: string[], absolutePagePath: string, pageDir: string): RouterComponent => {
-  const routesComponents =  files.reduce((prev: RouterComponent, fileName: string) => {
-    // 获取页面文件至router文件的相对路径 ../../等等
-    const relativeRouterPath = path.relative(ROUTER_PATH, fileName);
-    // 获得页面路径相对src/pages的路径
-    const relativePagesPath = getPagePath(absolutePagePath, fileName);
-    // 取得以src/pages/文件名下的chunkName
-    const chunkName = convertChunkName(getNoFileSuffix(`${pageDir}/${relativePagesPath}`));
-    // 通过文件路径获得id, 去除后缀的文件名
-    const pathId =  getNoFileSuffix(relativePagesPath);
-    const name = pathId === 'index' ? '/' : pathId;
-    prev[name] = {
-      chunkName,
-      relativeRouterPath,
-    };
-    return prev;
-  }, {} as RouterComponent);
-  
-  if(isExistDefaultLayout) {
+const generateRoutes = ( {
+  dirName,
+  files,
+  absolutePagesPath,
+}: RoutesOptions): Router[] => {
+  const pagesDir = path.join(absolutePagesPath, dirName);
+  const paths = fs.readdirSync(pagesDir);
+  // console.log(paths, 'paths', pagesDir);
+  const getAbsolutePath = (absolutePagesPath: string, dirName: string, name:string) => {
+    return path.join(absolutePagesPath, dirName, name);
+  };
+  // 目录
+  const childDirs = paths.filter(p =>  fs.lstatSync(getAbsolutePath(absolutePagesPath, dirName, p)).isDirectory()).filter(path => path!=='components');
+  const jsxFiles = paths.filter(p =>  fs.lstatSync(getAbsolutePath(absolutePagesPath, dirName, p)).isFile()).filter(path => /.tsx$/.exec(path) && path!=='_layout');
+  const rootName = dirName === '/' ? '' : dirName;
+  const getComponentPath = (pathName: string): string | undefined => {
+    const layoutPath = `${pathName}/_layout.tsx`;
+    // React.lazy(() => import(/* webpackChunkName: "__web-containers____layout__tsx" */"@/pages/web-containers/_layout.tsx"))
     // React.lazy(() => import(/* webpackChunkName: "layouts__index" */'@/layouts/index.tsx'))
-    routesComponents[layoutKey] = {
-      path: layoutKey,
-      chunkName: 'layouts__index',
-      relativeRouterPath: '@/layouts/index.tsx',
-    };
-  }
-  
-  return routesComponents;
+    return fs.existsSync(path.join(absolutePagesPath, layoutPath)) ?  getLazyComponentPath(`pages${layoutPath}`) : undefined;
+  };
+  return [
+    ...childDirs.map(dirPath => ({
+      path: rootName + '/' + dirPath,
+      component: getComponentPath(`${rootName}/${dirPath}`),
+      routes: generateRoutes({
+        dirName: rootName + '/' + dirPath,
+        files,
+        absolutePagesPath: absolutePagesPath,
+      })
+    })),
+    ...jsxFiles.map(jsxPath => ({
+      path: getNoFileSuffix(rootName + '/' + jsxPath),
+      component: getLazyComponentPath(`pages${rootName}/${jsxPath}`),
+    }))
+  ];
 };
 
 export default generateRouter;

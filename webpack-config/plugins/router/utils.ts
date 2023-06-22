@@ -22,3 +22,5 @@ export const convertRoutePath = (path: string) => {
 export const getNoFileSuffix = (path: string) => {
   return path.replace(/\/index/gi, '').replace(/.ts(x)/gi, '');
 };
+
+export const getLazyComponentPath = (componentPath: string) => `^React.lazy(() => import(/* webpackChunkName: "${convertChunkName(componentPath)}" */'@/${componentPath}'))$`;

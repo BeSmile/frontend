@@ -6,72 +6,33 @@
  * @LastEditors: BeSmile
  * @LastEditTime: 2022-01-19 10:23:52
  */
-import React from 'react';
-import type { RouteObject } from 'react-router-dom';
-import { useRoutes } from 'react-router-dom';
+import React, { memo, useId } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { getRoutes } from './router';
 import LazyRoute from '@/router/components/LazyRoute';
-import { useMount, useSafeState } from 'ahooks';
 
-type IRouter = {
+type Router = {
   path: string;
-  id: string;
-  parentId: string;
-  file: string;
+  // 文件路径
+  component: any;
+  routes?: Router[];
 };
 
-type GRouter = {
-  routes: {
-    [path: string]: IRouter;
-  };
-  routerComponents: {
-    [path: string]: React.LazyExoticComponent<any>;
-  };
-};
-
-// 父路由-使用懒加载
-const generateRouter = (root: string, router: GRouter): RouteObject => {
-  const routes = Object.values(router.routes || {});
-  // 根据parentId过滤出数组
-  // const parentId = root ? root : '@@/global-layout';
-  const routeComponentId = root || '@@/global-layout';
-
-  if (root === '@@/global-layout') {
-    return {
-      path: root,
-      children: [],
-    };
-  }
-  // 查找子路由
-  const childrenRoutes = routes.filter((route) => route.parentId === routeComponentId);
-  const rootPath = root ? router.routes[root].path.replace('/_layout', '') : '';
-  return {
-    path: root ? rootPath : '',
-    element: <LazyRoute source={router.routerComponents[routeComponentId]} />,
-    children:
-      childrenRoutes.length <= 0
-        ? []
-        : childrenRoutes.map((route) => {
-            // 根据root获取route的下一个
-            const gRouter = generateRouter(route.id, router);
-            return {
-              ...gRouter,
-              path: !rootPath ? gRouter.path : gRouter.path?.replace(`${rootPath}/`, ''),
-            };
-          }),
-  } as RouteObject;
+const generateRouterUI = (routes: Router[]) => {
+  return routes.map((route) => {
+    return (
+      <Route path={route.path} key={useId()} element={route?.component ? <LazyRoute source={route?.component} /> : undefined}>
+        {generateRouterUI(route?.routes || [])}
+      </Route>
+    );
+  });
 };
 
 // 这是主路由
 const RouteUI = function () {
-  const [routes, setRoutes] = useSafeState<RouteObject[]>([]);
-  useMount(async () => {
-    const originRoutes = (await getRoutes()) as unknown as GRouter;
-    const baseRoute: RouteObject[] = [generateRouter('', originRoutes)];
-    setRoutes(baseRoute);
-  });
+  const routes = getRoutes() as Router[];
 
-  return useRoutes(routes);
+  return <Routes>{generateRouterUI(routes)}</Routes>;
 };
 
-export default RouteUI;
+export default memo(RouteUI);
