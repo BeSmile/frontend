@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 /**
  * 是否是全局的css样式
  * @param resourcePath
@@ -9,3 +11,10 @@ export const isGlobalCssRule = (resourcePath: string) => {
     return Global_Style.some((reg) => reg.test(resourcePath));
 };
 
+export const mkdir = (pathName: string) => {
+    const isExist =  fs.existsSync(pathName);
+    if(isExist) {
+        return;
+    }
+    fs.mkdirSync(pathName);
+};

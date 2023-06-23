@@ -5,25 +5,11 @@ import proxy, { DEV_SERVER_ENV } from './lib/proxy';
 import  minimist from 'minimist';
 import  ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import  webpack from 'webpack';
-// import csstree from 'css-tree';
+import { RUNTIME_DIRECTORY } from './constants';
+import { mkdir } from './lib/utils';
+
 // let config = {};
-
-// console.log(csstree);
 const isDevelopment = process.env.NODE_ENV !== 'production';
-
-// const ast = csstree.parse('.example { world: "!" }');
-
-// traverse AST and modify it
-// csstree.walk(ast, (node) => {
-//   console.log(node ,'node' +
-//     '');
-//   if (node.type === 'ClassSelector' && node.name === 'example') {
-//     node.name = 'hello';
-//   }
-// });
-
-// generate CSS from AST
-// console.log(csstree.generate(ast));
 
 // if (process.env.NODE_MODE !== 'plugin') {
 //   config = require('../.gents.ts');
@@ -44,6 +30,7 @@ function isNilBoolean<T>(argument: T | false): argument is T {
 
 // 生成webpack文件
 async function renderWebpack(execEnv = 'webpack'): Promise<webpack.Configuration> {
+  mkdir(RUNTIME_DIRECTORY);
   const plugins = await getPlugins();
   
   return {

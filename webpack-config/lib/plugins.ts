@@ -14,6 +14,7 @@ import {ESBuildPlugin} from 'esbuild-loader';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniExtract from 'mini-css-extract-plugin';
 import GenerateRouterPlugin from '../plugins/router/GenerateRouterPlugin';
+import GenerateIconsPlugin from '../plugins/icons/generate-icons-plugin';
 // import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
@@ -49,6 +50,7 @@ const getPlugins = async () => {
       MODELS_PATH: JSON.stringify([])
     }),
     new GenerateRouterPlugin(),
+    new GenerateIconsPlugin(),
     // new CheckerPlugin(),
     new HtmlWebpackPlugin({
       chunks: ['app', 'vendors', 'runtime'], //限定entry特定的块

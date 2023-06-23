@@ -1,0 +1,108 @@
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { groupBy } from "lodash";
+import { Chip, Icon } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { createTheme } from "@mui/material/styles";
+import createStyles from "@mui/styles/createStyles";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function a11yProps(key: number) {
+  return {
+    id: `vertical-tab-${key}`,
+    'aria-controls': `vertical-tabpanel-${key}`,
+  };
+}
+
+const useStyle = makeStyles(() => createStyles({
+  tab: {
+    flex: 1
+  }
+}))
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  const styles = useStyle();
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      className={styles.tab}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography component='div'>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+const PluginIcons = () => {
+  const icons = groupBy([
+    <% values.forEach(function(v) { %>
+      { name: '<%= v.name %>', theme: '<%= v.theme %>' },
+    <% }) %>
+    ], 'theme')
+    const [value, setValue] = React.useState(0);
+    const keys = Object.keys(icons)
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box
+      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}
+    >
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="icons list"
+        sx={{ borderRight: 1, borderColor: 'divider' }}
+      >
+        {keys.map((item, i) => (
+          <Tab label={item} key={item} {...a11yProps(i)} />
+        ))}
+      </Tabs>
+      {keys.map((item, i) => {
+
+        const lists: {
+          theme: string;
+          name: string;
+        }[] = icons[item]
+        return (
+
+          <TabPanel value={value} key={`tab-${item}`} index={i}>
+            <Box
+              sx={{
+                '& > :not(style)': {
+                  m: 1,
+                },
+              }}
+              component='div'
+            >
+              {lists.map(icon => (
+                <Chip component='div' key={`${icon.theme}-${icon.name}`} icon={<Icon className={`${icon.theme} ${icon.name}`} />} label={icon.name.replace("-icon", '')}  />
+              ))}
+            </Box>
+          </TabPanel>
+        )
+      })}
+    </Box>
+  );
+}
+
+export default PluginIcons;

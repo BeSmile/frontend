@@ -20,7 +20,7 @@ const generateRouter = (options?: Options) => {
   const pattern = `${FULL_PAGE_DIR}/**/*.tsx`;
 
   const files = glob.sync(pattern).filter(file => !file.includes('/components/'));
-  const routers = [{
+  const routers: Router[] = [{
     path: '/',
     component: getLazyComponentPath('layouts/index'),
     routes: generateRoutes({
@@ -31,6 +31,11 @@ const generateRouter = (options?: Options) => {
   }];
   // 处理404页面
   const handleRoutes = routers.map(route => route.path === '/404' ? { ...route, path: '&'} : route);
+  // 生成icons的页面
+  handleRoutes.push({
+    path: '/components/icons',
+    component: getLazyComponentPath('.runtime/plugin-icons/page'),
+  } as Router);
   // const routerComponents = convertLazyRoute(files, FULL_PAGE_DIR, config.PAGE_DIR);
   // const routers = convertFileNameToRouteStruct(routerComponents);
   fs.writeFile(`${ROUTER_PATH}/router.tsx`, `
