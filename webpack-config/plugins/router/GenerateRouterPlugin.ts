@@ -4,8 +4,10 @@ import path from 'path';
 import fancyLog from 'fancy-log';
 import { Compiler } from 'webpack';
 import fs from 'fs';
+import * as process from 'process';
 
-const watchDir = path.join(__dirname, '../../../src/pages');
+
+const watchDir = path.join(process.cwd(), 'src/pages');
 
 const watchRouterNamesTask = function(): fs.FSWatcher {
   const watcher = gulp.watch([`${watchDir}/**/*.tsx`]);
