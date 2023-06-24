@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { createStyles } from '@mui/styles';
 import en from '@/assets/json/Level8luan_2_T.json';
@@ -61,9 +61,14 @@ const useStyle = makeStyles((theme: Theme) =>
   }),
 );
 
+type AudioCache = {
+  [key: string]: HTMLAudioElement;
+};
+
 const Rocket = () => {
   const styles = useStyle();
   const [controls, toggleControls] = useControls();
+  const audioCache = useRef<AudioCache>({});
   const [pause, setPause] = useState<boolean>(true);
   const [wordNum, setWordNum] = useState<number>(0);
   const [characters, setCharacters] = useState<string[]>([]);
@@ -121,9 +126,15 @@ const Rocket = () => {
     if (!word || pause || !controls.voice) {
       return;
     }
+    const { current: caches } = audioCache;
+    if (caches[word.name]) {
+      caches[word.name].play();
+      return;
+    }
     const audio = new Audio(`https://dict.youdao.com/dictvoice?audio=${word.name}&type=2`);
     // const audio = new Audio('https://dictionary.cambridge.org/media/english-chinese-simplified/us_pron/k/kee/keel_/keel.mp3');
     audio.oncanplay = function () {
+      audioCache.current[word.name] = audio;
       audio.play();
     };
   }, [controls.voice, pause, word]);

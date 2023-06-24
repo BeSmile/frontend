@@ -25,7 +25,7 @@ type ProgressProps = {
 
 export const Progress: React.FC<ProgressProps> = (props) => {
   const { total, num } = props;
-  const progress = Math.ceil((num / total) * 100);
+  const progress = Math.ceil(((num + 1) / total) * 100);
   const value = Math.min(progress, 100);
   return (
     <Box sx={{ width: '100%' }}>

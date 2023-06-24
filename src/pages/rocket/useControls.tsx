@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { isBoolean, isNumber } from 'lodash';
+import { CONTROLS_DEFAULT_VALUES } from '@/pages/rocket/constants';
 
 export type Controls = {
   voice: boolean;
@@ -11,13 +12,7 @@ export type Controls = {
 };
 
 const useControls = () => {
-  const [controls, setControls] = useState<Controls>({
-    voice: true,
-    loop: false,
-    paraphrase: true,
-    us: true,
-    chapterNum: 0,
-  });
+  const [controls, setControls] = useState<Controls>(CONTROLS_DEFAULT_VALUES);
   const toggleControls = (key: keyof Controls, flag?: boolean | number) => {
     const value = Object.assign(controls, {
       [key]: isBoolean(flag) ? flag : isNumber(flag) ? flag : !controls[key],
