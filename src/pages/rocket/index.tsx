@@ -7,8 +7,12 @@ import { Theme } from '@mui/material/styles';
 import useKeyPress from '@/hooks/useKeyPress';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
-import Progress from '@/pages/rocket/components/Progress';
-
+import Progress from './components/Progress';
+import ToolsBar from './components/ToolsBar';
+import useControls from './useControls';
+import VolumeUpTwoToneIcon from '@mui/icons-material/VolumeUpTwoTone';
+import { useUpdateEffect } from 'ahooks';
+import { LENGTH } from '@/pages/rocket/constants';
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     wrapper: {
@@ -25,9 +29,18 @@ const useStyle = makeStyles((theme: Theme) =>
       letterSpacing: 6,
       flexDirection: 'column',
     },
+    voice: {
+      position: 'absolute',
+      top: 16,
+      cursor: 'pointer',
+      border: 'none',
+      boxShadow: 'none',
+      background: 'transparent',
+    },
     word: {
       fontWeight: 600,
       fontSize: 42,
+      position: 'relative',
     },
     pronounce: {
       fontSize: 12,
@@ -48,19 +61,17 @@ const useStyle = makeStyles((theme: Theme) =>
   }),
 );
 
-const LENGTH = 20;
-
 const Rocket = () => {
   const styles = useStyle();
+  const [controls, toggleControls] = useControls();
   const [pause, setPause] = useState<boolean>(true);
-  const [chapterNum, setChapterNum] = useState<number>(0);
   const [wordNum, setWordNum] = useState<number>(0);
   const [characters, setCharacters] = useState<string[]>([]);
-  const chapter = en.slice(LENGTH * chapterNum, LENGTH * (chapterNum + 1));
+  const chapter = en.slice(LENGTH * controls.chapterNum, LENGTH * (controls.chapterNum + 1));
 
   useEffect(() => {
     setWordNum(0);
-  }, [chapterNum]);
+  }, [controls.chapterNum]);
 
   useKeyPress('', (code: string) => {
     if (pause) {
@@ -89,29 +100,35 @@ const Rocket = () => {
       }, 100);
       return;
     }
+    // 进行调词操作
     if (name === printWord) {
       setTimeout(() => {
         setCharacters([]);
         setWordNum((num) => {
           if (num == LENGTH - 1) {
-            setChapterNum(chapterNum + 1);
+            if (!controls.loop) {
+              toggleControls('chapterNum', controls.chapterNum + 1);
+            }
             return 0;
           }
           return num + 1;
         });
       }, 300);
     }
-  }, [chapterNum, characters, word]);
+  }, [controls.chapterNum, characters, controls.loop, word, toggleControls]);
 
   const handlePlay = useCallback(() => {
-    if (!word || pause) {
+    if (!word || pause || !controls.voice) {
       return;
     }
     const audio = new Audio(`https://dict.youdao.com/dictvoice?audio=${word.name}&type=2`);
-    audio.play();
-  }, [pause, word]);
+    // const audio = new Audio('https://dictionary.cambridge.org/media/english-chinese-simplified/us_pron/k/kee/keel_/keel.mp3');
+    audio.oncanplay = function () {
+      audio.play();
+    };
+  }, [controls.voice, pause, word]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     handlePlay();
   }, [handlePlay]);
 
@@ -130,22 +147,25 @@ const Rocket = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Container maxWidth="md">
-        <div className={styles.coding}>
-          <div className={styles.word}>
-            {words.map((word: string, index: number) => (
-              <span key={index} className={classNames(styles.character, renderStatus(index))}>
-                {word}
-              </span>
-            ))}
-            <button onClick={handlePlay}>
-              <i className="icon fa anchor-icon medium-yellow" />
-            </button>
+      <Container maxWidth="lg">
+        <ToolsBar controls={controls} dataSource={en} toggleControls={toggleControls} />
+        <Container maxWidth="md">
+          <div className={styles.coding}>
+            <div className={styles.word}>
+              {words.map((word: string, index: number) => (
+                <span key={index} className={classNames(styles.character, renderStatus(index))}>
+                  {word}
+                </span>
+              ))}
+              <button onClick={handlePlay} className={styles.voice}>
+                <VolumeUpTwoToneIcon />
+              </button>
+            </div>
+            <div className={styles.pronounce}>AmE: [{word.usphone}]</div>
+            {controls.paraphrase && <div className={styles.trans}>{word.trans}</div>}
           </div>
-          <div className={styles.pronounce}>AmE: [{word.usphone}]</div>
-          <div className={styles.trans}>{word.trans}</div>
-        </div>
-        <Progress total={LENGTH} num={wordNum} />
+          <Progress total={LENGTH} num={wordNum} />
+        </Container>
       </Container>
     </div>
   );
