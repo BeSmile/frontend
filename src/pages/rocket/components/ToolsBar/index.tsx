@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, Theme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -18,11 +18,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Word } from '@/pages/rocket/types';
 import { LENGTH } from '@/pages/rocket/constants';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       display: 'inline-block',
       float: 'right',
+      marginTop: theme.spacing(2),
     },
   }),
 );

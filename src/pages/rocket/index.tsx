@@ -78,6 +78,10 @@ const Rocket = () => {
     setWordNum(0);
   }, [controls.chapterNum]);
 
+  // useKeyPress('ctrl.a', () => {
+  //   console.log('ctrl.a');
+  // });
+
   useKeyPress('', (code: string) => {
     if (pause) {
       setPause(!pause);
