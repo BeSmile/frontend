@@ -20,7 +20,8 @@ export const convertRoutePath = (path: string) => {
 };
 
 export const getNoFileSuffix = (path: string) => {
-  return path.replace(/\/index/gi, '').replace(/.ts(x)/gi, '');
+  const routerPath = path.replace(/\/index/gi, '').replace(/.ts(x)/gi, '');
+  return routerPath === '/404' ? '*' : routerPath === '' ? '/' : routerPath;
 };
 
 export const getLazyComponentPath = (componentPath: string) => `^React.lazy(() => import(/* webpackChunkName: "${convertChunkName(componentPath)}" */'@/${componentPath}'))$`;

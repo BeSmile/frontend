@@ -29,10 +29,8 @@ const generateRouter = (options?: Options) => {
       absolutePagesPath : FULL_PAGE_DIR
     })
   }];
-  // 处理404页面
-  const handleRoutes = routers.map(route => route.path === '/404' ? { ...route, path: '&'} : route);
   // 生成icons的页面
-  handleRoutes.push({
+  routers.push({
     path: '/components/icons',
     component: getLazyComponentPath('.runtime/plugin-icons/page'),
   } as Router);
@@ -42,7 +40,7 @@ const generateRouter = (options?: Options) => {
 // @ts-nocheck
 import React from 'react';
 export function getRoutes() {
-  return ${JSON.stringify(handleRoutes).replace(/"\^/g,'').replace(/\$"/g, '').replace(/\\"/g, '\'')};
+  return ${JSON.stringify(routers).replace(/"\^/g,'').replace(/\$"/g, '').replace(/\\"/g, '\'')};
 }
   `, {
     encoding: 'utf8',
