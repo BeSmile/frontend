@@ -14,3 +14,5 @@ dist/
 src/router/router.tsx
 
 .DS_Store
+
+src/.runtime
