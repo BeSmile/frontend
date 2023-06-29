@@ -36,7 +36,6 @@
     "@types/fancy-log": "^2.0.0",
     "@webcontainer/api": "^1.0.2",
     "ahooks": "^3.5.0",
-    "antd": "^4.23.4",
     "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-import": "^1.13.3",
