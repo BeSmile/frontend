@@ -6,8 +6,9 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 // import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
-import { useAsyncEffect, useSafeState } from 'ahooks';
-import { getImageList, ImageListType } from '@/services/docker/image';
+import { useMount, useRequest } from 'ahooks';
+import { getImageList } from '@/services/docker/image';
+import { first } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,18 +29,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ImageList = () => {
   const classes = useStyles('');
-  const [dataSource, setDataSource] = useSafeState<ImageListType>([]);
-  useAsyncEffect(async () => {
-    const res = await getImageList({ pageNo: 1 });
-    setDataSource(res.data);
-  }, []);
+  const { data: res, run: fakeImageList } = useRequest(getImageList, {
+    manual: true,
+  });
+
+  useMount(() => {
+    fakeImageList({
+      pageNo: 1,
+    });
+  });
 
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell align="center">REPOSITORY</TableCell>
             <TableCell align="center">TAG</TableCell>
             <TableCell align="center">IMAGE ID</TableCell>
             <TableCell align="center">CREATED</TableCell>
@@ -47,15 +51,18 @@ const ImageList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dataSource.map((row) => (
-            <TableRow key={row.from}>
-              <TableCell align="center">{row.from}</TableCell>
-              <TableCell align="center">{row.to}</TableCell>
-              <TableCell align="center">{row.num}</TableCell>
-              <TableCell align="center">{row.money}</TableCell>
-              <TableCell align="center">{row.energy}</TableCell>
-            </TableRow>
-          ))}
+          {res?.data?.data.map((row) => {
+            const repoTags = first(row.RepoTags) || '';
+            const nameTag = repoTags?.split(':');
+            return (
+              <TableRow key={row.Id}>
+                <TableCell align="center">{nameTag?.[0] || '-'}</TableCell>
+                <TableCell align="center">{nameTag?.[1] || '-'}</TableCell>
+                <TableCell align="center">{row.Created}</TableCell>
+                <TableCell align="center">{row.Size}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </Paper>

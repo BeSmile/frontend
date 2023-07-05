@@ -31,7 +31,6 @@ function dispatchRequest<R, D>(url: string, config: FetchRequestConfig<D>): Prom
 
   // 转化请求参数
   config.body = transformData.call(config, config.transformRequest);
-  console.log('requestConfig', config);
   return isomorphicFetch(url, {
     body: config.body,
     // headers: config.headers,

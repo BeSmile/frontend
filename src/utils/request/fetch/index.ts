@@ -34,9 +34,12 @@ class Fetch {
     //     clarifyTimeoutError: validators.transitional(validators.boolean)
     //   }, false);
     // }
-
     config.method = (config.method || this.defaults.method || 'get').toLowerCase();
 
+    if (config.method === 'GET') {
+      // Get请求删除Data
+      delete config.data;
+    }
     //todo 处理header下的请求配置 。如header common以及对应不同请求下的配置
 
     // filter out skipped interceptors

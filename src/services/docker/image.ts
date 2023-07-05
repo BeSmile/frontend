@@ -1,17 +1,17 @@
 import { GET } from '@/utils/request';
+import { FetchResponse } from '@/utils/request/fetch/types';
 
 export type ImageListParams = {
   pageNo?: number;
 };
 
 export type ImageListType = {
-  from?: string;
-  to: string;
-  num: string;
-  money: string;
-  energy: string;
+  Created?: string;
+  Id: string;
+  Size: string;
+  RepoTags: string[];
 }[];
 
-export const getImageList = (params: ImageListParams) => {
-  return GET<ImageListType>('/api/docker/images', params);
+export const getImageList = (data: ImageListParams) => {
+  return GET<FetchResponse<ImageListType>>('/api/docker/images', data);
 };

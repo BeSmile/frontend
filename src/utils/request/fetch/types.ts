@@ -45,7 +45,7 @@ export interface GenericFormData {
 export type RawFetchRequestHeaders = Partial<RawFetchHeaders & MethodsHeaders & CommonHeaders>;
 
 // 对请求体的headers做配置
-export type FetchRequestHeaders = Partial<RawFetchHeaders & MethodsHeaders & CommonHeaders> & FetchHeaders;
+export type FetchRequestHeaders = RawFetchRequestHeaders & FetchHeaders;
 
 export interface FormDataVisitorHelpers {
   defaultVisitor: SerializerVisitor;
@@ -111,7 +111,7 @@ export type FetchRequestConfig<D = any> = {
   // eslint-disable-next-line no-undef
   body?: BodyInit;
   // params为请求参数
-  params?: any;
+  params?: D;
   paramsSerializer?: ParamsSerializerOptions;
   withCredentials?: boolean;
   signal?: GenericAbortSignal;

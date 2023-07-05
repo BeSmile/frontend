@@ -1,6 +1,5 @@
 import fetch from './fetch';
 import { FetchRequestConfig, FetchResponse } from './fetch/types';
-import { ImageListParams } from '@/services/docker/image';
 
 const codeMessage: {
   [key: string]: string;
@@ -119,9 +118,9 @@ export default function request(url: string, option: any) {
   );
 }
 
-export const GET = <T, R = FetchResponse<T>>(url: string, data?: ImageListParams): Promise<R> => {
+export const GET = <T, R = FetchResponse<T>, D = any>(url: string, params?: D): Promise<R> => {
   return fetch.get<T, R>(url, {
-    data,
+    params,
   });
 };
 
