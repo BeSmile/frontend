@@ -81,7 +81,9 @@ class FetchHeaders {
   static accessor(header: string[]) {
     // @ts-ignore
     const internals =
+      // @ts-ignore
       (this[$internals] =
+      // @ts-ignore
       this[$internals] =
         {
           accessors: {},
