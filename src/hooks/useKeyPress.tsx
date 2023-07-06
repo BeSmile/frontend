@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { DependencyList, useCallback, useEffect } from 'react';
 import { isArray, isEmpty } from 'lodash';
 
 const getKeyMap = (key: string): 'alt' | 'shift' | 'meta' | 'ctrl' => {
@@ -14,7 +14,7 @@ export type Options = {
   hotKey?: boolean;
 };
 
-const useKeyPress = (keyCombine: string[] | string, event: (code: string) => void) => {
+const useKeyPress = (keyCombine: string[] | string, event: (code: string) => void, depends: DependencyList) => {
   const isCurrentKey = useCallback((combineKey: string, e: KeyboardEvent): boolean => {
     if (isEmpty(combineKey)) {
       return true;
@@ -43,7 +43,8 @@ const useKeyPress = (keyCombine: string[] | string, event: (code: string) => voi
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleKeyDown, ...depends]);
 
   return [];
 };

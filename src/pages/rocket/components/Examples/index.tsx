@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import { DictionaryBlocksExamples } from '@/services/dictionary';
 import uniqueId from 'lodash/uniqueId';
 import makeStyles from '@mui/styles/makeStyles';
+import Selector from '@/pages/rocket/components/Selector';
+import { useCallback } from 'react';
 
 type ExamplesProps = {
   dataSource: DictionaryBlocksExamples[];
@@ -24,15 +26,23 @@ const useStyles = makeStyles({
 
 const AlignItemsList: React.FC<ExamplesProps> = ({ dataSource, highlighted }) => {
   const classes = useStyles();
-  const renderHighlighted = (trans: string) => {
-    const reg = new RegExp(`(${highlighted})([a-zA-Z]+)?`, 'gi');
-    const str = trans.replaceAll(reg, `<span class='${classes.highlighted}'>$1$2</span>`);
-    return <span dangerouslySetInnerHTML={{ __html: str }} />;
-  };
+  const renderHighlighted = useCallback(
+    (trans: string) => {
+      const reg = new RegExp(`(${highlighted})([a-zA-Z]+)?`, 'gi');
+      const str = trans.replaceAll(reg, `<span class='${classes.highlighted}'>$1$2</span>`);
+      return (
+        <Selector>
+          <span dangerouslySetInnerHTML={{ __html: str }} />
+        </Selector>
+      );
+    },
+    [classes.highlighted, highlighted],
+  );
+
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper', marginTop: 0 }}>
       {dataSource.map((item, i) => (
-        <React.Fragment key={uniqueId('example')}>
+        <React.Fragment key={i}>
           <ListItem alignItems="flex-start">
             <ListItemText
               primary={renderHighlighted(item.eg)}

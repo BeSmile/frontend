@@ -17,9 +17,10 @@ import { getCambridgeWord } from '@/services/dictionary';
 import Examples from '@/pages/rocket/components/Examples';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import uniqueId from 'lodash/uniqueId';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+import PauseMask from '@/pages/rocket/components/PauseMask';
+import { DictionaryProvider } from '@/pages/rocket/context';
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -134,6 +135,8 @@ const Rocket = () => {
   } = useRequest(getCambridgeWord, {
     manual: true,
   });
+  const [focus, setFocus] = useState(false);
+
   const [controls, toggleControls] = useControls();
   const audioCache = useRef<AudioCache>({});
   const [pause, setPause] = useState<boolean>(true);
@@ -145,20 +148,27 @@ const Rocket = () => {
     setWordNum(0);
   }, [controls.chapterNum]);
 
-  useKeyPress('', (code: string) => {
-    if (pause) {
-      setPause(!pause);
-      return;
-    }
-    const print = characters.join('');
-    const effectiveCode = /^[a-zA-Z]$/g;
-    if (!word || word.name.indexOf(print) != 0 || !effectiveCode.exec(code)) {
-      return;
-    }
-    setCharacters([...characters, code]);
-  });
-
   const word = chapter?.[wordNum] || '';
+
+  useKeyPress(
+    '',
+    (code: string) => {
+      if (focus) {
+        return;
+      }
+      if (pause) {
+        setPause(!pause);
+        return;
+      }
+      const print = characters.join('');
+      const effectiveCode = /^[a-zA-Z]$/g;
+      if (!word || word.name.indexOf(print) != 0 || !effectiveCode.exec(code)) {
+        return;
+      }
+      setCharacters([...characters, code]);
+    },
+    [pause, focus, word],
+  );
 
   useEffect(() => {
     if (!word) {
@@ -217,6 +227,12 @@ const Rocket = () => {
     handlePlay();
   }, [handlePlay]);
 
+  // useMount( () => {
+  //   setInterval(() => {
+  //     setWordNum(num => num +1);
+  //   }, 1500);
+  // });
+
   if (!word) {
     return null;
   }
@@ -233,50 +249,53 @@ const Rocket = () => {
   const blocks = trans?.data?.data?.blocks || [];
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={styles.wrapper}>
-        <Container maxWidth="lg">
-          <ToolsBar controls={controls} dataSource={en} toggleControls={toggleControls} />
-          <Container maxWidth="md">
-            <div className={styles.coding}>
-              <div className={styles.word}>
-                {words.map((word: string, index: number) => (
-                  <span key={index} className={classNames(styles.character, renderStatus(index))}>
-                    {word}
-                  </span>
-                ))}
-                <button onClick={handlePlay} className={styles.voice}>
-                  <VolumeUpTwoToneIcon />
-                </button>
+    <DictionaryProvider value={{ setFocus }}>
+      <ThemeProvider theme={theme}>
+        <div className={styles.wrapper}>
+          <Container maxWidth="lg">
+            <ToolsBar controls={controls} dataSource={en} toggleControls={toggleControls} />
+            <Container maxWidth="md">
+              <div className={styles.coding}>
+                <div className={styles.word}>
+                  {words.map((word: string, index: number) => (
+                    <span key={index} className={classNames(styles.character, renderStatus(index))}>
+                      {word}
+                    </span>
+                  ))}
+                  <button onClick={handlePlay} className={styles.voice}>
+                    <VolumeUpTwoToneIcon />
+                  </button>
+                </div>
+                <div className={styles.pronounce}>AmE: [{word.usphone}]</div>
+                {controls.paraphrase && <div className={styles.trans}>{word.trans}</div>}
               </div>
-              <div className={styles.pronounce}>AmE: [{word.usphone}]</div>
-              {controls.paraphrase && <div className={styles.trans}>{word.trans}</div>}
-            </div>
-            <Progress total={LENGTH} num={wordNum} />
+              <Progress total={LENGTH} num={wordNum} />
+            </Container>
+            <Container maxWidth="md">
+              {loading ? (
+                <div className={styles.loadingContainer}>
+                  <CircularProgress />
+                </div>
+              ) : (
+                <>
+                  {blocks.map((block, i) => (
+                    <Card key={`block-${i}`} className={styles.container}>
+                      <CardContent className={styles.content}>
+                        <Typography className={styles.header} variant="subtitle2" component="div">
+                          {block.trans}
+                        </Typography>
+                        <Examples highlighted={word.name} dataSource={block.examples || []} />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </>
+              )}
+            </Container>
           </Container>
-          <Container maxWidth="md">
-            {loading ? (
-              <div className={styles.loadingContainer}>
-                <CircularProgress />
-              </div>
-            ) : (
-              <>
-                {blocks.map((block) => (
-                  <Card key={uniqueId('block')} className={styles.container}>
-                    <CardContent className={styles.content}>
-                      <Typography className={styles.header} variant="subtitle2" component="div">
-                        {block.trans}
-                      </Typography>
-                      <Examples highlighted={word.name} dataSource={block.examples || []} />
-                    </CardContent>
-                  </Card>
-                ))}
-              </>
-            )}
-          </Container>
-        </Container>
-      </div>
-    </ThemeProvider>
+        </div>
+        <PauseMask open={pause} />
+      </ThemeProvider>
+    </DictionaryProvider>
   );
 };
 
