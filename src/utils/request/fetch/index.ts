@@ -1,12 +1,12 @@
 import merge from 'lodash/merge';
 // const AbortController = require('abort-controller');
 import InterceptorManager from './InterceptorManager';
-import { FetchResponse, FetchRequestConfig, FetchDefaults, IFetchInstance, FetchInterceptorManager, InterceptorHandler } from './types';
+import { FetchResponse, FetchRequestConfig, FetchInterceptorManager, InterceptorHandler, FetchDefaults } from './types';
 import dispatchRequest from './dispatchRequest';
 import defaults from './defaults';
+import { isString } from 'lodash';
+import { bind, extend } from '@/utils/request/utils';
 
-// eslint-disable-next-line no-undef
-// @ts-ignore
 class Fetch {
   defaults: FetchDefaults;
   interceptors: {
@@ -14,16 +14,26 @@ class Fetch {
     response: FetchInterceptorManager<FetchResponse>;
   };
 
-  constructor(config: FetchRequestConfig) {
-    this.defaults = (config || defaults) as unknown as FetchDefaults;
+  constructor(defaultConfig: FetchDefaults) {
+    this.defaults = defaultConfig;
+    // 生成拦截器
     this.interceptors = {
       request: new InterceptorManager(),
       response: new InterceptorManager(),
     };
   }
 
-  request<T, R = FetchResponse<T>, D = any>(url: string, options?: FetchRequestConfig<D>): Promise<R> {
-    const config = merge(this.defaults, options);
+  request<T, R = FetchResponse<T>, D = any>(configOrUrl: string | FetchRequestConfig<D>, config?: FetchRequestConfig<D>): Promise<R> {
+    // const config = merge(this.defaults, options);
+    if (isString(configOrUrl)) {
+      config = config || {};
+      config.url = configOrUrl;
+    } else {
+      config = configOrUrl;
+    }
+
+    config = merge(config, this.defaults);
+
     // const controller = new AbortController();
     // const signal = controller.signal;
 
@@ -48,7 +58,7 @@ class Fetch {
 
     this.interceptors.request.forEach(function unshiftRequest(interceptor: InterceptorHandler) {
       // 如果不是运行中的拦截器跳过
-      if (typeof interceptor.runWhen === 'function' && !interceptor.runWhen(config)) {
+      if (typeof interceptor.runWhen === 'function' && !interceptor.runWhen(config!)) {
         return;
       }
       // 判断是否都是同步请求
@@ -108,7 +118,7 @@ class Fetch {
     }
 
     try {
-      promise = dispatchRequest.call(this, url, newConfig);
+      promise = dispatchRequest.call(this, config.url!, newConfig);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -164,16 +174,34 @@ FormMethods.forEach((method) => {
   Fetch.prototype[`${method}Form`] = generateHttpMethod(true);
 });
 
-const fetch = new Fetch({
-  // transformRequest: (data) => {
-  //   console.log(data, 'xxxxdd')
-  //   return {
-  //     d: 33
-  //   };
-  // },
-  // transformResponse: [(ddd) => {
-  //   return [23,4,4,5]
-  // }]
-}) as unknown as IFetchInstance;
+// {
+// transformRequest: (data) => {
+//   console.log(data, 'xxxxdd')
+//   return {
+//     d: 33
+//   };
+// },
+// transformResponse: [(ddd) => {
+//   return [23,4,4,5]
+// }]
+// }
+
+function createInstance(defaultConfig: FetchDefaults): <T, R = FetchResponse<T>, D = any>(configOrUrl: string | FetchRequestConfig<D>, config: FetchRequestConfig<D> | undefined) => Promise<R> {
+  const context = new Fetch(defaultConfig);
+  const instance = bind(Fetch.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  extend(instance, Fetch.prototype, context, { allOwnKeys: true });
+
+  // Copy context to instance
+  extend(instance, context, null, { allOwnKeys: true });
+  // instance.create = function create(instanceConfig) {
+  //   return createInstance(mergeConfig(defaultConfig, instanceConfig));
+  // };
+
+  return instance;
+}
+
+const fetch = createInstance(defaults);
 
 export default fetch;

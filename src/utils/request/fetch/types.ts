@@ -1,7 +1,14 @@
 // headers的类型 提供各种方法。 暂时未实现
+import FetchHeaders from './FetchHeaders';
+
 export interface CancelStatic {
   new (message?: string): Cancel;
 }
+
+// 定义自定义的FetchHeaders类
+export type FetchHeaderValue = FetchHeaders | string | string[] | number | boolean | null;
+
+export type ContentType = FetchHeaderValue | 'application/vnd.myapp.type+json' | 'application/octet-stream' | 'application/json' | 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain';
 
 export interface Cancel {
   message: string | undefined;
@@ -42,10 +49,20 @@ export interface GenericFormData {
   append(name: string, value: any, options?: any): any;
 }
 
-export type RawFetchRequestHeaders = Partial<RawFetchHeaders & MethodsHeaders & CommonHeaders>;
+// 常用header变量,以及预制Authorization
+export type CommonRequestHeadersList = 'Accept' | 'Content-Length' | 'User-Agent' | 'Content-Encoding' | 'Authorization';
+
+// 基础请求header变量
+export type RawFetchRequestHeaders = Partial<
+  RawFetchHeaders & {
+    [Key in CommonRequestHeadersList]: FetchHeaderValue;
+  }
+> & {
+  'Content-Type': ContentType;
+};
 
 // 对请求体的headers做配置
-export type FetchRequestHeaders = RawFetchRequestHeaders & FetchHeaders;
+export type FetchRequestHeaders = RawFetchRequestHeaders;
 
 export interface FormDataVisitorHelpers {
   defaultVisitor: SerializerVisitor;
@@ -73,21 +90,6 @@ export interface ParamsSerializerOptions extends SerializerOptions {
 }
 
 // CommonHeaders 对应的是全局的header信息
-interface CommonHeaders {
-  common: FetchHeaders;
-}
-
-export interface GenericAbortSignal {
-  aborted: boolean;
-  onabort: ((...args: any) => any) | null;
-  addEventListener: (...args: any) => any;
-  removeEventListener: (...args: any) => any;
-}
-
-export interface FetchDefaults<D = any> extends Omit<FetchRequestConfig<D>, 'headers'> {
-  headers: HeadersDefaults;
-}
-
 export interface HeadersDefaults {
   common: RawFetchRequestHeaders;
   // delete: RawAxiosRequestHeaders;
@@ -100,6 +102,17 @@ export interface HeadersDefaults {
   // purge?: RawAxiosRequestHeaders;
   // link?: RawAxiosRequestHeaders;
   // unlink?: RawAxiosRequestHeaders;
+}
+
+export interface GenericAbortSignal {
+  aborted: boolean;
+  onabort: ((...args: any) => any) | null;
+  addEventListener: (...args: any) => any;
+  removeEventListener: (...args: any) => any;
+}
+
+export interface FetchDefaults<D = any> extends Omit<FetchRequestConfig<D>, 'headers'> {
+  headers: HeadersDefaults;
 }
 
 // 给data添加上泛型
@@ -115,77 +128,78 @@ export type FetchRequestConfig<D = any> = {
   paramsSerializer?: ParamsSerializerOptions;
   withCredentials?: boolean;
   signal?: GenericAbortSignal;
-  headers?: FetchRequestHeaders;
+  // 支持常用headers对象, 或者是定义的FetchHeaders对象
+  headers?: (RawFetchRequestHeaders & MethodsHeaders) | FetchHeaders;
   cancelToken?: CancelToken;
 
   transformRequest?: FetchRequestTransformer | FetchRequestTransformer[];
   transformResponse?: FetchResponseTransformer | FetchResponseTransformer[];
 };
 
-// 定义会用到的类型
-export type FetchHeaderValue = string | string[] | number | boolean | null;
-
 // 未被fetch定义的headers
-export type RawFetchHeaders = Record<string, FetchHeaderValue>;
+export type RawFetchHeaders = {
+  [key: string]: FetchHeaderValue;
+};
 
-// 定义每个请求类型的headers对象
-type MethodsHeaders = {
+// 处理method方法也支持自定义的headers
+export type MethodsHeaders = {
   [Key in Method as Lowercase<Key>]: FetchHeaders;
+} & {
+  common: FetchHeaders;
 };
 
 //
-type FetchHeaderMatcher = (this: FetchHeaders, value: string, name: string, headers: RawFetchHeaders) => boolean;
+export type FetchHeaderMatcher = (this: FetchHeaders, value: string, name: string, headers: RawFetchHeaders) => boolean;
 
 // 定义headers的常用方法
-export declare class FetchHeaders {
-  constructor(headers?: RawFetchHeaders | FetchHeaders, defaultHeaders?: RawFetchHeaders | FetchHeaders);
-
-  //
-  set(headerName?: string, value?: FetchHeaderValue, rewrite?: boolean | FetchHeaderMatcher): FetchHeaders;
-
-  // set(headers?: RawFetchHeaders | FetchHeaders, rewrite?: boolean): FetchHeaders;
-  //
-  // get(headerName: string, parser: RegExp): RegExpExecArray | null;
-  // get(headerName: string, matcher?: true | AxiosHeaderMatcher): AxiosHeaderValue;
-  //
-  // has(header: string, matcher?: true | AxiosHeaderMatcher): boolean;
-  //
-  // delete(header: string | string[], matcher?: AxiosHeaderMatcher): boolean;
-  //
-  clear(): boolean;
-
-  //
-  normalize(format: boolean): FetchHeaders;
-
-  //
-  toJSON(): RawFetchHeaders;
-
-  //
-  static from(thing?: FetchHeaders | RawFetchHeaders | string): FetchHeaders;
-
-  //
-  // static accessor(header: string | string[]): FetchHeaders;
-  //
-  // setContentType: AxiosHeaderSetter;
-  // getContentType: AxiosHeaderGetter;
-  // hasContentType: AxiosHeaderTester;
-  //
-  // setContentLength: AxiosHeaderSetter;
-  // getContentLength: AxiosHeaderGetter;
-  // hasContentLength: AxiosHeaderTester;
-  //
-  // setAccept: AxiosHeaderSetter;
-  // getAccept: AxiosHeaderGetter;
-  // hasAccept: AxiosHeaderTester;
-  //
-  // setUserAgent: AxiosHeaderSetter;
-  // getUserAgent: AxiosHeaderGetter;
-  // hasUserAgent: AxiosHeaderTester;
-  //
-  // setContentEncoding: AxiosHeaderSetter;
-  // getContentEncoding: AxiosHeaderGetter;
-  // hasContentEncoding: AxiosHeaderTester;
-}
+// export declare class FetchHeaders {
+//   constructor(headers?:  RawFetchRequestHeaders & MethodsHeaders);
+//
+//   //
+//   set(headerName?: string, value?: FetchHeaderValue, rewrite?: boolean | FetchHeaderMatcher): FetchHeaders;
+//   // set(headers?: RawFetchHeaders | FetchHeaders, rewrite?: boolean): FetchHeaders;
+//   //
+//   // get(headerName: string, parser: RegExp): RegExpExecArray | null;
+//   // get(headerName: string, matcher?: true | AxiosHeaderMatcher): AxiosHeaderValue;
+//   //
+//   // has(header: string, matcher?: true | AxiosHeaderMatcher): boolean;
+//   //
+//   // delete(header: string | string[], matcher?: AxiosHeaderMatcher): boolean;
+//   //
+//   clear(): boolean;
+//
+//   //
+//   normalize(format?: boolean): FetchHeaders;
+//
+//   //
+//   toJSON(): RawFetchHeaders;
+//
+//   //
+//   static from(thing?: FetchHeaders | RawFetchHeaders | string): FetchRequestHeaders;
+//
+//   //
+//   // static accessor(header: string | string[]): FetchHeaders;
+//   //
+//   setContentType(value: ContentType, rewrite?: boolean): FetchHeaders;  // getContentType: AxiosHeaderGetter;
+//   getContentType(): ContentType;  // getContentType: AxiosHeaderGetter;
+//   // hasContentType: AxiosHeaderTester;
+//   //
+//   // setContentLength: AxiosHeaderSetter;
+//   // getContentLength: AxiosHeaderGetter;
+//   // hasContentLength: AxiosHeaderTester;
+//   //
+//   // setAccept: AxiosHeaderSetter;
+//   // getAccept: AxiosHeaderGetter;
+//   // hasAccept: AxiosHeaderTester;
+//   //
+//   // setUserAgent: AxiosHeaderSetter;
+//   // getUserAgent: AxiosHeaderGetter;
+//   // hasUserAgent: AxiosHeaderTester;
+//   //
+//   // setContentEncoding: AxiosHeaderSetter;
+//   // getContentEncoding: AxiosHeaderGetter;
+//   // hasContentEncoding: AxiosHeaderTester;
+// }
 
 export interface FetchRequestTransformer {
   (this: FetchRequestConfig, data: any, headers: FetchHeaders): any;
@@ -239,16 +253,16 @@ export interface IFetch {
   request: <T, R = FetchResponse<T>, D = any>(url: string, data?: D, options?: FetchRequestConfig<D>) => Promise<R>;
 
   getUri(config?: FetchRequestConfig): string;
-  get<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
-  delete<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
-  head<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
-  options<T = any, R = FetchResponse<T>, D = any>(url: string, config?: FetchRequestConfig<D>): Promise<R>;
-  post<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
-  put<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
-  patch<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
-  postForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
-  putForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
-  patchForm<T = any, R = FetchResponse<T>, D = any>(url: string, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  get<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, config?: FetchRequestConfig<D>): Promise<R>;
+  delete<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, config?: FetchRequestConfig<D>): Promise<R>;
+  head<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, config?: FetchRequestConfig<D>): Promise<R>;
+  options<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, config?: FetchRequestConfig<D>): Promise<R>;
+  post<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  put<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  patch<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  postForm<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  putForm<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
+  patchForm<T = any, R = FetchResponse<T>, D = any>(url: string | FetchRequestConfig, data?: D, config?: FetchRequestConfig<D>): Promise<R>;
 }
 
 export interface IFetchInstance extends IFetch {

@@ -80,8 +80,7 @@ export default function request(url: string, option: any) {
   //   }
   // }
   return (
-    fetch
-      .request(url, newOptions)
+    fetch(url, newOptions)
       .then(checkStatus)
       // .then(response => cachedSave(response, hashcode))
       .then((response) => {
@@ -119,18 +118,22 @@ export default function request(url: string, option: any) {
 }
 
 export const GET = <T, R = FetchResponse<T>, D = any>(url: string, params?: D): Promise<R> => {
+  // @ts-ignore
   return fetch.get<T, R>(url, {
     params,
   });
 };
 
 export const PUT = <T, R = FetchResponse<T>>(url: string, data: any): Promise<R> => {
+  // @ts-ignore
   return fetch.put<T, R>(url, data);
 };
 export const POST = <T, R = FetchResponse<T>>(url: string, data?: any) => {
+  // @ts-ignore
   return fetch.post<T, R>(url, data);
 };
 
-export const DELETE = <T, R = FetchResponse<T>>(url: string, data: FetchRequestConfig<any> | undefined) => {
+export const DELETE = <T, R = FetchResponse<T>>(url: string, data?: FetchRequestConfig<any> | undefined) => {
+  // @ts-ignore
   return fetch.delete<T, R>(url, data);
 };

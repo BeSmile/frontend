@@ -1,8 +1,8 @@
 import isomorphicFetch from 'isomorphic-fetch';
 import { transformData } from './transformData';
-import FetchHeaders from './FetchHeaders';
 import CanceledError from './cancel/CanceledError';
 import { FetchRequestConfig } from './types';
+import FetchHeaders from './FetchHeaders';
 
 /**
  * Throws a `CanceledError` if cancellation has been requested.
@@ -25,15 +25,15 @@ function dispatchRequest<R, D>(url: string, config: FetchRequestConfig<D>): Prom
   throwIfCancellationRequested(config);
 
   config.headers = FetchHeaders.from(config.headers);
-  // const requestConfig = Object.assign(config, {
-  //   headers: config.headers.toJSON(),
-  // });
-
+  config = Object.assign(config, {
+    headers: config.headers?.toJSON(),
+  }) as any;
   // 转化请求参数
   config.body = transformData.call(config, config.transformRequest);
+
   return isomorphicFetch(url, {
+    headers: config.headers as any,
     body: config.body,
-    // headers: config.headers,
     method: config.method,
     // signal: config.signal,
   })

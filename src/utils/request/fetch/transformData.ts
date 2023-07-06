@@ -1,6 +1,8 @@
 import defaults from './defaults';
-import { FetchRequestConfig, FetchResponseHeaders, FetchResponseTransformer } from '@/utils/request/fetch/types';
-import { isArray } from 'lodash';
+import { FetchRequestConfig } from './types';
+import FetchHeaders from './FetchHeaders';
+
+import { forEach } from '@/utils/request/utils';
 
 /**
  * 转化返回的数据
@@ -10,18 +12,16 @@ import { isArray } from 'lodash';
 export function transformData<D extends FetchRequestConfig['transformRequest'] | FetchRequestConfig['transformResponse'], R extends Response>(fns: D, response?: R) {
   const config = this || defaults;
   const context = response || config;
-  const headers = context.headers || (context.headers as FetchResponseHeaders);
-
+  const headers = FetchHeaders.from(context.headers);
   let data = context.data;
-
   if (!fns) {
     return data;
   }
-
   // 循环处理返回的数据，如果是数组，则循环处理
-  (isArray(fns) ? fns : [fns]).forEach((fn: FetchResponseTransformer) => {
-    data = fn.call(config, data, headers, response ? response.status : undefined);
+  forEach(fns, function transform(fn) {
+    data = fn.call(config, data, headers.normalize(), response ? response.status : undefined);
   });
 
+  headers.normalize();
   return data;
 }

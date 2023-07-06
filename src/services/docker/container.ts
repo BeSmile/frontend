@@ -5,7 +5,7 @@ export const getContainerList = () => {
 };
 
 export const removeContainerById = (id: string) => {
-  return DELETE(`/api/docker/container/${id}`, {});
+  return DELETE(`/api/docker/container/${id}`);
 };
 
 export const stopContainerById = (id: string) => {
